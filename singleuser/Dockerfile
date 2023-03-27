@@ -50,9 +50,9 @@ RUN fix-permissions /opt/escape-datalake \
 # Default environment variables for ESCAPE Data Lake
 ENV RUCIO_MODE=download
 ENV RUCIO_WILDCARD_ENABLED=1
-ENV RUCIO_BASE_URL=https://escape-rucio.cern.ch
-ENV RUCIO_AUTH_URL=https://escape-rucio-auth.cern.ch
-ENV RUCIO_WEBUI_URL=https://escape-rucio-webui.cern.ch
+ENV RUCIO_BASE_URL=https://vre-rucio.cern.ch
+ENV RUCIO_AUTH_URL=https://vre-rucio-auth.cern.ch
+# ENV RUCIO_WEBUI_URL=<tbd>
 ENV RUCIO_DISPLAY_NAME="ESCAPE Data Lake"
 ENV RUCIO_NAME=escape
 ENV RUCIO_VOMS_ENABLED=1

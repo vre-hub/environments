@@ -1,0 +1,45 @@
+name: Build and publish environments to GHCR
+
+on:
+  push:
+    branches: ['main']
+  workflow_dispatch:
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build-and-push-image:
+    strategy:
+      matrix:
+        environments: [singleuser] # add folder names with environments here
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        id: checkout
+        uses: actions/checkout@v3
+
+      - name: Log in to the GH Container Registry
+        id: login
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build and push Docker image {{ matrix.environments }}}
+        id: build
+        uses: docker/build-push-action@v4.0.0
+        with:
+          context: .{{ matrix.environments }}
+          push: true
+          tags: |
+            ${{ github.repository_owner }}/${{ matrix.environments }}:${{ github.sha }}
+            ${{ github.repository_owner }}/${{ matrix.environments }}:latest
+            
