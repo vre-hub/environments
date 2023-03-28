@@ -12,7 +12,7 @@ jobs:
   build-and-push-image:
     strategy:
       matrix:
-        environments: [singleuser, test-image] # add folder names with environments here
+        environments: [hub] # add folder names with environments here
 
     runs-on: ubuntu-latest
 
