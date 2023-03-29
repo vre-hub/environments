@@ -1,4 +1,4 @@
-FROM jupyterhub/k8s-hub:2.0.1-0.dev.git.6079.haf0a8db5 # jupyterhub/k8s-hub:1.1.1
+FROM jupyterhub/k8s-hub:2.0.1-0.dev.git.6079.haf0a8db5
 
 USER root
 
