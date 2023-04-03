@@ -6,6 +6,7 @@ ADD ./jupyterhub.d /escape/jupyterhub.d
 RUN pip install -e /escape/jupyterhub.d/AuthStateJupyterHub
 RUN pip install -e /escape/jupyterhub.d/SpawnHookOAuthenticator
 RUN pip install -e /escape/jupyterhub.d/OIDCAuthenticator
+RUN pip install dask==2023.1.1 distributed==2023.1.1 dask-gateway==2023.1.1, 
 
 USER ${NB_USER}
 
