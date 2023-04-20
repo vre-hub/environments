@@ -49,7 +49,7 @@ When we fill the histograms we loop through the list called `passed_channels`, s
 
 This function is called at the end of the job, and here we write the histograms to file, and print out cutflows if desired. Notice that if we are running on multiple background files we typically want to write to file and/or print cutflows for each of these. This is then done in Process, by checking if the dataset ID has changed. Notice also that if you want to print the cutflow the variable do_cutflow must be set to 1.  
 
-### 3) runSelector.py 
+### 3) runSelector.py  
 
 This is the script we will be running in the terminal. In this script the ntuples are put together in a so-called TChain, and the TSelector are then called to run on this TChain. You will need to give this script some input arguments. These arguments are briefly explained in the file. A terminal command for running on MC samples could for example look like this: 
 ```
