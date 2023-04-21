@@ -2,6 +2,8 @@ FROM rootproject/root:6.24.06-ubuntu20.04
 USER root
 ADD . /code
 WORKDIR /code
+# adding group right to write to  repo
+RUN chmod -R g+w /code 
 # RUN chown -R root /code
 RUN bash -c 'echo "Start electron channel recast test" && \
     ln -s recast/test/ntuples/ ./ && \
