@@ -12,7 +12,7 @@ jobs:
   build-and-push-image:
     strategy:
       matrix:
-        environments: [hub] # add folder names with environments here
+        environments: [hub, atlas-dilepton] # add folder names with environments here
 
     runs-on: ubuntu-latest
 
