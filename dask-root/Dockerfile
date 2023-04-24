@@ -6,27 +6,26 @@ USER root
 
 ENV LANG=C.UTF-8
 
-ARG ROOT_BIN=root_v6.24.00.Linux-ubuntu20-x86_64-gcc9.3.tar.gz
+ARG ROOT_BIN=root_v6.28.00.Linux-ubuntu22-x86_64-gcc11.3.tar.gz
 
 WORKDIR /opt
 
 COPY packages packages
 
 RUN apt-get -y update -qq \
-    && ln -sf /usr/share/zoneinfo/UTC /etc/localtime \
-    && apt-get -y install $(cat packages) wget\
-    && rm -rf /var/lib/apt/lists/*\
-    && wget https://root.cern/download/${ROOT_BIN} \
-    && tar -xzvf ${ROOT_BIN} \
-    && rm -f ${ROOT_BIN} \
-    && echo /opt/root/lib >> /etc/ld.so.conf \
-    && ldconfig
+ && ln -sf /usr/share/zoneinfo/UTC /etc/localtime \
+ && apt-get -y install $(cat packages) wget\
+ && rm -rf /var/lib/apt/lists/*\
+ && wget https://root.cern/download/${ROOT_BIN} \
+ && tar -xzvf ${ROOT_BIN} \
+ && rm -f ${ROOT_BIN} \
+ && echo /opt/root/lib >> /etc/ld.so.conf \
+ && ldconfig
+RUN yes | unminimize
 
 ENV ROOTSYS /opt/root
 ENV PATH $ROOTSYS/bin:$PATH
 ENV PYTHONPATH $ROOTSYS/lib:$PYTHONPATH
 ENV CLING_STANDARD_PCH none
 
-WORKDIR $HOME
-USER $NB_UID
-
+CMD ["root", "-b"]
