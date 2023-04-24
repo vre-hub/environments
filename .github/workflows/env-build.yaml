@@ -12,7 +12,7 @@ jobs:
   build-and-push-image:
     strategy:
       matrix:
-        environments: [hub, atlas-ntuples, dask-rucio] # add folder names with environments here
+        environments: [hub, atlas-ntuples, dask-root] # add folder names with environments here
 
     runs-on: ubuntu-latest
 
