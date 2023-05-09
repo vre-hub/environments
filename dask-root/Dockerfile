@@ -47,7 +47,7 @@ COPY packages packages
 
 # Necessary to switch temporarily to root user from the default user of Pangeo
 # image
-USER root
+# USER root
 RUN apt-get update -qq \
  && ln -sf /usr/share/zoneinfo/UTC /etc/localtime \
  && apt-get -y --no-install-recommends install $(cat packages) wget\
