@@ -6,8 +6,7 @@ USER root
 RUN pip install --upgrade pip
 
 USER $NB_UID
-RUN conda install python=3.8 \
-    && conda install -y -c conda-forge python-gfal2 \
+RUN conda install -y -c conda-forge python-gfal2 \
     && conda clean --all -f -y
 
 # # rucio-jupyterlab>=0.9.8 
