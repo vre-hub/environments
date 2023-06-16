@@ -1,4 +1,4 @@
-name: Build and publish
+name: Singleuser testing
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  CONTAINER: vre-singleuser-py39
+  CONTAINER: vre-singleuser
   IMAGE_NAME: ${{ github.repository }}-$CONTAINER
 
 jobs:
@@ -43,8 +43,8 @@ jobs:
         id: build
         uses: docker/build-push-action@v4.0.0
         with:
-          context: vre-singleuser-py39  # to be changed to git vars
-          file: vre-singleuser-py39/Dockerfile  # to be changed to git vars
+          context: vre-singleuser  # to be changed to git vars
+          file: vre-singleuser/Dockerfile  # to be changed to git vars
           push: true
           tags: dev
           labels: ${{ steps.meta.outputs.labels }}
