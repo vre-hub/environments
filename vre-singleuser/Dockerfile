@@ -13,7 +13,7 @@ RUN conda install -y -c conda-forge python-gfal2 \
 RUN pip install git+https://github.com/garciagenrique/jupyterlab-extension.git@upgrade_rucio-client_v
 
 RUN pip install swanoauthrenew==1.0.1 PyJWT\ 
-    && jupyter serverextension enable -py rucio_jupyterlab --sys-prefix \
+    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
     && jupyter serverextension enable --py swanoauthrenew --sys-prefix \
     && pip install reana-client>=0.9.0 \
     && pip install ipykernel
