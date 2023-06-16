@@ -1,0 +1,50 @@
+name: Build and publish
+
+on:
+  push:
+    branches: vre-singleuser-py39_testing
+
+env:
+  REGISTRY: ghcr.io
+  CONTAINER: vre-singleuser-py39
+  IMAGE_NAME: ${{ github.repository }}-$CONTAINER
+
+jobs:
+  build-and-push-image:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Docker Checkout
+        uses: actions/checkout@v3
+
+      - name: Log in to ${{ env.REGISTRY }}
+        id: login
+        uses: docker/login-action@v2.1.0
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Extract metadata for ${{ env.IMAGE_NAME }}
+        id: meta
+        uses: docker/metadata-action@v4.3.0
+        with:
+          flavor: |
+            latest=true
+          tags: |
+            type=sha
+          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push ${{ env.IMAGE_NAME }}
+        id: build
+        uses: docker/build-push-action@v4.0.0
+        with:
+          context: vre-singleuser-py39  # to be changed to git vars
+          file: vre-singleuser-py39/Dockerfile  # to be changed to git vars
+          push: true
+          tags: dev
+          labels: ${{ steps.meta.outputs.labels }}
