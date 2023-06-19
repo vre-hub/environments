@@ -86,4 +86,4 @@ ENV JUPYTER_ENABLE_LAB=yes
 WORKDIR $HOME
 USER $NB_UID
 
-CMD ["configure.sh", "start-notebook.sh"]
+CMD ["setup.sh", "start-notebook.sh"]
