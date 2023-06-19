@@ -8,7 +8,7 @@ RUN pip install --upgrade pip
 USER $NB_UID
 
 # # rucio-jupyterlab>=0.9.8 
-RUN pip install git+https://github.com/garciagenrique/jupyterlab-extension.git@upgrade_rucio-client_v
+RUN pip install git+https://github.com/garciagenrique/jupyterlab-extension.git@upgrade_rucio-client_v1.30
 RUN pip install swanoauthrenew==1.0.1 PyJWT\ 
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
     && jupyter serverextension enable --py swanoauthrenew --sys-prefix \

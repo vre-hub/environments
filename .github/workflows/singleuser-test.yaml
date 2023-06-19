@@ -6,8 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-  CONTAINER: vre-singleuser
-  IMAGE_NAME: ${{ github.repository }}-$CONTAINER
+  IMAGE_NAME: vre-singleuser
 
 jobs:
   build-and-push-image:
@@ -28,23 +27,10 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      
-      - name: Extract metadata for ${{ env.IMAGE_NAME }}
-        id: meta
-        uses: docker/metadata-action@v4.3.0
-        with:
-          flavor: |
-            latest=true
-          tags: |
-            type=sha
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-      - name: Build and push ${{ env.IMAGE_NAME }}
-        id: build
-        uses: docker/build-push-action@v4.0.0
-        with:
-          context: vre-singleuser  # to be changed to git vars
-          file: vre-singleuser/Dockerfile  # to be changed to git vars
-          push: true
-          tags: dev
-          labels: ${{ steps.meta.outputs.labels }}
+      - name: Build and push Docker image
+        id: build-and-push
+        working-directory: vre-singleuser
+        run: |
+          docker build . --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dev
+          docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:dev
