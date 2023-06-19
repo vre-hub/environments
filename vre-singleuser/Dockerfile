@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:python-3.9.5
+FROM jupyter/scipy-notebook:python-3.9.13
 LABEL author="VRE CERN team - testing !"
 LABEL org.opencontainers.image.source https://github.com/goseind/jupyterlab-extension-setup
 
@@ -6,17 +6,17 @@ USER root
 RUN pip install --upgrade pip
 
 USER $NB_UID
-RUN conda install -y -c conda-forge python-gfal2 \
-    && conda clean --all -f -y
 
 # # rucio-jupyterlab>=0.9.8 
 RUN pip install git+https://github.com/garciagenrique/jupyterlab-extension.git@upgrade_rucio-client_v
-
 RUN pip install swanoauthrenew==1.0.1 PyJWT\ 
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
     && jupyter serverextension enable --py swanoauthrenew --sys-prefix \
     && pip install reana-client>=0.9.0 \
     && pip install ipykernel
+
+RUN conda install -y -c conda-forge python-gfal2 \
+    && conda clean --all -f -y
 
 USER root
 
@@ -43,7 +43,7 @@ RUN mkdir -p /etc/vomses \
 RUN mkdir /certs \
     && touch /certs/rucio_ca.pem \
     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
-    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority.crt' -o /tmp/cerngridca.crt \
+    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority(1).crt' -o /tmp/cerngridca.crt \
     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
     && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
     && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
