@@ -37,7 +37,7 @@ jobs:
             latest=true
           tags: |
             type=sha
-          images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ env.IMAGE_NAME }}
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
       - name: Build and push ${{ env.IMAGE_NAME }}
         id: build
