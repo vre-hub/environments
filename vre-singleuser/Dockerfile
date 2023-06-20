@@ -1,22 +1,23 @@
-FROM jupyter/scipy-notebook:python-3.9.13
+#FROM jupyter/scipy-notebook:python-3.9.13
+FROM jupyter/scipy-notebook:python-3.9.5
 LABEL author="VRE CERN team - testing !"
 LABEL org.opencontainers.image.source https://github.com/goseind/jupyterlab-extension-setup
 
-USER root
-RUN pip install --upgrade pip
+RUN pip install --upgrade pip \
+    && pip install ipykernel
 
 USER $NB_UID
+
+RUN conda install python=3.8 \
+    && conda install -y -c conda-forge python-gfal2 \
+    && conda clean --all -f -y
 
 # # rucio-jupyterlab>=0.9.8 
 RUN pip install git+https://github.com/garciagenrique/jupyterlab-extension.git@upgrade_rucio-client_v1.30
 RUN pip install swanoauthrenew==1.0.1 PyJWT\ 
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
     && jupyter serverextension enable --py swanoauthrenew --sys-prefix \
-    && pip install reana-client>=0.9.0 \
-    && pip install ipykernel
-
-RUN conda install -y -c conda-forge python-gfal2 \
-    && conda clean --all -f -y
+    && pip install reana-client>=0.9.0 
 
 USER root
 
@@ -50,9 +51,9 @@ RUN mkdir /certs \
     && cat /tmp/cernca.crt >> /certs/rucio_ca.pem
 
 # Setup extension Rucio instance config
-ADD configure.py /opt/setup/configure.py
+ADD configure.py /opt/setup-rucio-jupyterlab/configure.py
 ADD setup.sh /usr/local/bin/setup.sh
-RUN fix-permissions /opt/setup \
+RUN fix-permissions /opt/setup-rucio-jupyterlab \
     && fix-permissions /usr/local/bin/setup.sh \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
     && chmod +x /usr/local/bin/setup.sh
