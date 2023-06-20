@@ -7,6 +7,10 @@ RUN pip install --upgrade pip
 
 USER $NB_UID
 
+RUN conda install mamba -n base -c conda-forge \
+    && mamba install -y -c conda-forge python-gfal2 \
+    && mamba clean --all -y
+
 # # rucio-jupyterlab>=0.9.8 
 RUN pip install git+https://github.com/garciagenrique/jupyterlab-extension.git@upgrade_rucio-client_v1.30
 RUN pip install swanoauthrenew==1.0.1 PyJWT\ 
@@ -14,9 +18,6 @@ RUN pip install swanoauthrenew==1.0.1 PyJWT\
     && jupyter serverextension enable --py swanoauthrenew --sys-prefix \
     && pip install reana-client>=0.9.0 \
     && pip install ipykernel
-
-RUN conda install -y -c conda-forge python-gfal2 \
-    && conda clean --all -f -y
 
 USER root
 
