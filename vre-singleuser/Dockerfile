@@ -1,5 +1,4 @@
-#FROM jupyter/scipy-notebook:python-3.9.13
-FROM jupyter/scipy-notebook:python-3.9.5
+FROM jupyter/scipy-notebook:python-3.9.13
 LABEL author="VRE CERN team - testing !"
 LABEL org.opencontainers.image.source https://github.com/goseind/jupyterlab-extension-setup
 
@@ -8,8 +7,7 @@ RUN pip install --upgrade pip \
 
 USER $NB_UID
 
-RUN conda install python=3.8 \
-    && conda install -y -c conda-forge python-gfal2 \
+RUN conda install -y -c conda-forge python-gfal2 \
     && conda clean --all -f -y
 
 RUN pip install rucio-jupyterlab>=0.9.8 
