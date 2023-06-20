@@ -1,4 +1,4 @@
 #!/bin/bash
 set -e
-python /opt/setup/configure.py
+python /opt/setup-rucio-jupyterlab/configure.py
 exec "$@"
