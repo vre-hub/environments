@@ -4,7 +4,6 @@ LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
 ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
-
 USER root
 
 ADD ./jupyterhub.d /escape/jupyterhub.d

@@ -5,9 +5,9 @@ on:
     branches: 
       - main
     paths:
-     - vre-singleuser
-     - vre-hub
-     - atlas-ntuples # Add folder names with environments here
+     - vre-singleuser/**
+     - vre-hub/**
+     - atlas-ntuples/** # Add folder names with environments here
 
 env:
   REGISTRY: ghcr.io
