@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# Derived from https://gitlab.cern.ch/escape-wp2/docker-images/-/blob/master/datalake-singleuser/bin/configure.py (restricted access).
 
 import os
 import json

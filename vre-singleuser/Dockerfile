@@ -1,21 +1,23 @@
 FROM jupyter/scipy-notebook:python-3.9.13
-LABEL author="VRE CERN team - testing !"
+LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
+LABEL maintainer="VRE Team @ CERN 22/23 - E. Garcia, E. Gazzarrini, D. Gosein"
 LABEL org.opencontainers.image.source https://github.com/goseind/jupyterlab-extension-setup
+ARG BUILD_DATE
+LABEL org.label-schema.build-date=$BUILD_DATE
 
-RUN pip install --upgrade pip \
-    && pip install ipykernel
+RUN pip install --upgrade pip
 
 USER $NB_UID
 
 RUN conda install -y -c conda-forge python-gfal2 \
     && conda clean --all -f -y
 
-RUN pip install rucio-jupyterlab>=0.9.8 
-#RUN pip install git+https://github.com/garciagenrique/jupyterlab-extension.git@upgrade_rucio-client_v1.30
-RUN pip install swanoauthrenew==1.0.1 PyJWT\ 
+RUN pip install rucio-jupyterlab>=0.9.8 \
+    && pip install swanoauthrenew==1.0.1 PyJWT \ 
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
     && jupyter serverextension enable --py swanoauthrenew --sys-prefix \
-    && pip install reana-client>=0.9.0 
+    && pip install reana-client>=0.9.0 \
+    && pip install ipykernel
 
 USER root
 
@@ -70,6 +72,9 @@ ENV RUCIO_VOMS_CERTDIR_PATH=/etc/grid-security/certificates
 ENV RUCIO_VOMS_VOMSDIR_PATH=/etc/grid-security/vomsdir
 ENV RUCIO_CA_CERT=/certs/rucio_ca.pem
 ENV RUCIO_DEFAULT_INSTANCE="vre"
+# Follow ENV vars to be added to the config.py file too ? - CHECK <-- TODO
+ENV RUCIO_DESTINATION_RSE="CERN-EOS"
+ENV RUCIO_RSE_MOUNT_PATH="/eos/escape"
 
 RUN mkdir -p /opt/rucio \
     && chown -R $NB_UID /opt/rucio \
