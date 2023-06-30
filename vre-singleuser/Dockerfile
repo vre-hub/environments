@@ -58,6 +58,7 @@ RUN fix-permissions /opt/setup-rucio-jupyterlab \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
     && chmod +x /usr/local/bin/setup.sh
 
+
 # CERN specific configuration: VRE Data Lake (remove if not needed)
 ENV RUCIO_MODE=replica
 ENV RUCIO_WILDCARD_ENABLED=1
