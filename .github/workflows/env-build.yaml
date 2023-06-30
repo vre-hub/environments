@@ -2,8 +2,12 @@ name: Build and publish
 
 on:
   push:
-    branches: ['main']
-  workflow_dispatch:
+    branches: 
+      - main
+    paths:
+     - vre-singleuser
+     - vre-hub
+     - atlas-ntuples # Add folder names with environments here
 
 env:
   REGISTRY: ghcr.io
@@ -12,7 +16,7 @@ jobs:
   build-and-push-image:
     strategy:
       matrix:
-        environments: [hub, atlas-ntuples, dask-root] # add folder names with environments here
+        environments: [vre-singleuser, vre-hub, atlas-ntuples] # add folder names here too
 
     runs-on: ubuntu-latest
 
@@ -51,3 +55,6 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: | 
+            BUILD_DATE=$(date +'%Y-%m-%dT%H:%M:%SZ')
+
