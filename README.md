@@ -2,11 +2,15 @@
 
 # Environments
 
-VRE user environment images for workflows and notebooks.
+VRE related and user environment images for workflows and notebooks.
 
-## Usage
+## VRE user environments
 
-Add folder per user environments, the folder needs to contain a valid `Dockerfile`. Then add the folder name to the matrix array [here](https://github.com/vre-hub/environments/blob/main/.github/workflows/env-build.yaml):
+We strongly recommend that every user enviroment image uses the latests `vre-singleuser` image as a base layer (the `FROM` command in the `Dockerfile`).
+
+Within your PR: 
+ - Add a folder per environments, the directory needs to contain a valid `Dockerfile`. 
+ - Then add the folder name to the matrix array [here](https://github.com/vre-hub/environments/blob/main/.github/workflows/env-build.yaml):
 
 ```yaml
 jobs:
