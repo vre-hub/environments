@@ -4,10 +4,12 @@ on:
   push:
     branches: 
       - main
-    paths:
+    paths: # Add folder names with environments here
      - vre-singleuser/**
+     - vre-singleuser-py38/**
      - vre-hub/**
-     - atlas-ntuples/** # Add folder names with environments here
+     - atlas-ntuples/** 
+     - vre-singleuser-root/**
 
 env:
   REGISTRY: ghcr.io
@@ -16,7 +18,8 @@ jobs:
   build-and-push-image:
     strategy:
       matrix:
-        environments: [vre-singleuser, vre-hub, atlas-ntuples] # add folder names here too
+        environments: [vre-singleuser, vre-singleuser-py38, vre-hub, atlas-ntuples, 
+        vre-singleuser-root] # add folder names here too
 
     runs-on: ubuntu-latest
 
