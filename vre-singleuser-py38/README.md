@@ -1,8 +1,8 @@
-# VRE singleuser Base Image
+# VRE singleuser Base Image - python3.8
 
 This image based on the original [ESCAPE Data Lake-as-a-Service Singleuser Base Image](https://gitlab.cern.ch/escape-wp2/docker-images/-/tree/master/datalake-singleuser) (restricted acces) which is derived from [jupyter/scipy-notebook](https://hub.docker.com/r/jupyter/scipy-notebook) with some modifications:
 
-1. Python version is `3.9.13`
+1. Native Python version of the base image is `3.8.13`. On the original image, the python version was downgraded by creating a new conda environment.
 2. [rucio-jupyterlab](https://pypi.org/project/rucio-jupyterlab) is installed.
 3. The image is compatible with [rucio-clients](https://pypi.org/project/rucio-clients) version 1.30 - please report any possible bug or error found.
 4. ESCAPE `ca-certificates` and [VOMSes](https://indigo-iam.github.io/escape-docs/) files are preinstalled.
