@@ -80,5 +80,3 @@ jobs:
   #         build-args: | 
   #           BUILD_DATE=$(date +'%Y-%m-%dT%H:%M:%SZ')
 
-
-// Create a GitHub action to detect changes in directories using a matrix strategy
