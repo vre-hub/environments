@@ -12,6 +12,7 @@ Within your PR:
  - Add a folder per environments, the directory needs to contain a valid `Dockerfile`. 
  - Then add the folder name to the matrix array [here](https://github.com/vre-hub/environments/blob/main/.github/workflows/env-build.yaml):
 
+
 ```yaml
 jobs:
   build-and-push-image:
