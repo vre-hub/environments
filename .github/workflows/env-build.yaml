@@ -1,8 +1,7 @@
 name: Build and publish
 
 on:
-  #push:
-  pull_request:
+  push:
     branches: 
       - issue16_trigger_ci_only_changes
 
