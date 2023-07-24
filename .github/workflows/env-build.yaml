@@ -24,8 +24,9 @@ jobs:
       - name: Run changed-files with dir_names
         id: changed-files-dir-names
         uses: tj-actions/changed-files@v37
-        #with:
-        #  dir_names: "true"
+        with:
+          since_last_remote_commit: true
+          dir_names: "true"
           
       - name: List all changed files
         run: |
