@@ -4,7 +4,7 @@ on:
   #push:
   pull_request:
     branches: 
-      - main
+      - issue16_trigger_ci_only_changes
 
 env:
   REGISTRY: ghcr.io
@@ -25,8 +25,8 @@ jobs:
         id: changed-files-dir-names
         uses: tj-actions/changed-files@v37
         with:
-          since_last_remote_commit: true
-          dir_names: "true"
+          #since_last_remote_commit: true
+          dir_names_exclude_current_dir: "true"
           
       - name: List all changed files
         run: |
