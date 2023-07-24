@@ -32,9 +32,10 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$file was changed"
           done
-          for dir in ${{ steps.changed-files.inputs.dir_names_exclude_current_dir }}; do
+          for dir in ${{ steps.changed-files.outputs.dir_names_exclude_current_dir }}; do
             echo "$dir was changed"
           done
+          env
 
   # build-and-push-image:
   #   strategy:
