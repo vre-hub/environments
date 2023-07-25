@@ -32,7 +32,7 @@ jobs:
           environments=()
           for dir in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$dir was changed"
-            if echo "${environments[@]}" | grep -qw "${dir}"; then
+            if [[ echo "${environments[@]}" | grep -qw "${dir}"]]; then
               echo " - ${dir} is in the list of changed dirs"
             else
               echo " - ${dir} is NOT in the list of changed dirs. Adding it!"
