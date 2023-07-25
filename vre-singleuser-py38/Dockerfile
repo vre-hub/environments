@@ -91,4 +91,3 @@ WORKDIR $HOME
 USER $NB_UID
 
 CMD ["setup.sh", "start-notebook.sh"]
-

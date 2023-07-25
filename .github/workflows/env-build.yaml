@@ -54,10 +54,12 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        environments: ${{ fromJson(needs.build-matrix-from-changed-files.outputs.environment_list) }} #[vre-singleuser, vre-singleuser-py38, vre-hub, atlas-ntuples, vre-singleuser-root] # add folder names here too
+        environments: ${{ fromJson(needs.build-matrix-from-changed-files.outputs.environment_list) }} 
     steps:
-      - uses: actions/checkout@v2
-      - run: echo "matrix environment is ${{ matrix.environments }}""
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: test ${{ matrix.environments }}
+        run: echo "matrix environment is ${{ matrix.environments }}"
 
   #   permissions:
   #     contents: read
