@@ -1,4 +1,4 @@
-name: Build and publish
+name: Docker automatic build and publish
 
 on:
   push:
@@ -9,12 +9,9 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  changed_files:
+  build-matrix-from-changed-files:
     runs-on: ubuntu-latest  # windows-latest || macos-latest
-    name: Get dirs with changed files
-    permissions:
-      pull-requests: read
-
+    name: Build matrix from directorues with changed files
     steps:
       - uses: actions/checkout@v3
         with:
@@ -27,20 +24,38 @@ jobs:
           dir_names: "true"
           dir_names_exclude_current_dir: "true"
           
-      - name: List all changed files
+      - name: List all changed dirs and create list with unique directories
+        id: set-matrix
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            echo "$file was changed"
+          envs=()
+          for dir in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            echo "$dir was changed"
+            if echo "${envs[@]}" | grep -qw "${dor}"; then
+              echo " - ${dir} is in the list of changed dirs"
+            else
+              echo " - ${dir} is NOT in the list of changed dirs. Adding it!"
+              envs+="${dir}"
+              echo " ** The update list is ${envs[@]}"
+            fi        
           done
+
+          ENVS_LIST=`echo "[${envs[@]}]" |  sed 's/ /, /g'`
+          echo ::set-output name=environment_list::$ENVS_LIST
+
+          echo "The final list is: \n${ENVS_LIST}
+
+      outputs:
+        environment_list: ${{ steps.set-matrix.outputs.environment_list }}
           
-
-  # build-and-push-image:
-  #   strategy:
-  #     matrix:
-  #       environments: [vre-singleuser, vre-singleuser-py38, vre-hub, atlas-ntuples, 
-  #       vre-singleuser-root] # add folder names here too
-
-  #   runs-on: ubuntu-latest
+  build-and-push-image:
+    needs: build-matrix-from-changed-files
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environments: ${{ fromJson(needs.build-matrix-from-changed-files.outputs.environment_list) }} #[vre-singleuser, vre-singleuser-py38, vre-hub, atlas-ntuples, vre-singleuser-root] # add folder names here too
+    steps:
+      - uses: actions/checkout@v2
+      - run: echo "matrix environment is ${{ matrix.environments }}""
 
   #   permissions:
   #     contents: read
