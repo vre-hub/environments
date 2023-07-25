@@ -22,7 +22,7 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v37
         with:
-          files_igonre: .github/workflows/env-build.yaml
+          files_ignore: .github/workflows/env-build.yaml
           dir_names: "true"
           dir_names_exclude_current_dir: "true"
           
@@ -36,7 +36,7 @@ jobs:
               echo " - ${dir} is in the list of changed dirs"
             else
               echo " - ${dir} is NOT in the list of changed dirs. Adding it!"
-              environments+="${dir}"
+              environments+=("${dir} ")
               echo " ** The update list is ${environments[@]}"
             fi        
           done
@@ -44,7 +44,7 @@ jobs:
           ENVS_LIST=`echo "[${environments[@]}]" |  sed 's/ /, /g'`
           echo ::set-output name=environment_list::$ENVS_LIST
 
-          echo "The final list is: \n${ENVS_LIST}"
+          echo "The final list is: ${ENVS_LIST}"
 
     outputs:
       environment_list: ${{ steps.set-matrix.outputs.environment_list }}
