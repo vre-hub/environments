@@ -41,7 +41,7 @@ jobs:
             fi        
           done
 
-          ENVS_LIST=`echo "[${environments[@]}]" |  sed 's/ /, /g'`
+          ENVS_LIST=`echo "[\"${environments[@]}\"]" |  sed 's/ /","/g'`
           echo ::set-output name=environment_list::$ENVS_LIST
 
           echo "The final list is: ${ENVS_LIST}"
