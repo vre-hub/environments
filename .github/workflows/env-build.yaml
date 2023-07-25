@@ -39,14 +39,14 @@ jobs:
               echo " ** The update list is ${envs[@]}"
             fi        
           done
-          
+
           ENVS_LIST=`echo "[${envs[@]}]" |  sed 's/ /, /g'`
           echo ::set-output name=environment_list::$ENVS_LIST
 
           echo "The final list is: \n${ENVS_LIST}
 
-      outputs:
-        environment_list: ${{ steps.set-matrix.outputs.environment_list }}
+    outputs:
+      environment_list: ${{ steps.set-matrix.outputs.environment_list }}
           
   build-and-push-image:
     needs: build-matrix-from-changed-files
