@@ -17,7 +17,7 @@ jobs:
   build-and-push-image:
     strategy:
       matrix:
-        environments: [vre-singleuser, vre-hub, ...] # <-- add folder name here
+        environments: [vre-singleuser, vre-singleuser-root, ...] # <-- add folder name here
 ```
 
  - We strongly recommend to add the following lines to any new user environment (thus a `Dockerfile`)

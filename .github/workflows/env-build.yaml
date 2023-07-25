@@ -18,9 +18,8 @@ jobs:
   build-and-push-image:
     strategy:
       matrix:
-        environments: [vre-singleuser, vre-singleuser-py38, vre-hub, atlas-ntuples, 
-        vre-singleuser-root] # add folder names here too
-
+        environments: [vre-singleuser, vre-singleuser-py38, atlas-ntuples, vre-singleuser-root] # add folder names here too
+        
     runs-on: ubuntu-latest
 
     permissions:
