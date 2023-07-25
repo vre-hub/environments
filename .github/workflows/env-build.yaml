@@ -12,6 +12,7 @@ jobs:
   build-matrix-from-changed-files:
     runs-on: ubuntu-latest  # windows-latest || macos-latest
     name: Build matrix from directorues with changed files
+
     steps:
       - uses: actions/checkout@v3
         with:
@@ -38,7 +39,7 @@ jobs:
               echo " ** The update list is ${envs[@]}"
             fi        
           done
-
+          
           ENVS_LIST=`echo "[${envs[@]}]" |  sed 's/ /, /g'`
           echo ::set-output name=environment_list::$ENVS_LIST
 
