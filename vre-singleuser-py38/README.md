@@ -15,7 +15,7 @@ This image based on the original [ESCAPE Data Lake-as-a-Service Singleuser Base 
 If you want to take advantage of the extension's capability in your own machine, you can do a simple Docker run:
 
 ```sh
-docker run -p 8888:8888 docker pull ghcr.io/vre-hub/vre-singleuser:latest
+docker run -p 8888:8888 docker pull ghcr.io/vre-hub/vre-singleuser-py38:latest
 ```
 
 You can also override the default environment values (some of which are specific to the ESCAPE instance, such as the service URLs) specified in the [Dockerfile](Dockerfile) within the singleuser extraEnv specification inside the [zero-to-jupyterhub Helm release](https://github.com/vre-hub/vre/tree/main/infrastructure/cluster/flux-v2) (Update link when jhub moved to flux) of your deployment. Take a closer look at [configure.py](configure.py) to see all the available envs. Refer to [this configuration guide](https://github.com/rucio/jupyterlab-extension/blob/master/CONFIGURATION.md) for details.
@@ -36,3 +36,4 @@ USER $NB_UID
 [comment]: <> (An example of an image that extends this image is the [datalake-singleuser-root](https://gitlab.cern.ch/escape-wp2/docker-images/-/tree/master/datalake-singleuser-root) image, which comes with PyROOT preinstalled.)
 
 Based on all the previous work done by the ESCAPE Data Lake-as-a-Service group and outputs. 
+
