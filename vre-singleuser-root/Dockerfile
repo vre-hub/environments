@@ -1,4 +1,4 @@
-FROM ghcr.io/vre-hub/vre-singleuser:sha-7210810
+FROM ghcr.io/vre-hub/vre-singleuser-py38:sha-8cddc67
 LABEL author="VRE Team @ CERN 22/23 - E. Garcia, E. Gazzarrini, D. Gosein"
 LABEL maintainer="VRE Team @ CERN 22/23 - E. Garcia, E. Gazzarrini, D. Gosein"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
