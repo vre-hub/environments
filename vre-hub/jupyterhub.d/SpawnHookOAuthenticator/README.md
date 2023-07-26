@@ -1,1 +1,0 @@
-# SpawnHookOAuthenticator
