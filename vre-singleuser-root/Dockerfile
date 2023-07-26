@@ -6,11 +6,15 @@ LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
 ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
+USER $NB_UID
+RUN conda install python=3.8.10
+
 USER root
 
 # Install ROOT
 ENV LANG=C.UTF-8
-ARG ROOT_BIN=root_v6.28.04.Linux-ubuntu22-x86_64-gcc11.3.tar.gz
+#ARG ROOT_BIN=root_v6.28.04.Linux-ubuntu22-x86_64-gcc11.3.tar.gz
+ARG ROOT_BIN=root_v6.26.10.Linux-ubuntu20-x86_64-gcc9.4.tar.gz
 
 WORKDIR /opt
 
