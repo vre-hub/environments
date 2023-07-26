@@ -10,10 +10,12 @@ USER root
 
 # Install ROOT
 ENV LANG=C.UTF-8
-ARG ROOT_BIN=root_v6.26.10.Linux-ubuntu20-x86_64-gcc9.4.tar.gz	
+ARG ROOT_BIN=root_v6.28.04.Linux-ubuntu22-x86_64-gcc11.3.tar.gz
 
 WORKDIR /opt
 
+# Packages and ROOT_BIN has been updated in agreement with:
+# https://root.cern/install/dependencies/#ubuntu-and-other-debian-based-distributions
 COPY packages packages
 
 RUN apt-get -y update
