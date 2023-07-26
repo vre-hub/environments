@@ -4,6 +4,7 @@ on:
   push:
     branches: 
       - issue17_fix_root_env
+      # - main
 
 env:
   REGISTRY: ghcr.io
