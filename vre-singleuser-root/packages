@@ -7,5 +7,4 @@ libx11-dev
 libxpm-dev 
 libxft-dev 
 libxext-dev 
-python 
 libssl-dev
