@@ -1,4 +1,4 @@
-[![Docker automatic build and publish](https://github.com/vre-hub/environments/actions/workflows/env-build.yaml/badge.svg?branch=main)](https://github.com/vre-hub/environments/actions/workflows/env-build.yaml)
+[![Docker automatic build and publish](https://github.com/vre-hub/environments/actions/workflows/env-build.yaml/badge.svg)](https://github.com/vre-hub/environments/actions/workflows/env-build.yaml)
 
 # Environments
 
