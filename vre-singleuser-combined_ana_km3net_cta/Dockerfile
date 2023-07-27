@@ -27,4 +27,3 @@ RUN echo "conda activate comb_km3net_cta" >> ~/.bashrc
 
 WORKDIR $HOME
 USER $NB_UID
-
