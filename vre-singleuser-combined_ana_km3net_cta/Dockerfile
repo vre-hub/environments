@@ -14,10 +14,10 @@ RUN apt-get update && \
     texlive-latex-base \
     texlive-fonts-recommended
 
-COPY environment.yml environment.yml
+COPY environment.yaml environment.yaml
 
 RUN conda install mamba -n base -c conda-forge && \
-    mamba env create -f environment.yml && \
+    mamba env create -f environment.yaml && \
     conda clean --all -f -y
 
 ENV PATH /opt/conda/envs/comb_km3net_cta/bin:$PATH
