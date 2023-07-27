@@ -7,7 +7,7 @@ ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
 USER $NB_UID
-RUN conda install python=3.8.10
+#RUN conda install python=3.8.10
 
 USER root
 
