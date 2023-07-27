@@ -14,7 +14,7 @@ RUN apt-get update && \
     texlive-latex-base \
     texlive-fonts-recommended
 
-COPY ./environment.yml ./environment.yml
+COPY environment.yml environment.yml
 
 RUN conda install mamba -n base -c conda-forge && \
     mamba env create -f environment.yml && \
