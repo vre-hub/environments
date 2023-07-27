@@ -16,6 +16,8 @@ ENV LANG=C.UTF-8
 #ARG ROOT_BIN=root_v6.28.04.Linux-ubuntu22-x86_64-gcc11.3.tar.gz
 #ARG ROOT_BIN=root_v6.26.10.Linux-ubuntu20-x86_64-gcc9.4.tar.gz
 ARG ROOT_BIN=root_v6.26.10.Linux-ubuntu22-x86_64-gcc11.3.tar.gz	
+#ARG DEBIAN_FRONTEND=noninteractive
+#ENV TZ=Europe/Paris
 
 WORKDIR /opt
 
@@ -23,7 +25,13 @@ WORKDIR /opt
 # https://root.cern/install/dependencies/#ubuntu-and-other-debian-based-distributions
 COPY packages packages
 
-RUN apt-get -y update
+# RUN apt -y update \
+#     && apt -y upgrade \
+#     && apt -y install software-properties-common \
+#     && add-apt-repository -y ppa:deadsnakes/ppa \
+#     && apt -y install python3.8 \
+#     && update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.8 1
+
 
 RUN apt-get update -qq \
     && ln -sf /usr/share/zoneinfo/UTC /etc/localtime \
