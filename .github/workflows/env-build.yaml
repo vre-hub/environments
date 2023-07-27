@@ -3,7 +3,7 @@ name: Docker automatic build and publish
 on:
   push:
     branches: 
-      - add_km3net-cta_env
+      - main
 
 env:
   REGISTRY: ghcr.io
