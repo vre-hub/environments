@@ -48,7 +48,8 @@ WORKDIR /opt
 # ENV PYTHONPATH $ROOTSYS/lib:$PYTHONPATH
 # ENV CLING_STANDARD_PCH none
 
-RUN conda install -n base conda-libmamba-solver; conda config --set solver libmamba
+RUN conda update -n base conda \
+    && conda install -n base conda-libmamba-solver; conda config --set solver libmamba
 RUN conda install -c conda-forge root python=3.8
 
 RUN mkdir -p /opt/conda/share/jupyter/kernels/root \
