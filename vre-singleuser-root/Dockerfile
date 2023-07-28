@@ -49,8 +49,8 @@ WORKDIR /opt
 # ENV CLING_STANDARD_PCH none
 
 RUN conda install -n base conda-libmamba-solver \
-    && config --set solver libmamba \
-    && conda install -c conda-forge root
+    && conda config --set solver libmamba \
+    && conda install -c conda-forge root python=3.8
 
 RUN mkdir -p /opt/conda/share/jupyter/kernels/root \
     && cp -r /opt/root/etc/notebook/kernels/root/kernel.json /opt/conda/share/jupyter/kernels/root/kernel.json
