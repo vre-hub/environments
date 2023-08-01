@@ -4,12 +4,6 @@
 import os
 import json
 
-def write_token():
-    env_var_content = os.getenv('REFRESH_TOKEN')
-    file_path = '/home/jovyan/refresh_token'
-    with open(file_path, 'w') as file:
-        file.write(env_var_content)
-
 def write_jupyterlab_config():
     file_path = '/etc/jupyter/jupyter_notebook_config.json'
     if not os.path.isfile(file_path):
