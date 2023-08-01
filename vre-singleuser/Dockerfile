@@ -58,24 +58,6 @@ RUN fix-permissions /opt/setup-rucio-jupyterlab \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
     && chmod +x /usr/local/bin/setup.sh
 
-# CERN specific configuration: VRE Data Lake (remove if not needed)
-ENV RUCIO_MODE=replica
-ENV RUCIO_WILDCARD_ENABLED=1
-ENV RUCIO_BASE_URL=https://vre-rucio.cern.ch
-ENV RUCIO_AUTH_URL=https://vre-rucio-auth.cern.ch
-ENV RUCIO_WEBUI_URL=https://vre-rucio-ui.cern.ch
-ENV RUCIO_DISPLAY_NAME="VRE Data Lake"
-ENV RUCIO_NAME=escape
-ENV RUCIO_VOMS_ENABLED=1
-ENV RUCIO_VOMS_VOMSES_PATH=/etc/vomses
-ENV RUCIO_VOMS_CERTDIR_PATH=/etc/grid-security/certificates
-ENV RUCIO_VOMS_VOMSDIR_PATH=/etc/grid-security/vomsdir
-ENV RUCIO_CA_CERT=/certs/rucio_ca.pem
-ENV RUCIO_DEFAULT_INSTANCE="vre"
-# Follow ENV vars to be added to the config.py file too ? - CHECK <-- TODO
-ENV RUCIO_DESTINATION_RSE="CERN-EOS"
-ENV RUCIO_RSE_MOUNT_PATH="/eos/escape"
-
 RUN mkdir -p /opt/rucio \
     && chown -R $NB_UID /opt/rucio \
     && /usr/local/bin/setup.sh \
