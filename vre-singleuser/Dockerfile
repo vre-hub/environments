@@ -32,15 +32,15 @@ RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-E
 
 RUN apt update \
     && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
-    && apt -y install ca-certificates ca-policy-egi-core
+    && apt -y install ca-policy-egi-core
 
 RUN mkdir -p /etc/vomses \
     && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses \
     && mkdir -p /etc/grid-security/vomsdir/escape \
     && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.lsc -O /etc/grid-security/vomsdir/escape/voms-escape.cloud.cnaf.infn.it.lsc
 
-# Setup merged CERN CA file --> get them from here: https://linuxsoft.cern.ch/mirror/repository.egi.eu/sw/production/cas/1/current/
-# CERN specific configuration: Trusting the CERN CA (remove if not needed)
+# Setup merged CERN CA file on Ubuntu based images.
+# This file is contained in the `CERN-bundle.pem` file downloaded using 
 RUN mkdir /certs \
     && touch /certs/rucio_ca.pem \
     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
@@ -48,7 +48,9 @@ RUN mkdir /certs \
     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
     && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
     && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
-    && cat /tmp/cernca.crt >> /certs/rucio_ca.pem
+    && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
+    && rm /tmp/*.crt \
+    && update-ca-certificates
 
 # Setup extension Rucio instance config
 ADD configure.py /opt/setup-rucio-jupyterlab/configure.py
