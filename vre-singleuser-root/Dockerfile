@@ -21,7 +21,7 @@ RUN pip install rucio-jupyterlab>=0.9.8 swanoauthrenew==1.0.1 PyJWT\
 USER root
 
 RUN apt update -y \
-    && apt install -y build-essential \
+    && apt install -y build-essential curl \
     && apt install -y voms-clients-java software-properties-common \
     && apt clean -y \
     && rm /opt/conda/bin/voms-proxy-init \
