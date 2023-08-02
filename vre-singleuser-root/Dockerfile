@@ -55,11 +55,12 @@ RUN mkdir /certs \
     && update-ca-certificates
 
 # Setup extension Rucio instance config
-ADD bin/configure.py /opt/escape-datalake/configure.py
-ADD bin/configure.sh /usr/local/bin/configure.sh
-RUN fix-permissions /opt/escape-datalake \
-    && fix-permissions /usr/local/bin/configure.sh \
-    && sed -i -e 's/\r$/\n/' /usr/local/bin/configure.sh
+ADD configure.py /opt/setup-rucio-jupyterlab/configure.py
+ADD setup.sh /usr/local/bin/setup.sh
+RUN fix-permissions /opt/setup-rucio-jupyterlab \
+    && fix-permissions /usr/local/bin/setup.sh \
+    && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
+    && chmod +x /usr/local/bin/setup.sh
 
 
 RUN mkdir -p /opt/rucio \
