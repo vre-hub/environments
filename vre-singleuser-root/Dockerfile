@@ -110,4 +110,4 @@ RUN pip install metakernel
 WORKDIR $HOME
 USER $NB_UID
 
-CMD ["configure.sh", "start-notebook.sh"]
+CMD ["setup.sh", "start-notebook.sh"]
