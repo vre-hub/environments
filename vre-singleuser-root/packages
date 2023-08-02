@@ -4,8 +4,8 @@ curl
 davix-dev
 dcap-dev
 fonts-freefont-ttf
-g++-11
-gcc-11
+g++
+gcc
 gfortran
 libafterimage-dev
 libcfitsio-dev
