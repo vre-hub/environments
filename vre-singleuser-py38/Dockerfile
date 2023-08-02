@@ -1,5 +1,5 @@
 FROM jupyter/scipy-notebook:python-3.8.13
-LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
+LABEL author="Image based on the work by Muhammad Aditya Hilmy on the DLaaS - ESCAPE WP2 2020"
 LABEL maintainer="VRE Team @ CERN 22/23 - E. Garcia, E. Gazzarrini, D. Gosein"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
 ARG BUILD_DATE
@@ -39,8 +39,8 @@ RUN mkdir -p /etc/vomses \
     && mkdir -p /etc/grid-security/vomsdir/escape \
     && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.lsc -O /etc/grid-security/vomsdir/escape/voms-escape.cloud.cnaf.infn.it.lsc
 
-# Setup merged CERN CA file --> get them from here: https://linuxsoft.cern.ch/mirror/repository.egi.eu/sw/production/cas/1/current/
-# CERN specific configuration: Trusting the CERN CA (remove if not needed)
+# Setup merged CERN CA file on Ubuntu based images.
+# This file is contained in the `CERN-bundle.pem` file downloaded using 
 RUN mkdir /certs \
     && touch /certs/rucio_ca.pem \
     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
@@ -48,7 +48,9 @@ RUN mkdir /certs \
     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
     && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
     && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
-    && cat /tmp/cernca.crt >> /certs/rucio_ca.pem
+    && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
+    && rm /tmp/*.crt \
+    && update-ca-certificates
 
 # Setup extension Rucio instance config
 ADD configure.py /opt/setup-rucio-jupyterlab/configure.py
@@ -57,24 +59,6 @@ RUN fix-permissions /opt/setup-rucio-jupyterlab \
     && fix-permissions /usr/local/bin/setup.sh \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
     && chmod +x /usr/local/bin/setup.sh
-
-# CERN specific configuration: VRE Data Lake (remove if not needed)
-ENV RUCIO_MODE=replica
-ENV RUCIO_WILDCARD_ENABLED=1
-ENV RUCIO_BASE_URL=https://vre-rucio.cern.ch
-ENV RUCIO_AUTH_URL=https://vre-rucio-auth.cern.ch
-ENV RUCIO_WEBUI_URL=https://vre-rucio-ui.cern.ch
-ENV RUCIO_DISPLAY_NAME="VRE Data Lake"
-ENV RUCIO_NAME=escape
-ENV RUCIO_VOMS_ENABLED=1
-ENV RUCIO_VOMS_VOMSES_PATH=/etc/vomses
-ENV RUCIO_VOMS_CERTDIR_PATH=/etc/grid-security/certificates
-ENV RUCIO_VOMS_VOMSDIR_PATH=/etc/grid-security/vomsdir
-ENV RUCIO_CA_CERT=/certs/rucio_ca.pem
-ENV RUCIO_DEFAULT_INSTANCE="vre"
-# Follow ENV vars to be added to the config.py file too ? - CHECK <-- TODO
-ENV RUCIO_DESTINATION_RSE="CERN-EOS"
-ENV RUCIO_RSE_MOUNT_PATH="/eos/escape"
 
 RUN mkdir -p /opt/rucio \
     && chown -R $NB_UID /opt/rucio \
