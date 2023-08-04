@@ -3,8 +3,7 @@ name: Docker automatic build and publish
 on:
   push:
     branches: 
-      - issue17_fix_root_env
-      # - main
+      - main
 
 env:
   REGISTRY: ghcr.io
