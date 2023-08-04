@@ -33,6 +33,4 @@ WORKDIR $HOME
 USER $NB_UID
 ```
 
-[comment]: <> (An example of an image that extends this image is the [datalake-singleuser-root](https://gitlab.cern.ch/escape-wp2/docker-images/-/tree/master/datalake-singleuser-root) image, which comes with PyROOT preinstalled.)
-
-Based on all the previous work done by the ESCAPE Data Lake-as-a-Service group and outputs. 
+Based on all the previous work done by the ESCAPE Data Lake-as-a-Service group. 
