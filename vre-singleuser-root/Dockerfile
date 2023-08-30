@@ -94,7 +94,8 @@ RUN apt-get update -qq \
     && rm -f ${ROOT_BIN} \
     && echo /opt/root/lib >> /etc/ld.so.conf \
     && ldconfig
-RUN apt-get -y install libXrdSeckrb5
+
+RUN apt-get -y install libxrootd-client-dev libxrootd-dev libxrootd-private-dev libxrootd-server-dev
 
 ENV ROOTSYS /opt/root
 ENV PATH $ROOTSYS/bin:$PATH
