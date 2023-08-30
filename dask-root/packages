@@ -44,6 +44,5 @@ make
 python3-dev
 python3-numpy
 srm-ifce-dev
-tqdm
 unixodbc-dev
 python-is-python3
