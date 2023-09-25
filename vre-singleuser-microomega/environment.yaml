@@ -1,0 +1,15 @@
+name: microomega
+channels:
+  - default
+  - conda-forge
+  #- fermi
+dependencies:
+  - python=3.9
+  - iminuit <= 1.5.4
+  - ipython
+  - healpy
+  - gammapy
+  #- fermitools>=2.2.0  # installed via conda cli in the docker file (testing incompatibilities with fermipy)
+  #- fermipy # to be installed through pip as `pip install fermipy --user`
+  - pip:
+      - https://zenodo.org/record/5592836/files/mlfermilatdwarfs.zip
