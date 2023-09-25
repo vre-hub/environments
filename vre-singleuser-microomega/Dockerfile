@@ -13,7 +13,7 @@ RUN apt update -y \
 
 WORKDIR /opt
 
-COPY ./environment.yml ./environment.yml
+COPY environment.yml environment.yml
 
 RUN conda install conda=4.12.0 && \
     conda install mamba -n base -c conda-forge && \
