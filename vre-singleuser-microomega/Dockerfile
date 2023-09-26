@@ -13,11 +13,11 @@ RUN apt update -y \
 
 WORKDIR /opt
 
-COPY environment.yml environment.yml
+COPY environment.yaml environment.yaml
 
 RUN conda install conda=4.12.0 && \
     conda install mamba -n base -c conda-forge && \
-    mamba env create -f environment.yml && \
+    mamba env create -f environment.yaml && \
     conda clean --all -f -y
 
 ENV PATH /opt/conda/envs/microomega/bin:$PATH
