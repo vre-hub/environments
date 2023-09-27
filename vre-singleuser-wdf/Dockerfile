@@ -3,7 +3,7 @@
 
 
 
-# Very extremely un optimaise way of building the image, just testing purposes with py3.11
+# Very extremely  and not at all optimaise way of building the image, just testing purposes with py3.11
 
 
 FROM jupyter/base-notebook:python-3.11
