@@ -75,7 +75,7 @@ RUN mkdir -p /opt/rucio \
     && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
 ENV IPYTHONDIR=/etc/ipython
-ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
+ADD ../vre-singleuser-py38/ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
 RUN chown -R $NB_UID /etc/ipython
 ENV JUPYTER_ENABLE_LAB=yes
 
