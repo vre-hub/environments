@@ -60,9 +60,11 @@ RUN mkdir /certs \
     && rm /tmp/*.crt \
     && update-ca-certificates
 
-# Setup extension Rucio instance config
+# Setup extension Rucio instance config -  add all files in a single time
 ADD ../vre-singleuser-py38/configure.py /opt/setup-rucio-jupyterlab/configure.py
 ADD ../vre-singleuser-py38/setup.sh /usr/local/bin/setup.sh
+ADD ../vre-singleuser-py38/ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
+
 RUN fix-permissions /opt/setup-rucio-jupyterlab \
     && fix-permissions /usr/local/bin/setup.sh \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
@@ -75,7 +77,6 @@ RUN mkdir -p /opt/rucio \
     && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
 ENV IPYTHONDIR=/etc/ipython
-ADD ../vre-singleuser-py38/ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
 RUN chown -R $NB_UID /etc/ipython
 ENV JUPYTER_ENABLE_LAB=yes
 
