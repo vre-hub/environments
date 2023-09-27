@@ -3,7 +3,7 @@ name: Docker automatic build and publish
 on:
   push:
     branches: 
-      - micromega_env
+      - main
 
 env:
   REGISTRY: ghcr.io
