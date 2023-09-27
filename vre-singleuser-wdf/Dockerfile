@@ -15,6 +15,10 @@ LABEL org.label-schema.build-date=$BUILD_DATE
 
 RUN pip install --upgrade pip
 
+# GCC compiler before installing everything
+RUN apt update -y \
+    && apt install -y build-essential
+
 USER $NB_UID
 
 RUN conda install -y -c conda-forge python-gfal2 \
