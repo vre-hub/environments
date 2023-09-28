@@ -26,8 +26,8 @@ USER $NB_UID
 RUN conda install -y -c conda-forge python-gfal2 \
    && conda clean --all -f -y
 
-RUN pip install jupyter_contrib_nbextensions \
-    && jupyter contrib nbextension install --user
+RUN pip install jupyter_contrib_nbextensions 
+RUN jupyter contrib nbextension install --user
 RUN pip install rucio-jupyterlab>=0.9.8 
 RUN pip install swanoauthrenew==1.0.1
 RUN pip install PyJWT 
