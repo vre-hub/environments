@@ -19,8 +19,8 @@ def write_jupyterlab_config():
         config_json = {}
 
 # Looking to the rucio-jupyterlab configuration; https://github.com/rucio/jupyterlab-extension/blob/master/rucio_jupyterlab/config/schema.py#L101
-# either ("destination_rse", "rse_mount_path") either ("rucio_ca_cert") are required env vars, even if they are defined in the jhub manifest.
-# In general, 'rucio_base_url' too - from debugging experience
+#  either ("destination_rse", "rse_mount_path") either ("rucio_ca_cert") are required env vars, even if they are defined in the jhub manifest.
+# Adding 'rucio_base_url' too - from debugging experience
 
     instance_config = {
         "name": os.getenv('RUCIO_NAME', 'default'),
