@@ -12,10 +12,15 @@ USER $NB_UID
 RUN conda install -y -c conda-forge python-gfal2 \
     && conda clean --all -f -y
 
-RUN pip install rucio-jupyterlab>=0.9.8 \
-    && pip install swanoauthrenew==1.0.1 PyJWT \ 
+RUN git clone https://github.com/rucio/jupyterlab-extension.git \
+    && cd jupyterlab-extension \
+    && python -m pip install . \
+    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix 
+
+#RUN pip install rucio-jupyterlab>=0.9.8 \
+RUN pip install swanoauthrenew==1.0.1 PyJWT \ 
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
-    && jupyter serverextension enable --py swanoauthrenew --sys-prefix \
+#    && jupyter serverextension enable --py swanoauthrenew --sys-prefix \
     && pip install reana-client>=0.9.0 \
     && pip install ipykernel
 

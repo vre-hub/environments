@@ -3,7 +3,7 @@ name: Docker automatic build and publish
 on:
   push:
     branches: 
-      - main
+      - test_new_jlab-rucio_extension
 
 env:
   REGISTRY: ghcr.io
@@ -80,10 +80,11 @@ jobs:
         id: meta
         uses: docker/metadata-action@v4.3.0
         with:
-          flavor: |
-            latest=true
+          #flavor: |
+          #  latest=false
+          #  prefix=dev
           tags: |
-            type=sha
+            type=raw,value=dev
           images: ${{ env.REGISTRY }}/${{ github.repository_owner }}/${{ matrix.environments }}
 
       - name: Build and push ${{ matrix.environments }}
