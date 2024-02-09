@@ -58,7 +58,7 @@ ENV JUPYTER_ENABLE_LAB=yes
 ## HARDCODING ENVIRONMENT VARIABLES
 ## not using venv, instead we use the base conda env and fixing env vars
 ENV LD_LIBRARY_PATH="/opt/conda/lib:$LD_LIBRARY_PATH"
-ENV PYTHONPATH="/opt/conda/lib/python3.9:/opt/conda/lib/python3.9/site-packages:$PYTHONPATH"
+ENV PYTHONPATH="/opt/conda/lib/python3.11:/opt/conda/lib/python3.11/site-packages:$PYTHONPATH"
 
 ## While the installation of pst4 and the use of `venv`, it is needed the `ENV_ROOT` env var
 ## > echo $ENV_ROOT/
