@@ -16,6 +16,9 @@ RUN pip install reana-client>=0.9.0 \
 
 USER root
 
+RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat
+
+
 RUN apt update -y \
     && apt install -y build-essential curl voms-clients-java software-properties-common \
     && apt clean -y \
