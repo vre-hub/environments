@@ -1,0 +1,103 @@
+FROM quay.io/jupyter/scipy-notebook:python-3.11.6
+LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
+LABEL maintainer="VRE Team @ CERN 2023 - E. Garcia"
+LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
+ARG BUILD_DATE
+LABEL org.label-schema.build-date=$BUILD_DATE
+
+USER $NB_UID
+
+RUN conda install -y -c conda-forge python-gfal2 \
+    && conda clean --all -f -y
+
+RUN pip install reana-client>=0.9.0 \
+    && pip install rucio-clients==1.30.0 \
+    && pip install ipykernel
+
+USER root
+
+RUN apt update -y \
+    && apt install -y build-essential curl voms-clients-java software-properties-common \
+    && apt clean -y \
+    && rm /opt/conda/bin/voms-proxy-init \
+    && ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
+
+# ESCAPE grid-security and VOMS setup
+RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
+
+RUN apt update \
+    && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
+    && apt -y install ca-policy-egi-core
+
+RUN mkdir -p /etc/vomses \
+    && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses \
+    && mkdir -p /etc/grid-security/vomsdir/escape \
+    && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.lsc -O /etc/grid-security/vomsdir/escape/voms-escape.cloud.cnaf.infn.it.lsc
+
+# Setup merged CERN CA file on Ubuntu based images.
+# This file is contained in the `CERN-bundle.pem` file downloaded using 
+RUN mkdir /certs \
+    && touch /certs/rucio_ca.pem \
+    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
+    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority(1).crt' -o /tmp/cerngridca.crt \
+    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
+    && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
+    && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
+    && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
+    && rm /tmp/*.crt \
+    && update-ca-certificates
+
+
+ENV IPYTHONDIR=/etc/ipython
+ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
+RUN chown -R $NB_UID /etc/ipython
+ENV JUPYTER_ENABLE_LAB=yes
+
+# Installing WDF-python env
+COPY requirements.txt .  
+RUN pip3 install -r requirements.txt
+
+## Install WDF dependancies
+RUN set -eux; \
+	apt-get update; \
+	apt-get install -y --no-install-recommends \
+	cmake \
+    libboost-all-dev \
+    pybind11-dev python3-pybind11 \
+    libfftw3-3 libfftw3-dev libfftw3-bin \
+    libgsl-dev; \
+	rm -rf /var/lib/apt/lists/*
+
+#install FrameLib
+RUN set -ex \
+    && git clone https://git.ligo.org/virgo/virgoapp/Fr.git \
+    && cd  Fr && cmake CMakeLists.txt \
+    && make -j "$(nproc)" \
+    && make install \
+    && cd .. \
+    && rm -rf Fr  
+
+#install P4TSA
+RUN git clone https://github.com/elenacuoco/p4TSA && cd p4TSA && cmake CMakeLists.txt \
+    && make -j "$(nproc)" \
+    && make install \
+    && cd python-wrapper \
+    && python setup.py  install \
+    && cd .. \
+    && cd .. \
+    && rm -fr p4TSA
+
+RUN /sbin/ldconfig 
+
+#install wdpipe
+# Second line to be deleted when fixed in the wdfpipe repo 
+RUN git clone https://gitlab.com/wdfpipe/wdf.git && cd wdf \
+    && python setup.py  install \
+    && cd .. \ 
+    && rm -fr wdf
+
+
+WORKDIR $HOME
+USER $NB_UID
+
+CMD ["start-notebook.sh"]
