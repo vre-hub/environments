@@ -96,7 +96,6 @@ RUN git clone https://gitlab.com/wdfpipe/wdf.git && cd wdf \
     && cd .. \ 
     && rm -fr wdf
 
-
 WORKDIR $HOME
 USER $NB_UID
 
