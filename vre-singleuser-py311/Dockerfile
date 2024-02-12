@@ -7,23 +7,23 @@ LABEL org.label-schema.build-date=$BUILD_DATE
 
 USER $NB_UID
 
-RUN conda install -y -c conda-forge python-gfal2 \
+RUN mamba install -y -c conda-forge python-gfal2 \
     && conda clean --all -f -y
 
-RUN pip install reana-client>=0.9.0 \
-    && pip install rucio-clients==1.30.0 \
+RUN pip install rucio-clients==1.30.0 \
     && pip install ipykernel
 
 USER root
 
 RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat
 
-
 RUN apt update -y \
     && apt install -y build-essential curl voms-clients-java software-properties-common \
     && apt clean -y \
     && rm /opt/conda/bin/voms-proxy-init \
     && ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
+
+RUN pip install reana-client==0.9.2
 
 # ESCAPE grid-security and VOMS setup
 RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
