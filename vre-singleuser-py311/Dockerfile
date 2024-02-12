@@ -109,8 +109,8 @@ RUN git clone https://gitlab.com/wdfpipe/wdf.git && cd wdf \
 WORKDIR $HOME
 USER $NB_UID
 
-RUN mamba install -y -c conda-forge python-gfal2 \
-    && conda clean --all -f -y
+#RUN conda install -y -c conda-forge python-gfal2 \
+#    && conda clean --all -f -y
 
 RUN pip install rucio-clients==1.30.0 \
     && pip install ipykernel
@@ -152,85 +152,10 @@ RUN mkdir /certs \
     && rm /tmp/*.crt \
     && update-ca-certificates
 
-
 ENV IPYTHONDIR=/etc/ipython
 ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
 RUN chown -R $NB_UID /etc/ipython
 ENV JUPYTER_ENABLE_LAB=yes
-
-# Installing WDF-python env
-
-## HARDCODING ENVIRONMENT VARIABLES
-## not using venv, instead we use the base conda env and fixing env vars
-ENV LD_LIBRARY_PATH="/opt/conda/lib:$LD_LIBRARY_PATH"
-ENV PYTHONPATH="/opt/conda/lib/python3.11:/opt/conda/lib/python3.11/site-packages:$PYTHONPATH"
-
-## While the installation of pst4 and the use of `venv`, it is needed the `ENV_ROOT` env var
-## > echo $ENV_ROOT/
-## > /opt/venv/
-ENV ENV_ROOT="/opt/conda"
-
-COPY requirements.txt .  
-# Using installed version of pip
-RUN echo "pip:"; pip -V && \
-    echo "pip3:" pip3 -V
-RUN pip3 install --no-cache-dir wheel
-RUN pip3 install --no-cache-dir -r requirements.txt
-
-
-# ------------------------------------------------------
-# Env wdf
-# 05-10-2022 https://gitlab.com/wdfpipe/wdf/-/blob/master/dockers/env_wdf/Dockerfile
-
-#install GSL 
-RUN set -ex \
-    && wget https://mirror.ibcp.fr/pub/gnu/gsl/gsl-2.7.1.tar.gz\
-    && tar -xzf gsl-2.7.1.tar.gz \
-    && cd gsl-2.7.1\
-    && ./configure \
-    && make -j "$(nproc)" \
-    && make install \
-    && cd .. \
-    && rm -rf gsl-2.7.1 \
-    && rm gsl-2.7.1.tar.gz
-#RUN apt-get update && apt-get install -y \
-#    libgsl-dev  \
-#    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-
-#install FrameLib
-RUN set -ex \
-    && git clone https://git.ligo.org/virgo/virgoapp/Fr.git \
-    && cd  Fr && cmake CMakeLists.txt \
-    && make -j "$(nproc)" \
-    && make install \
-    && cd .. \
-    && rm -rf Fr  
-
-#install P4TSA
-RUN git clone https://github.com/elenacuoco/p4TSA && cd p4TSA && cmake CMakeLists.txt \
-    && make -j "$(nproc)" \
-    && make install \
-    && cd python-wrapper \
-    && python setup.py  install \
-    && cd .. \
-    && cd .. \
-    && rm -fr p4TSA
-
-RUN /sbin/ldconfig 
-
-
-# ------------------------------------------------------
-# wdpipe
-# 05-10-2022 https://gitlab.com/wdfpipe/wdf/-/blob/master/dockers/wdfpipe/Dockerfile
-
-#install wdpipe
-# Second line to be deleted when fixed in the wdfpipe repo 
-RUN git clone https://gitlab.com/wdfpipe/wdf.git && cd wdf \
-    && python setup.py  install \
-    && cd .. \ 
-    && rm -fr wdf
-
 
 WORKDIR $HOME
 USER $NB_UID
