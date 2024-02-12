@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:python-3.11.6
+FROM quay.io/jupyter/minimal-notebook:python-3.11.7
 LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
 LABEL maintainer="VRE Team @ CERN 2023 - E. Garcia"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
