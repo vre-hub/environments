@@ -120,37 +120,40 @@ USER root
 RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat
 
 RUN apt update -y \
-    && apt install -y build-essential curl voms-clients-java software-properties-common \
-    && apt clean -y \
-    && rm /opt/conda/bin/voms-proxy-init \
-    && ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
+    && apt install -y build-essential curl cmake
+
+# RUN apt update -y \
+#     && apt install -y build-essential curl voms-clients-java software-properties-common \
+#     && apt clean -y \
+#     && rm /opt/conda/bin/voms-proxy-init \
+#     && ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
 
 RUN pip install reana-client==0.9.2
 
 # ESCAPE grid-security and VOMS setup
-RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
+# RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
 
-RUN apt update \
-    && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
-    && apt -y install ca-policy-egi-core
+# RUN apt update \
+#     && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
+#     && apt -y install ca-policy-egi-core
 
-RUN mkdir -p /etc/vomses \
-    && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses \
-    && mkdir -p /etc/grid-security/vomsdir/escape \
-    && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.lsc -O /etc/grid-security/vomsdir/escape/voms-escape.cloud.cnaf.infn.it.lsc
+# RUN mkdir -p /etc/vomses \
+#     && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses \
+#     && mkdir -p /etc/grid-security/vomsdir/escape \
+#     && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.lsc -O /etc/grid-security/vomsdir/escape/voms-escape.cloud.cnaf.infn.it.lsc
 
-# Setup merged CERN CA file on Ubuntu based images.
-# This file is contained in the `CERN-bundle.pem` file downloaded using 
-RUN mkdir /certs \
-    && touch /certs/rucio_ca.pem \
-    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
-    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority(1).crt' -o /tmp/cerngridca.crt \
-    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
-    && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
-    && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
-    && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
-    && rm /tmp/*.crt \
-    && update-ca-certificates
+# # Setup merged CERN CA file on Ubuntu based images.
+# # This file is contained in the `CERN-bundle.pem` file downloaded using 
+# RUN mkdir /certs \
+#     && touch /certs/rucio_ca.pem \
+#     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
+#     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority(1).crt' -o /tmp/cerngridca.crt \
+#     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
+#     && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
+#     && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
+#     && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
+#     && rm /tmp/*.crt \
+#     && update-ca-certificates
 
 ENV IPYTHONDIR=/etc/ipython
 ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
