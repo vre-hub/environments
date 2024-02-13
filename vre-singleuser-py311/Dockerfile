@@ -131,7 +131,7 @@ RUN apt update -y \
 RUN pip install reana-client==0.9.2
 
 # ESCAPE grid-security and VOMS setup
-RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
+# RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
 
 RUN apt update \
     && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
