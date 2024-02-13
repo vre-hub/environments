@@ -155,6 +155,9 @@ RUN mkdir /certs \
     && rm /tmp/*.crt \
     && update-ca-certificates
 
+RUN mkdir -p /opt/rucio \
+    && chown -R $NB_UID /opt/rucio    
+
 ENV IPYTHONDIR=/etc/ipython
 ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
 RUN chown -R $NB_UID /etc/ipython
