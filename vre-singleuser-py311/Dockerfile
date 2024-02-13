@@ -115,8 +115,8 @@ USER $NB_UID
 #RUN conda install -y -c conda-forge python-gfal2 \
 #    && conda clean --all -f -y
 
-RUN pip install rucio-clients==1.31.0 \
-    && pip install ipykernel
+# RUN pip install rucio-clients==1.31.0 \
+#     && pip install ipykernel
 
 USER root
 
