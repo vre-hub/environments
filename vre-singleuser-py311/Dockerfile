@@ -1,4 +1,5 @@
-FROM quay.io/jupyter/minimal-notebook:python-3.11.7
+#FROM quay.io/jupyter/minimal-notebook:python-3.11.7
+FROM jupyter/minimal-notebook:python-3.10.11
 LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
 LABEL maintainer="VRE Team @ CERN 2023 - E. Garcia"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
@@ -38,7 +39,7 @@ RUN apt-get update && apt-get install -y \
 
 ## not using venv, instead we use the base conda env and fixing env vars
 ENV LD_LIBRARY_PATH="/opt/conda/lib:$LD_LIBRARY_PATH"
-ENV PYTHONPATH="/opt/conda/lib/python3.11:/opt/conda/lib/python3.11/site-packages:$PYTHONPATH"
+ENV PYTHONPATH="/opt/conda/lib/python3.10:/opt/conda/lib/python3.10/site-packages:$PYTHONPATH"
 
 ## While the installation of pst4 and the use of `venv`, it is needed the `ENV_ROOT` env var
 ## > echo $ENV_ROOT/
