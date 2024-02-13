@@ -7,6 +7,8 @@ LABEL org.label-schema.build-date=$BUILD_DATE
 
 USER root
 
+RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat
+
 WORKDIR /opt
 
 # ------------------------------------------------------
@@ -116,8 +118,6 @@ RUN pip install rucio-clients==1.30.0 \
     && pip install ipykernel
 
 USER root
-
-RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat
 
 RUN apt update -y \
     && apt install -y build-essential curl cmake
