@@ -10,7 +10,7 @@ RUN pip install --upgrade pip
 USER $NB_UID
 
 RUN conda install -y -n base mamba \
-    && mamba install -y -c conda-forge python-gfal2 \
+    && mamba install -y -c conda-forge python-gfal2 asyncssh \
     && conda clean --all -f -y
 
 RUN pip install rucio-jupyterlab>=0.9.8 \
@@ -48,6 +48,9 @@ RUN mkdir /certs \
     && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
     && rm /tmp/*.crt \
     && update-ca-certificates
+
+# Add async ssh script
+ADD asyncssh_config.py /opt/ssh/jupyterhub-singleuser/asyncssh_config.py
 
 # Setup extension Rucio instance config
 ADD configure.py /opt/setup-rucio-jupyterlab/configure.py
