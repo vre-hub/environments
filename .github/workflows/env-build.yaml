@@ -3,7 +3,7 @@ name: Docker automatic build and publish
 on:
   push:
     branches: 
-      - main
+      - vre-intertwin
 
 env:
   REGISTRY: ghcr.io
