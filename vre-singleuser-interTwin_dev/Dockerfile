@@ -51,6 +51,9 @@ RUN mkdir /certs \
 
 # Add async ssh script
 ADD asyncssh_config.py /opt/ssh/jupyterhub-singleuser/asyncssh_config.py
+RUN fix-permissions /opt/ssh/jupyterhub-singleuser/asyncssh_config.py \
+    && chown -R $NB_UID /opt/ssh/jupyterhub-singleuser/asyncssh_config.py \
+    && chmod +x /opt/ssh/jupyterhub-singleuser/asyncssh_config.py
 
 # Setup extension Rucio instance config
 ADD configure.py /opt/setup-rucio-jupyterlab/configure.py
