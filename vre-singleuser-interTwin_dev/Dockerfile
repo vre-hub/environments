@@ -13,6 +13,7 @@ RUN conda install -y -n base mamba \
     && mamba install -y -c conda-forge python-gfal2 asyncssh \
     && conda clean --all -f -y
 
+# Install rucio-jupyterlab with jlab v=3
 RUN pip install rucio-jupyterlab>=0.9.8 \
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix 
     
@@ -50,10 +51,10 @@ RUN mkdir /certs \
     && update-ca-certificates
 
 # Add async ssh script
-ADD asyncssh_config.py /opt/ssh/jupyterhub-singleuser/asyncssh_config.py
-RUN fix-permissions /opt/ssh/jupyterhub-singleuser/asyncssh_config.py \
-    && chown -R $NB_UID /opt/ssh/jupyterhub-singleuser/asyncssh_config.py \
-    && chmod +x /opt/ssh/jupyterhub-singleuser/asyncssh_config.py
+ADD asyncssh_config.py /opt/ssh/jupyterhub-singleuser
+RUN fix-permissions /opt/ssh/jupyterhub-singleuser \
+    && chown -R $NB_UID /opt/ssh/jupyterhub-singleuser \
+    && chmod +x /opt/ssh/jupyterhub-singleuser
 
 # Setup extension Rucio instance config
 ADD configure.py /opt/setup-rucio-jupyterlab/configure.py
