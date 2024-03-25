@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/opt/conda/bin/python
 # -*- coding: utf-8 -*-
 #
 # D. Ciangottini
