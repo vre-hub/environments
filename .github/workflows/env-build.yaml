@@ -3,7 +3,7 @@ name: Docker automatic build and publish
 on:
   push:
     branches: 
-      - main
+      - singleuser-py311
 
 env:
   REGISTRY: ghcr.io
