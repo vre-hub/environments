@@ -15,8 +15,9 @@ RUN conda install -y -n base mamba \
 
 # Install rucio-jupyterlab version with jlab v=4
 RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
-    && git checkout jlab_update \
     && cd jupyterlab-extension \
+    && git fetch \
+    && git checkout jlab_update \
     && pip install . \
     && cd .. \
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
