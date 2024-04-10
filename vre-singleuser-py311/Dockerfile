@@ -16,11 +16,9 @@ RUN conda install -y -n base mamba \
 # Install rucio-jupyterlab version with jlab v=4
 RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
     && cd jupyterlab-extension \
-    && git fetch \
-    && git checkout jlab4_update \
     && pip install . \
-    && cd .. \
-    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
+    && cd .. 
+#    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
 
 RUN pip install swanoauthrenew==1.0.1 PyJWT \ 
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
