@@ -59,18 +59,17 @@ RUN mkdir /certs \
     && update-ca-certificates
 
 # Setup extension Rucio instance config
-ADD configure.py /opt/setup-rucio-jupyterlab/configure.py
-ADD setup.sh /usr/local/bin/setup.sh
-RUN fix-permissions /opt/setup-rucio-jupyterlab \
-    && fix-permissions /usr/local/bin/setup.sh \
-    && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
-    && chmod +x /usr/local/bin/setup.sh
+ADD vre_notebook_configuration.py /usr/local/bin/vre_notebook_configuration.py
+ADD vre_notebook_configuration.sh /usr/local/bin/vre_notebook_configuration.sh
+RUN fix-permissions /usr/local/bin/vre_notebook_configuration.sh \
+    && sed -i -e 's/\r$/\n/' /usr/local/bin/vre_notebook_configuration.sh \
+    && chmod +x /usr/local/bin/vre_notebook_configuration.sh
 
 RUN mkdir -p /opt/rucio \
     && chown -R $NB_UID /opt/rucio \
-    && /usr/local/bin/setup.sh 
-    # These files have stopped to appar by default on jlab4
-    #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
+    && /usr/local/bin/vre_notebook_configuration.sh \
+    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json 
+    # This files have stopped to appar by default on jlab4
     #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
 ENV IPYTHONDIR=/etc/ipython
@@ -81,4 +80,4 @@ ENV JUPYTER_ENABLE_LAB=yes
 WORKDIR $HOME
 USER $NB_UID
 
-CMD ["setup.sh", "start-notebook.sh"]
+CMD ["vre_notebook_configuration.sh", "start-notebook.sh"]
