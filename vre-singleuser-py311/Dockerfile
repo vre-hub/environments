@@ -68,9 +68,10 @@ RUN fix-permissions /opt/setup-rucio-jupyterlab \
 
 RUN mkdir -p /opt/rucio \
     && chown -R $NB_UID /opt/rucio \
-    && /usr/local/bin/setup.sh \
-    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
-    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
+    && /usr/local/bin/setup.sh 
+    # These files have stopped to appar by default on jlab4
+    #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
+    #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
 ENV IPYTHONDIR=/etc/ipython
 ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
