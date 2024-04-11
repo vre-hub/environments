@@ -17,11 +17,11 @@ RUN conda install -y -n base mamba \
 RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
     && cd jupyterlab-extension \
     && pip install . \
-    && cd .. 
-#    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
+    && cd .. \
+    && jupyter server extension enable --py rucio_jupyterlab --sys-prefix
 
 RUN pip install swanoauthrenew==1.0.1 PyJWT \ 
-    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
+    && jupyter server extension enable --py swanoauthrenew --sys-prefix \
     && pip install reana-client>=0.9.0 \
     && pip install ipykernel
 
