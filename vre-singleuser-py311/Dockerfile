@@ -75,7 +75,8 @@ RUN mkdir -p /opt/rucio \
 ENV IPYTHONDIR=/etc/ipython
 ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
 RUN chown -R $NB_UID /etc/ipython
-ENV JUPYTER_ENABLE_LAB=yes
+#ENV JUPYTER_ENABLE_LAB=yes
+ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 WORKDIR $HOME
 USER $NB_UID
