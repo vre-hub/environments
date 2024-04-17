@@ -26,7 +26,7 @@ RUN pip install swanoauthrenew==1.0.1 PyJWT \
     && pip install reana-client>=0.9.0 \
     && pip install ipykernel ipywidgets 
 
-RUN pip install --upgrade jupyterlab-git
+#RUN pip install --upgrade jupyterlab-git
 RUN pip install --upgrade jupyterlab_pygments 
 RUN pip install --upgrade jupyterlab_widgets
 
