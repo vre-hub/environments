@@ -28,7 +28,6 @@ RUN pip install swanoauthrenew==1.0.1 PyJWT \
 
 RUN pip install --upgrade jupyterlab-git
 RUN pip install --upgrade jupyterlab_pygments 
-RUN pip install --upgrade nbdime-jupyterlab 
 RUN pip install --upgrade jupyterlab_widgets
 
 USER root
