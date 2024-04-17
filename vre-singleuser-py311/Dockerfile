@@ -21,7 +21,7 @@ RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
     && cd .. \
     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix
 
-RUN pip install swanoauthrenew==1.0.1 PyJWT \ 
+RUN pip install ipywidgets swanoauthrenew==1.0.1 PyJWT \ 
     && jupyter server extension enable --py swanoauthrenew --sys-prefix \
     && pip install reana-client>=0.9.0 \
     && pip install ipykernel
