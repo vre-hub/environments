@@ -1,4 +1,4 @@
-FROM quay.io/jupyter/scipy-notebook:python-3.11.8
+FROM jupyter/scipy-notebook:python-3.10.11
 LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
 LABEL maintainer="VRE Team @ CERN 22/23 - E. Garcia, E. Gazzarrini, D. Gosein"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
@@ -16,6 +16,7 @@ RUN conda install -y -n base mamba \
 # Install rucio-jupyterlab version with jlab v=4
 RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
     && cd jupyterlab-extension \
+    && git checkout ntbk_v6 \
     && pip install . \
     && cd .. \
     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix \
@@ -25,7 +26,11 @@ RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
 RUN pip install swanoauthrenew==1.0.1 PyJWT \ 
     && jupyter server extension enable --py swanoauthrenew --sys-prefix \
     && pip install reana-client>=0.9.0 \
-    && pip install ipykernel
+    && pip install ipykernel ipywidgets 
+
+#RUN pip install --upgrade jupyterlab-git
+RUN pip install --upgrade jupyterlab_pygments 
+RUN pip install --upgrade jupyterlab_widgets
 
 USER root
 
