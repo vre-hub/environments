@@ -18,7 +18,9 @@ RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
     && cd jupyterlab-extension \
     && pip install . \
     && cd .. \
-    && jupyter server extension enable --py rucio_jupyterlab --sys-prefix
+    && jupyter server extension enable --py rucio_jupyterlab --sys-prefix \
+    && jupyter labextension link . --dev-build=False \
+    && jupyter lab clean -y
 
 RUN pip install swanoauthrenew==1.0.1 PyJWT \ 
     && jupyter server extension enable --py swanoauthrenew --sys-prefix \
@@ -72,11 +74,11 @@ RUN mkdir -p /opt/rucio \
     # This files have stopped to appar by default on jlab4
     #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
-ENV IPYTHONDIR=/etc/ipython
-ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
-RUN chown -R $NB_UID /etc/ipython
-#ENV JUPYTER_ENABLE_LAB=yes
-ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
+ENV JUPYTER_ENABLE_LAB=yes
+#ENV IPYTHONDIR=/etc/ipython
+#ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
+#RUN chown -R $NB_UID /etc/ipython
+#ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 WORKDIR $HOME
 USER $NB_UID
