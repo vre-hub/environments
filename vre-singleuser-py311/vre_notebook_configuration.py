@@ -4,10 +4,12 @@
 import os
 import json
 
+HOME = '/home/jovyan'
+
 def write_jupyterlab_config():
-    file_path = '/etc/jupyter/jupyter_notebook_config.json'
+    file_path = HOME + '/.jupyter/jupyter_notebook_config.json'
     if not os.path.isfile(file_path):
-        os.makedirs('/etc/jupyter/', exist_ok=True)
+        os.makedirs(HOME + '/.jupyter/', exist_ok=True)
     else:
         config_file = open(file_path, 'r')
         config_payload = config_file.read()
@@ -91,4 +93,4 @@ def write_ipython_config():
     
 if __name__ == '__main__':
     write_jupyterlab_config()
-    write_ipython_config()
+#    write_ipython_config()

@@ -1,4 +1,4 @@
-FROM jupyter/scipy-notebook:python-3.10.11
+FROM quay.io/jupyter/scipy-notebook:python-3.11.8
 LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
 LABEL maintainer="VRE Team @ CERN 22/23 - E. Garcia, E. Gazzarrini, D. Gosein"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
@@ -19,9 +19,9 @@ RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
     && git checkout ntbk_v6 \
     && pip install . \
     && cd .. \
-    && jupyter server extension enable --py rucio_jupyterlab --sys-prefix \
-    && jupyter labextension link . --dev-build=False \
-    && jupyter lab clean -y
+    && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
+#    && jupyter labextension link . --dev-build=False 
+#    && jupyter lab clean -y
 
 RUN pip install swanoauthrenew==1.0.1 PyJWT \ 
     && jupyter server extension enable --py swanoauthrenew --sys-prefix \
@@ -72,17 +72,22 @@ RUN fix-permissions /usr/local/bin/vre_notebook_configuration.sh \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/vre_notebook_configuration.sh \
     && chmod +x /usr/local/bin/vre_notebook_configuration.sh
 
+RUN fix-permissions $HOME/.jupyter    
+#RUN fix-permissions $HOME/.ipython/profile_default/
+#RUN chmod -R $NB_UID $HOME/.ipython/profile_default 
+#    && fix-permissions $HOME/.ipython/profile_default
+
 RUN mkdir -p /opt/rucio \
     && chown -R $NB_UID /opt/rucio \
     && /usr/local/bin/vre_notebook_configuration.sh \
-    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json 
+    && chown -R $NB_UID $HOME/.jupyter/jupyter_notebook_config.json
     # This files have stopped to appar by default on jlab4
     #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
 ENV JUPYTER_ENABLE_LAB=yes
-#ENV IPYTHONDIR=/etc/ipython
-#ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
-#RUN chown -R $NB_UID /etc/ipython
+ENV IPYTHONDIR=/etc/ipython
+ADD ipython_kernel_config.json $HOME/.ipython/profile_default/ipython_kernel_config.json
+RUN chown -R $NB_UID $HOME/.ipython
 #ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 WORKDIR $HOME
