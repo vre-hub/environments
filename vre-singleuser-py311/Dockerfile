@@ -1,4 +1,5 @@
-FROM quay.io/jupyter/scipy-notebook:python-3.11.8
+#FROM quay.io/jupyter/scipy-notebook:python-3.11.8
+FROM jupyter/scipy-notebook:python-3.10.11
 LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
 LABEL maintainer="VRE Team @ CERN 22/23 - E. Garcia, E. Gazzarrini, D. Gosein"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
