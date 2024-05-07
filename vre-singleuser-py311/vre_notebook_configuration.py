@@ -7,7 +7,7 @@ import json
 HOME = '/home/jovyan'
 
 def write_jupyterlab_config():
-    file_path = HOME + '/.jupyter/jupyter_notebook_config.json'
+    file_path = HOME + '/.jupyter/jupyter_server_config.json'
     if not os.path.isfile(file_path):
         os.makedirs(HOME + '/.jupyter/', exist_ok=True)
     else:
