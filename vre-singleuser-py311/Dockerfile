@@ -81,7 +81,7 @@ RUN fix-permissions $HOME/.jupyter
 RUN mkdir -p /opt/rucio \
     && chown -R $NB_UID /opt/rucio \
     && /usr/local/bin/vre_notebook_configuration.sh \
-    && chown -R $NB_UID $HOME/.jupyter/jupyter_notebook_config.json
+    && chown -R $NB_UID $HOME/.jupyter/jupyter_server_config.json
     # This files have stopped to appar by default on jlab4
     #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
