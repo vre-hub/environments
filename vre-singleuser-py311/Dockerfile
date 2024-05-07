@@ -12,6 +12,13 @@ USER $NB_UID
 
 RUN conda install -y -n base mamba \
     && mamba install -y -c conda-forge python-gfal2 \
+        jupyterlab \
+        notebook"<7" \
+        jsonschema \
+        jupyterlab_server \
+        jupyter_server \
+        traitlets \
+        nbformat \
     && conda clean --all -f -y
 
 # Install rucio-jupyterlab version with jlab v=4
@@ -24,7 +31,7 @@ RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
 #    && jupyter labextension link . --dev-build=False 
 #    && jupyter lab clean -y
 
-RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat 
+#RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat 
 
 RUN pip install swanoauthrenew==1.0.1 PyJWT \ 
     && jupyter server extension enable --py swanoauthrenew --sys-prefix \
