@@ -42,63 +42,63 @@ RUN conda install -y -n base mamba \
 # RUN pip install --upgrade jupyterlab_pygments 
 # RUN pip install --upgrade jupyterlab_widgets
 
-# USER root
+USER root
 
-# RUN apt update -y \
-#     && apt install -y build-essential curl voms-clients-java software-properties-common \
-#     && apt clean -y \
-#     && rm /opt/conda/bin/voms-proxy-init \
-#     && ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
+RUN apt update -y \
+    && apt install -y build-essential curl voms-clients-java software-properties-common \
+    && apt clean -y \
+    && rm /opt/conda/bin/voms-proxy-init \
+    && ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
 
-# # ESCAPE grid-security and VOMS setup
-# RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
+# ESCAPE grid-security and VOMS setup
+RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
 
-# RUN apt update \
-#     && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
-#     && apt -y install ca-policy-egi-core
+RUN apt update \
+    && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
+    && apt -y install ca-policy-egi-core
 
-# RUN mkdir -p /etc/vomses \
-#     && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses \
-#     && mkdir -p /etc/grid-security/vomsdir/escape \
-#     && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.lsc -O /etc/grid-security/vomsdir/escape/voms-escape.cloud.cnaf.infn.it.lsc
+RUN mkdir -p /etc/vomses \
+    && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses \
+    && mkdir -p /etc/grid-security/vomsdir/escape \
+    && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.lsc -O /etc/grid-security/vomsdir/escape/voms-escape.cloud.cnaf.infn.it.lsc
 
-# # Setup merged CERN CA file on Ubuntu based images.
-# # This file is contained in the `CERN-bundle.pem` file downloaded using 
-# RUN mkdir /certs \
-#     && touch /certs/rucio_ca.pem \
-#     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
-#     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority(1).crt' -o /tmp/cerngridca.crt \
-#     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
-#     && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
-#     && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
-#     && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
-#     && rm /tmp/*.crt \
-#     && update-ca-certificates
+# Setup merged CERN CA file on Ubuntu based images.
+# This file is contained in the `CERN-bundle.pem` file downloaded using 
+RUN mkdir /certs \
+    && touch /certs/rucio_ca.pem \
+    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
+    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority(1).crt' -o /tmp/cerngridca.crt \
+    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
+    && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
+    && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
+    && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
+    && rm /tmp/*.crt \
+    && update-ca-certificates
 
-# # Setup extension Rucio instance config
-# ADD vre_notebook_configuration.py /usr/local/bin/vre_notebook_configuration.py
-# ADD vre_notebook_configuration.sh /usr/local/bin/vre_notebook_configuration.sh
-# RUN fix-permissions /usr/local/bin/vre_notebook_configuration.sh \
-#     && sed -i -e 's/\r$/\n/' /usr/local/bin/vre_notebook_configuration.sh \
-#     && chmod +x /usr/local/bin/vre_notebook_configuration.sh
+# Setup extension Rucio instance config
+ADD vre_notebook_configuration.py /usr/local/bin/vre_notebook_configuration.py
+ADD vre_notebook_configuration.sh /usr/local/bin/vre_notebook_configuration.sh
+RUN fix-permissions /usr/local/bin/vre_notebook_configuration.sh \
+    && sed -i -e 's/\r$/\n/' /usr/local/bin/vre_notebook_configuration.sh \
+    && chmod +x /usr/local/bin/vre_notebook_configuration.sh
 
-# RUN fix-permissions $HOME/.jupyter    
-# #RUN fix-permissions $HOME/.ipython/profile_default/
-# #RUN chmod -R $NB_UID $HOME/.ipython/profile_default 
-# #    && fix-permissions $HOME/.ipython/profile_default
+RUN fix-permissions $HOME/.jupyter    
+#RUN fix-permissions $HOME/.ipython/profile_default/
+#RUN chmod -R $NB_UID $HOME/.ipython/profile_default 
+#    && fix-permissions $HOME/.ipython/profile_default
 
-# RUN mkdir -p /opt/rucio \
-#     && chown -R $NB_UID /opt/rucio \
-#     && /usr/local/bin/vre_notebook_configuration.sh \
-#     && chown -R $NB_UID $HOME/.jupyter/jupyter_server_config.json
-#     # This files have stopped to appar by default on jlab4
-#     #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
+RUN mkdir -p /opt/rucio \
+    && chown -R $NB_UID /opt/rucio \
+    && /usr/local/bin/vre_notebook_configuration.sh \
+    && chown -R $NB_UID $HOME/.jupyter/jupyter_server_config.json
+    # This files have stopped to appar by default on jlab4
+    #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
-# ENV JUPYTER_ENABLE_LAB=yes
-# ENV IPYTHONDIR=/etc/ipython
-# ADD ipython_kernel_config.json $HOME/.ipython/profile_default/ipython_kernel_config.json
-# RUN chown -R $NB_UID $HOME/.ipython
-# #ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
+ENV JUPYTER_ENABLE_LAB=yes
+ENV IPYTHONDIR=/etc/ipython
+ADD ipython_kernel_config.json $HOME/.ipython/profile_default/ipython_kernel_config.json
+RUN chown -R $NB_UID $HOME/.ipython
+ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 WORKDIR $HOME
 USER $NB_UID
