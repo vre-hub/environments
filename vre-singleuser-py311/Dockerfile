@@ -11,9 +11,8 @@ RUN pip install --upgrade pip
 USER $NB_UID
 
 RUN conda install -y -n base mamba \
-    && mamba install -y -c conda-forge python-gfal2 \
-        python=3.11 \
-        jupyterlab \
+    && mamba install -y -c conda-forge python-gfal2 python=3.11 \
+    && mamba install -y -c conda-forge jupyterlab \
         notebook"<7" \
         jsonschema \
         jupyterlab_server \
