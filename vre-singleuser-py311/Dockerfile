@@ -12,6 +12,7 @@ USER $NB_UID
 
 RUN conda install -y -n base mamba \
     && mamba install -y -c conda-forge python-gfal2 \
+        python=3.11 \
         jupyterlab \
         notebook"<7" \
         jsonschema \
