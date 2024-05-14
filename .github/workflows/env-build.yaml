@@ -3,7 +3,7 @@ name: Docker automatic build and publish
 on:
   push:
     branches: 
-      - main
+      - test_escape_vomses
 
 env:
   REGISTRY: ghcr.io
