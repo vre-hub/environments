@@ -105,4 +105,4 @@ WORKDIR $HOME
 USER $NB_UID
 
 
-CMD ["vre_notebook_configuration.sh", "start-notebook.sh"]
+CMD ["vre_notebook_configuration.sh", "start.sh"]
