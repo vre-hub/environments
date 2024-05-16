@@ -12,7 +12,7 @@ USER $NB_UID
 RUN conda install -y -n base mamba \
     && mamba install -y -c conda-forge python-gfal2 \
         nodejs \
-        jupyterlab \
+        jupyterlab">4,<5" \
         notebook"<7" \
         jsonschema \
         jupyterlab_server \
