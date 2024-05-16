@@ -103,7 +103,4 @@ ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 WORKDIR $HOME
 USER $NB_UID
 
-
-
-
 CMD ["vre_notebook_configuration.sh", "start-notebook.sh"]
