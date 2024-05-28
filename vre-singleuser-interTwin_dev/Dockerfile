@@ -67,7 +67,7 @@ RUN fix-permissions /opt/setup-rucio-jupyterlab \
 RUN mkdir -p /opt/rucio/etc \
     && chown -R $NB_UID /opt/rucio/etc \
     && /usr/local/bin/setup.sh \
-    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
+    && chown -R $NB_UID /home/jovyan/.jupyter/jupyter_notebook_config.json \
     && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
 #ENV IPYTHONDIR=/etc/ipython
