@@ -5,12 +5,12 @@ import os
 import json
 import configparser
 
-HOME = '/home/jovyan'
+#HOME = '/home/jovyan'
 
 def write_jupyterlab_config():
-    file_path = HOME + '/.jupyter/jupyter_notebook_config.json'
+    file_path = '/etc/jupyter/jupyter_notebook_config.json'
     if not os.path.isfile(file_path):
-        os.makedirs(HOME + '/.jupyter/', exist_ok=True)
+        os.makedirs('/etc/jupyter/', exist_ok=True)
     else:
         config_file = open(file_path, 'r')
         config_payload = config_file.read()
