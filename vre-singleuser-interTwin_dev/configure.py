@@ -82,7 +82,7 @@ def write_rucio_config():
     client_config = dict((k, v) for k, v in client_config.items() if v)
     rucio_config['client'] = client_config
     
-    with open('/opt/rucio/etc/rucio.cfg', 'a+') as f:
+    with open('/opt/rucio/etc/rucio.cfg', 'w') as f:
         rucio_config.write(f)    
     
 if __name__ == '__main__':
