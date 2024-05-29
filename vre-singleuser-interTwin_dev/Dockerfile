@@ -67,7 +67,7 @@ RUN fix-permissions /opt/setup-rucio-jupyterlab \
 RUN mkdir -p /opt/rucio/etc \
     && chown -R ${NB_UID}:${NB_GID} /opt/rucio/etc \
     && chmod 755 /opt/rucio/etc \
-    && touch /opt/rucio/etc/rucio.cfg \
+#    && touch /opt/rucio/etc/rucio.cfg \
     && /usr/local/bin/setup.sh \
     && chown -R $NB_UID /home/jovyan/.jupyter/jupyter_notebook_config.json \
     && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
