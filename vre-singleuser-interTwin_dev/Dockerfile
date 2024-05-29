@@ -58,23 +58,18 @@ RUN fix-permissions /opt/ssh/jupyterhub-singleuser \
 
 # Setup extension Rucio instance config
 ADD configure.py /opt/setup-rucio-jupyterlab/configure.py
-RUN fix-permissions /opt/setup-rucio-jupyterlab \
-    && chown -R $NB_UID /opt/setup-rucio-jupyterlab/configure.py \
-    && chmod +x /opt/setup-rucio-jupyterlab/configure.py
-
 ADD setup.sh /usr/local/bin/setup.sh
-RUN fix-permissions /usr/local/bin/setup.sh \
+RUN fix-permissions /opt/setup-rucio-jupyterlab \
+    && fix-permissions /usr/local/bin/setup.sh \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
-    && chown -R $NB_UID /usr/local/bin/setup.sh \
     && chmod +x /usr/local/bin/setup.sh
 
-RUN mkdir -p /opt/rucio/etc \
-    && chown -R ${NB_UID}:${NB_GID} /opt/rucio/etc \
-    && chmod 755 /opt/rucio/etc \
-#    && touch /opt/rucio/etc/rucio.cfg \
+RUN mkdir -p /opt/rucio \
+    && chown -R $NB_UID /opt/rucio \
     && /usr/local/bin/setup.sh \
-    && chown -R $NB_UID /home/jovyan/.jupyter/jupyter_notebook_config.json 
-#    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
+    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
+    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
+
 
 #ENV IPYTHONDIR=/etc/ipython
 #ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
