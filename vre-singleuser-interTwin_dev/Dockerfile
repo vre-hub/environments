@@ -14,7 +14,7 @@ RUN conda install -y -n base mamba \
     && conda clean --all -f -y
 
 # Install rucio-jupyterlab with jlab v=3
-RUN pip install rucio-jupyterlab>=0.9.8 \
+RUN pip install rucio-jupyterlab>=0.10.0 \
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix 
     
 USER root
@@ -58,10 +58,14 @@ RUN fix-permissions /opt/ssh/jupyterhub-singleuser \
 
 # Setup extension Rucio instance config
 ADD configure.py /opt/setup-rucio-jupyterlab/configure.py
-ADD setup.sh /usr/local/bin/setup.sh
 RUN fix-permissions /opt/setup-rucio-jupyterlab \
-    && fix-permissions /usr/local/bin/setup.sh \
+    && chown -R $NB_UID /opt/setup-rucio-jupyterlab/configure.py \
+    && chmod +x /opt/setup-rucio-jupyterlab/configure.py
+
+ADD setup.sh /usr/local/bin/setup.sh
+RUN fix-permissions /usr/local/bin/setup.sh \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
+    && chown -R $NB_UID /usr/local/bin/setup.sh \
     && chmod +x /usr/local/bin/setup.sh
 
 RUN mkdir -p /opt/rucio/etc \
@@ -69,8 +73,8 @@ RUN mkdir -p /opt/rucio/etc \
     && chmod 755 /opt/rucio/etc \
 #    && touch /opt/rucio/etc/rucio.cfg \
     && /usr/local/bin/setup.sh \
-    && chown -R $NB_UID /home/jovyan/.jupyter/jupyter_notebook_config.json \
-    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
+    && chown -R $NB_UID /home/jovyan/.jupyter/jupyter_notebook_config.json 
+#    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
 #ENV IPYTHONDIR=/etc/ipython
 #ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
