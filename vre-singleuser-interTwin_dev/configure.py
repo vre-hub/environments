@@ -87,4 +87,4 @@ def write_rucio_config():
     
 if __name__ == '__main__':
     write_jupyterlab_config()
-    #write_rucio_config()
+    write_rucio_config()
