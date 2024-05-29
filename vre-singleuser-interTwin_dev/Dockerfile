@@ -64,13 +64,12 @@ RUN fix-permissions /opt/setup-rucio-jupyterlab \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
     && chmod +x /usr/local/bin/setup.sh
 
-RUN mkdir -p /opt/rucio \
-    && chown -R ${NB_UID}:${NB_GID} /opt/rucio \
-    && fix-permissions /opt/rucio \
-#    && touch /opt/rucio/etc/rucio.cfg  \
-    && /usr/local/bin/setup.sh \
-    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
-    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
+RUN mkdir -p /opt/rucio/etc \
+    && chown -R ${NB_UID}:${NB_GID} /opt/rucio/etc 
+    #\
+    # && /usr/local/bin/setup.sh \
+    # && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
+    # && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
 
 #ENV IPYTHONDIR=/etc/ipython
