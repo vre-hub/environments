@@ -75,14 +75,14 @@ def write_rucio_config():
         'oidc_scope': 'openid profile offline_access eduperson_entitlement',
         #'username': os.getenv('RUCIO_USERNAME', ''),
         #'password': os.getenv('RUCIO_PASSWORD', ''),
-        'auth_token_file_path': '/tmp/rucio_egi.token',
+        'auth_token_file_path': '/tmp/rucio_oauth.token',
         'request_retries': 3,
         'protocol_stat_retries': 6
     }
     client_config = dict((k, v) for k, v in client_config.items() if v)
     rucio_config['client'] = client_config
     
-    with open('/opt/rucio/etc/rucio.cfg', 'w') as f:
+    with open('/opt/rucio/etc/rucio.cfg', 'a+') as f:
         rucio_config.write(f)    
     
 if __name__ == '__main__':
