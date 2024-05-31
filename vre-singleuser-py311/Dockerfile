@@ -24,7 +24,7 @@ RUN conda install -y -n base mamba \
 # Install rucio-jupyterlab version with jlab v=4
 RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
     && cd jupyterlab-extension \
-    && git checkout ntbk_v6 \
+#    && git checkout ntbk_v6 \  
     && pip install . \
     && cd .. \
     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
@@ -82,11 +82,6 @@ RUN fix-permissions /usr/local/bin/vre_notebook_configuration.sh \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/vre_notebook_configuration.sh \
     && chmod +x /usr/local/bin/vre_notebook_configuration.sh
 
-RUN fix-permissions $HOME/.jupyter    
-#RUN fix-permissions $HOME/.ipython/profile_default/
-#RUN chmod -R $NB_UID $HOME/.ipython/profile_default 
-#    && fix-permissions $HOME/.ipython/profile_default
-
 RUN mkdir -p /opt/rucio \
     && chown -R $NB_UID /opt/rucio \
     && /usr/local/bin/vre_notebook_configuration.sh \
@@ -94,10 +89,15 @@ RUN mkdir -p /opt/rucio \
     # This files have stopped to appar by default on jlab4
     #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
+
+RUN fix-permissions $HOME/.jupyter    
+RUN fix-permissions $HOME/.ipython/profile_default
+RUN chmod -R $NB_UID $HOME/.ipython/profile_default 
+#    && fix-permissions $HOME/.ipython/profile_default
+
 ENV JUPYTER_ENABLE_LAB=yes
-ENV IPYTHONDIR=/etc/ipython
+#ENV IPYTHONDIR=/etc/ipython
 ADD ipython_kernel_config.json $HOME/.ipython/profile_default/ipython_kernel_config.json
-RUN chown -R $NB_UID $HOME/.ipython
 ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 WORKDIR $HOME

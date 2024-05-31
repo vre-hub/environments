@@ -93,4 +93,4 @@ def write_ipython_config():
     
 if __name__ == '__main__':
     write_jupyterlab_config()
-#    write_ipython_config()
+    write_ipython_config()
