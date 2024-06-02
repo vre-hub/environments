@@ -90,6 +90,7 @@ RUN mkdir -p /opt/rucio \
     #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
 
+ADD ipython_kernel_config.json $HOME/.ipython/profile_default/ipython_kernel_config.json    
 RUN fix-permissions $HOME/.jupyter    
 RUN fix-permissions $HOME/.ipython/profile_default
 RUN chmod -R $NB_UID $HOME/.ipython/profile_default 
@@ -97,7 +98,6 @@ RUN chmod -R $NB_UID $HOME/.ipython/profile_default
 
 ENV JUPYTER_ENABLE_LAB=yes
 #ENV IPYTHONDIR=/etc/ipython
-ADD ipython_kernel_config.json $HOME/.ipython/profile_default/ipython_kernel_config.json
 ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 WORKDIR $HOME
