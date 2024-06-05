@@ -6,11 +6,12 @@ import json
 import configparser
 
 #HOME = '/home/jovyan'
+HOME = '/ceph/hpc/home/ciangottinid'
 
 def write_jupyterlab_config():
-    file_path = '/etc/jupyter/jupyter_notebook_config.json'
+    file_path = HOME + '/.jupyter/jupyter_notebook_config.json'
     if not os.path.isfile(file_path):
-        os.makedirs('/etc/jupyter/', exist_ok=True)
+        os.makedirs(HOME + '/.jupyter/', exist_ok=True)
     else:
         config_file = open(file_path, 'r')
         config_payload = config_file.read()
@@ -68,7 +69,7 @@ def write_rucio_config():
     client_config = {
         'rucio_host': os.getenv('RUCIO_BASE_URL', 'https://rucio-intertwin-testbed.desy.de'),
         'auth_host': os.getenv('RUCIO_AUTH_URL', 'https://rucio-intertwin-testbed-auth.desy.de'),
-        'ca_cert': os.getenv('RUCIO_CA_CERT', '/opt/conda/lib/python3.9/site-packages/certifi/cacert.pem'),
+        'ca_cert': os.getenv('RUCIO_CA_CERT', '/certs/rucio_ca.pem'),
         'auth_type': os.getenv('RUCIO_AUTH_TYPE', 'oidc'), # 'x509' or 'oidc'
         'account': os.getenv('RUCIO_ACCOUNT', '$RUCIO_ACCOUNT'), # This is the RUCIO account name, need to be mapped from idp
         'oidc_polling': 'true',
