@@ -11,6 +11,7 @@ import logging
 import sys
 import asyncio
 import os
+from subprocess import Popen
 
 ssh_host = os.environ.get("JHUB_HOST")
 ssh_url_port = os.environ.get("SSH_PORT")
@@ -42,6 +43,13 @@ if __name__ == '__main__':
     loop = asyncio.get_event_loop()
     loop.create_task(run_client())
 
+    print("Configuring Rucio extension...")
+    p = Popen(['/usr/local/bin/setup.sh'])
+    while p.poll() is None:
+        pass
+
     print("Starting JLAB")
     sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
     sys.exit(main())
+    
+    

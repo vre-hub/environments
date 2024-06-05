@@ -6,9 +6,11 @@ import json
 import configparser
 
 #HOME = '/home/jovyan'
-HOME = '/ceph/hpc/home/ciangottinid'
+#HOME = '/ceph/hpc/home/ciangottinid'
 
 def write_jupyterlab_config():
+    HOME = os.getenv('HOME', '/ceph/hpc/home/ciangottinid')
+
     file_path = HOME + '/.jupyter/jupyter_notebook_config.json'
     if not os.path.isfile(file_path):
         os.makedirs(HOME + '/.jupyter/', exist_ok=True)
@@ -83,6 +85,9 @@ def write_rucio_config():
     client_config = dict((k, v) for k, v in client_config.items() if v)
     rucio_config['client'] = client_config
     
+    if not os.path.isfile('/opt/rucio/etc/rucio.cfg'):
+        os.makedirs('/opt/rucio/etc/', exist_ok=True)
+
     with open('/opt/rucio/etc/rucio.cfg', 'w') as f:
         rucio_config.write(f)    
     
