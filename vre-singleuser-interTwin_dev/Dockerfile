@@ -14,7 +14,7 @@ RUN conda install -y -n base mamba \
     && conda clean --all -f -y
 
 # Install rucio-jupyterlab with jlab v=3
-RUN pip install rucio-jupyterlab>=0.10.0 \
+RUN pip install rucio-jupyterlab==0.10.0 \
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix 
     
 USER root
@@ -67,9 +67,9 @@ RUN fix-permissions /usr/local/bin/setup.sh \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
     && chmod +x /usr/local/bin/setup.sh
 
-RUN mkdir -p /opt/rucio \
-    && chown -R ${NB_UID}:${NB_GID} /opt/rucio \
-    && fix-permissions /opt/rucio
+# RUN mkdir -p /opt/rucio \
+#     && chown -R ${NB_UID}:${NB_GID} /opt/rucio \
+#     && fix-permissions /opt/rucio
 #    && /usr/local/bin/setup.sh 
 #RUN chown -R $NB_UID $HOME/.jupyter/jupyter_notebook_config.json 
 #    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
