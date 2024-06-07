@@ -69,13 +69,13 @@ def write_jupyterlab_config():
         "rucio_auth_url": "https://rucio-intertwin-testbed-auth.desy.de",
         "rucio_ca_cert": "/opt/conda/lib/python3.9/site-packages/certifi/cacert.pem",
         "site_name": "VEGA",
-        "voms_enabled": "0",
+        "voms_enabled": 0,
         "destination_rse": "VEGA-DCACHE",
         "rse_mount_path": "/dcache/sling.si/projects/intertwin",
-        "path_begins_at": "4",
+        "path_begins_at": 4,
         "mode": "replica", 
         # "mode": "download", 
-        "wildcard_enabled": "true",
+        "wildcard_enabled": true,
         "oidc_auth": "env",
         "oidc_env_name": "RUCIO_ACCESS_TOKEN"
       }
