@@ -39,16 +39,16 @@ RUN mkdir -p /etc/vomses \
 
 # Setup merged CERN CA file on Ubuntu based images.
 # This file is contained in the `CERN-bundle.pem` file downloaded using 
-# RUN mkdir /certs \
-#     && touch /certs/rucio_ca.pem \
-#     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
-#     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority(1).crt' -o /tmp/cerngridca.crt \
-#     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
-#     && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
-#     && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
-#     && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
-#     && rm /tmp/*.crt \
-#     && update-ca-certificates
+RUN mkdir /certs \
+    && touch /certs/rucio_ca.pem \
+    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
+    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority(1).crt' -o /tmp/cerngridca.crt \
+    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
+    && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
+    && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
+    && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
+    && rm /tmp/*.crt \
+    && update-ca-certificates
 
 # Add async ssh script
 ADD asyncssh_config.py /opt/ssh/jupyterhub-singleuser
@@ -69,8 +69,9 @@ RUN fix-permissions /usr/local/bin/setup.sh \
 
 RUN mkdir -p /opt/rucio/etc \
     && touch /opt/rucio/etc/rucio.cfg \
-    && chown -R ${NB_UID}:${NB_GID} /opt/rucio/etc \
-    && fix-permissions /opt/rucio/etc
+    && fix-permissions /opt/rucio/etc \
+    && chown -R ${NB_UID}:${NB_GID} /opt/rucio/etc 
+
 #    && /usr/local/bin/setup.sh 
 #RUN chown -R $NB_UID $HOME/.jupyter/jupyter_notebook_config.json 
 #    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py

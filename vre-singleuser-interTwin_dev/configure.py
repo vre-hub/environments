@@ -70,7 +70,8 @@ def write_jupyterlab_config():
         "rucio_ca_cert": "/opt/conda/lib/python3.9/site-packages/certifi/cacert.pem ",
         "site_name": "VEGA",
         "voms_enabled": "false",
-        "mode": "replica",
+        #"mode": "replica", 
+        "mode": "download", 
         "wildcard_enabled": "true",
         "oidc_auth": "env",
         "oidc_env_name": "RUCIO_ACCESS_TOKEN"
