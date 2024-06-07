@@ -70,11 +70,11 @@ def write_jupyterlab_config():
         "rucio_ca_cert": "/opt/conda/lib/python3.9/site-packages/certifi/cacert.pem ",
         "site_name": "VEGA",
         "voms_enabled": "false",
-        #"mode": "replica", 
         "destination_rse": "VEGA-DCACHE",
         "rse_mount_path": "/dcache/sling.si/projects/intertwin",
         "path_begins_at": "4",
-        "mode": "download", 
+        "mode": "replica", 
+        # "mode": "download", 
         "wildcard_enabled": "true",
         "oidc_auth": "env",
         "oidc_env_name": "RUCIO_ACCESS_TOKEN"
