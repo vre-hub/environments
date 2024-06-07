@@ -67,9 +67,9 @@ RUN fix-permissions /usr/local/bin/setup.sh \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
     && chmod +x /usr/local/bin/setup.sh
 
-# RUN mkdir -p /opt/rucio \
-#     && chown -R ${NB_UID}:${NB_GID} /opt/rucio \
-#     && fix-permissions /opt/rucio
+RUN mkdir -p /opt/rucio/etc \
+    && chown -R ${NB_UID}:${NB_GID} /opt/rucio/etc \
+    && fix-permissions /opt/rucio/etc
 #    && /usr/local/bin/setup.sh 
 #RUN chown -R $NB_UID $HOME/.jupyter/jupyter_notebook_config.json 
 #    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
