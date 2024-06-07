@@ -75,7 +75,7 @@ def write_jupyterlab_config():
         "path_begins_at": 4,
         "mode": "replica", 
         # "mode": "download", 
-        "wildcard_enabled": true,
+        "wildcard_enabled": 1,
         "oidc_auth": "env",
         "oidc_env_name": "RUCIO_ACCESS_TOKEN"
       }
