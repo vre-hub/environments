@@ -40,15 +40,27 @@ RUN mkdir -p /etc/vomses \
 # Setup merged CERN CA file on Ubuntu based images.
 # This file is contained in the `CERN-bundle.pem` file downloaded using 
 RUN mkdir /certs \
-    && touch /certs/rucio_ca.pem \
-    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
-    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority(1).crt' -o /tmp/cerngridca.crt \
-    && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
-    && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
-    && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
-    && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
-    && rm /tmp/*.crt \
-    && update-ca-certificates
+    && touch /certs/rucio_ca.pem 
+    # && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
+    # && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority(1).crt' -o /tmp/cerngridca.crt \
+    # && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Certification%20Authority.crt' -o /tmp/cernca.crt \
+    # && cat /tmp/cernrootca2.crt >> /certs/rucio_ca.pem \
+    # && cat /tmp/cerngridca.crt >> /certs/rucio_ca.pem \
+    # && cat /tmp/cernca.crt >> /certs/rucio_ca.pem \
+    # && rm /tmp/*.crt \
+    # && update-ca-certificates
+
+# Install trust anchors 
+RUN curl https://ca.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt -o /etc/pki/ca-trust/source/anchors/1.crt &&\
+    curl https://ca.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority.crt -o /etc/pki/ca-trust/source/anchors/2.crt &&\
+    curl https://ca.cern.ch/cafiles/certificates/CERN%20Grid%20Certification%20Authority\(1\).crt -o /etc/pki/ca-trust/source/anchors/3.crt &&\
+    curl http://signet-ca.ijs.si/pub/cacert/signet02cacert.crt -o /etc/pki/ca-trust/source/anchors/4.crt &&\
+    curl https://doku.tid.dfn.de/_media/de:dfnpki:ca:tcs-server-certificate-ca-bundle.tar -o geant-bundle.tar &&\
+    tar xf geant-bundle.tar &&\
+    cp tcs-server-certificate-ca-bundle/*.pem /etc/pki/ca-trust/source/anchors/ &&\
+    rm -rf geant-bundle.tar tcs-server-certificate-ca-bundle &&\
+    update-ca-trust &&\
+    update-ca-certificates
 
 # Add async ssh script
 ADD asyncssh_config.py /opt/ssh/jupyterhub-singleuser

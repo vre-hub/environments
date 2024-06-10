@@ -72,9 +72,9 @@ def write_jupyterlab_config():
         "voms_enabled": os.getenv('RUCIO_VOMS_ENABLED', '0') == '1',
         "destination_rse": "VEGA-DCACHE",
         "rse_mount_path": "/dcache/sling.si/projects/intertwin",
-        #"path_begins_at": 4,
-        #"mode": "replica", 
-        "mode": "download", 
+        "path_begins_at": 4,
+        "mode": "replica", 
+        #"mode": "download", 
         "wildcard_enabled": os.getenv('RUCIO_WILDCARD_ENABLED', '0') == '0',
         "oidc_auth": "env",
         "oidc_env_name": "RUCIO_ACCESS_TOKEN"
