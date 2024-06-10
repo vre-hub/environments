@@ -68,7 +68,7 @@ RUN fix-permissions /usr/local/bin/setup.sh \
     && chmod +x /usr/local/bin/setup.sh
 
 RUN mkdir -p /opt/rucio/etc \
-    && touch /opt/rucio/etc/rucio.cfg \
+#    && touch /opt/rucio/etc/rucio.cfg \
     && fix-permissions /opt/rucio/etc \
     && chown -R ${NB_UID}:${NB_GID} /opt/rucio/etc 
 
