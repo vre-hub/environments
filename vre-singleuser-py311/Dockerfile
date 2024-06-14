@@ -22,16 +22,10 @@ RUN conda install -y -n base mamba \
     && conda clean --all -f -y
 
 # Install rucio-jupyterlab version with jlab v=4
-RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
-    && cd jupyterlab-extension \
-#    && git checkout ntbk_v6 \  
-    && pip install . \
-    && cd .. \
+RUN pip install rucio-jupyterlab==1.0.0 \
     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 #    && jupyter labextension link . --dev-build=False 
 #    && jupyter lab clean -y
-
-# #RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat 
 
 RUN pip install swanoauthrenew==1.0.1 PyJWT \ 
     && jupyter server extension enable --py swanoauthrenew --sys-prefix \
@@ -41,6 +35,7 @@ RUN pip install swanoauthrenew==1.0.1 PyJWT \
 # #RUN pip install --upgrade jupyterlab-git
 # RUN pip install --upgrade jupyterlab_pygments 
 # RUN pip install --upgrade jupyterlab_widgets
+# #RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat 
 
 USER root
 
@@ -82,8 +77,8 @@ RUN fix-permissions /usr/local/bin/vre_notebook_configuration.sh \
     && sed -i -e 's/\r$/\n/' /usr/local/bin/vre_notebook_configuration.sh \
     && chmod +x /usr/local/bin/vre_notebook_configuration.sh
 
-RUN mkdir -p /opt/rucio \
-    && chown -R $NB_UID /opt/rucio \
+RUN mkdir -p /opt/rucio/etc \
+    && chown -R $NB_UID /opt/rucio/etc \
     && /usr/local/bin/vre_notebook_configuration.sh \
     && chown -R $NB_UID $HOME/.jupyter/jupyter_server_config.json
     #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
