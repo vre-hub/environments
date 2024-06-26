@@ -14,7 +14,7 @@ RUN pip install rucio-jupyterlab==1.0.0 \
 
 # Add pre-hooks to be run before the jupyter server starts
 COPY scripts/before-notebook.d/* /user/local/bin/before-notebook.d/
-COPY scripts/other/* /srv/singleuser/
+COPY scripts/others/* /srv/singleuser
 
 USER root
 
