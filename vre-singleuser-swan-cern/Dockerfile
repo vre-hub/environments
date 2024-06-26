@@ -44,5 +44,4 @@ RUN mkdir /certs \
     && rm /tmp/*.crt \
     && update-ca-trust
 
-
 USER ${NB_UID}
