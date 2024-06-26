@@ -13,7 +13,7 @@ RUN pip install rucio-jupyterlab==1.0.0 \
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
 
 # Add pre-hooks to be run before the jupyter server starts
-COPY scripts/before-notebook.d/* /user/local/bin/before-notebook.d/
+COPY scripts/before-notebook.d/* /usr/local/bin/before-notebook.d/
 COPY scripts/others/* /srv/singleuser
 
 USER root
