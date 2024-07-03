@@ -12,7 +12,7 @@ USER $NB_UID
 RUN conda install -y -c conda-forge python-gfal2 \
     && conda clean --all -f -y
 
-RUN pip install rucio-jupyterlab>=0.9.8 \
+RUN pip install rucio-jupyterlab==0.10.0 \
     && pip install swanoauthrenew==1.0.1 PyJWT \ 
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
     && jupyter serverextension enable --py swanoauthrenew --sys-prefix \
@@ -61,11 +61,13 @@ RUN fix-permissions /opt/setup-rucio-jupyterlab \
     && chmod +x /usr/local/bin/setup.sh
 
 RUN mkdir -p /opt/rucio \
-    && chown -R $NB_UID /opt/rucio 
-    #\
-    #&& /usr/local/bin/setup.sh \
-    #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
-    #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
+    && chown -R $NB_UID /opt/rucio \
+    && /usr/local/bin/setup.sh \
+    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
+    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
+
+RUN fix-permissions $HOME/.jupyter
+
 
 ENV IPYTHONDIR=/etc/ipython
 ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
