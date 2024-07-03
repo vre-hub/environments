@@ -67,8 +67,8 @@ RUN mkdir -p /opt/rucio \
     && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
 RUN fix-permissions $HOME/.jupyter
-RUN chown -R ${$NB_UID}:${NB_GID} $HOME/.jupyter
-RUN chown -R ${$NB_UID}:${NB_GID} $HOME
+RUN sudo chown -R jovyan:jovyan /home/jovyan
+RUN sudo chmod -R 755 /home/jovyan
 
 ENV IPYTHONDIR=/etc/ipython
 ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
