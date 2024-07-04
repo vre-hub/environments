@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
 ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
-RUN pip install --upgrade pipw
+RUN pip install --upgrade pip
 
 USER $NB_UID
 
