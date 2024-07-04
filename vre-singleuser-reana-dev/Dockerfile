@@ -19,7 +19,7 @@ RUN mkdir -p /opt/rucio \
 RUN fix-permissions $HOME/.jupyter    
 
 ENV JUPYTER_ENABLE_LAB=yes
-ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
+# ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 ENV JUPYTER_ENABLE_LAB=yes
 
