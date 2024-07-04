@@ -11,6 +11,8 @@ USER $NB_UID
 
 RUN pip install reana-client ipykernel 
 
+RUN mkdir -p /certs
+
 USER root
 
 ENV JUPYTER_ENABLE_LAB=yes
