@@ -14,6 +14,9 @@ RUN pip install reana-client ipykernel
 USER root
 
 RUN mkdir -p /certs
+RUN mkdir -p /opt/rucio \
+    && chown -R $NB_UID /opt/rucio 
+
 ENV JUPYTER_ENABLE_LAB=yes
 
 WORKDIR $HOME
