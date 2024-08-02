@@ -27,15 +27,16 @@ RUN pip install rucio-jupyterlab==1.0.0 \
 #    && jupyter labextension link . --dev-build=False 
 #    && jupyter lab clean -y
 
-RUN pip install swanoauthrenew==1.0.1 PyJWT \ 
-    && jupyter server extension enable --py swanoauthrenew --sys-prefix \
-#    && pip install reana-client>=0.9.0 \
-    && pip install ipykernel ipywidgets 
+RUN pip install swanoauthrenew==1.0.1 \ 
+    && jupyter server extension enable --py swanoauthrenew --sys-prefix 
 
-# #RUN pip install --upgrade jupyterlab-git
+    # RUN pip install reana-client>=0.9.0  #jsonschema version cob
+RUN pip install ipykernel ipywidgets PyJWT
+
+# RUN pip install --upgrade jupyterlab-git
 # RUN pip install --upgrade jupyterlab_pygments 
 # RUN pip install --upgrade jupyterlab_widgets
-# #RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat 
+# RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat 
 
 USER root
 
@@ -96,7 +97,5 @@ ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 WORKDIR $HOME
 USER $NB_UID
-
-
 
 CMD ["vre_notebook_configuration.sh", "start-notebook.sh"]
