@@ -14,7 +14,7 @@ RUN conda install -y -n base mamba \
         nodejs \
         jupyterlab">4,<5" \
         notebook"<7" \
-        jupyterhub \
+        #jupyterhub \
         jsonschema \
         jupyterlab_server \
         jupyter_server \
@@ -32,7 +32,9 @@ RUN pip install swanoauthrenew==1.0.1 \
     && jupyter server extension enable --py swanoauthrenew --sys-prefix 
 
     # RUN pip install reana-client>=0.9.0  #jsonschema version cob
-RUN pip install ipykernel ipywidgets PyJWT dogpile.cache
+RUN pip install ipykernel ipywidgets PyJWT 
+RUN pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
+#dogpile.cache
 
 # RUN pip install --upgrade jupyterlab-git
 # RUN pip install --upgrade jupyterlab_pygments 
@@ -99,4 +101,4 @@ ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 WORKDIR $HOME
 USER $NB_UID
 
-CMD ["vre_notebook_configuration.sh"]
+CMD ["vre_notebook_configuration.sh", "start-notebook.sh"]
