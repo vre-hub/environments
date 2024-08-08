@@ -31,9 +31,9 @@ RUN pip install rucio-jupyterlab==1.0.0 \
 RUN pip install swanoauthrenew==1.0.1 \ 
     && jupyter server extension enable --py swanoauthrenew --sys-prefix 
 
-    # RUN pip install reana-client>=0.9.0  #jsonschema version cob
+# RUN pip install reana-client>=0.9.0  #jsonschema version compatibility issue. 
+# Not even working with RUN pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
 RUN pip install ipykernel ipywidgets PyJWT 
-RUN pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
 #dogpile.cache
 
 # RUN pip install --upgrade jupyterlab-git
