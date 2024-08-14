@@ -80,4 +80,4 @@ ENV JUPYTER_ENABLE_LAB=yes
 WORKDIR $HOME
 USER $NB_UID
 
-CMD ["start-singleuser.py"]
+CMD ["start-notebook.py"]
