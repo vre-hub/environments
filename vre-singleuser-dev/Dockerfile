@@ -1,19 +1,32 @@
-FROM quay.io/jupyter/scipy-notebook:python-3.11.9
+#FROM quay.io/jupyter/scipy-notebook:python-3.11.9
+FROM jupyter/scipy-notebook:python-3.10.11
 LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
 LABEL maintainer="VRE Team @ CERN 2024 - E. Garcia"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
 ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
-RUN python -m pip install --upgrade pip
-RUN python -m pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat
-RUN python -m pip install "jsonschema<4.20.0"
+# RUN python -m pip install --upgrade pip
+# RUN python -m pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat
+# RUN python -m pip install "jsonschema<4.20.0"
 
 
 USER $NB_UID
 
 RUN conda install -y -n base mamba \
     && mamba install -y -c conda-forge python-gfal2 \
+        python=3.11.9 \
+        nodejs \
+        jupyterlab">4, <5" \
+        notebook"<7" \
+        jupyterhub \
+        jsonschema \
+        jupyterlab_server \
+        jupyter_server \
+        traitlets \
+        nbformat \
+        ipykernel \
+        PyJWT \
     && mamba clean --all -f -y
 
 # RUN pip install rucio-jupyterlab==0.9.8 \
@@ -79,6 +92,7 @@ RUN mkdir -p /opt/rucio \
 # ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
 # RUN chown -R $NB_UID /etc/ipython
 ENV JUPYTER_ENABLE_LAB=yes
+ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 WORKDIR $HOME
 USER $NB_UID
