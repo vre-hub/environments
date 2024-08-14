@@ -9,8 +9,9 @@ RUN python -m pip install --upgrade pip
 
 USER $NB_UID
 
-RUN conda install -y -c conda-forge python-gfal2 \
-    && conda clean --all -f -y
+RUN conda install -y -n base mamba \
+    && mamba install -y -c conda-forge python-gfal2 \
+    && mamba clean --all -f -y
 
 # RUN pip install rucio-jupyterlab==0.9.8 \
 #     && pip install swanoauthrenew==1.0.1 PyJWT \ 
@@ -53,29 +54,30 @@ RUN mkdir /certs \
     && update-ca-certificates
 
 # Setup extension Rucio instance config
-ADD configure.py /opt/setup-rucio-jupyterlab/configure.py
-ADD setup.sh /usr/local/bin/setup.sh
-RUN fix-permissions /opt/setup-rucio-jupyterlab \
-    && fix-permissions /usr/local/bin/setup.sh \
-    && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
-    && chmod +x /usr/local/bin/setup.sh
+COPY configure-vre.py /usr/local/bin/
+COPY setup-vre.sh /usr/local/bin/before-notebook.d/
+
+# RUN fix-permissions /opt/setup-rucio-jupyterlab \
+#     && fix-permissions /usr/local/bin/setup.sh \
+#     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
+#     && chmod +x /usr/local/bin/setup.sh
 
 RUN mkdir -p /opt/rucio \
-    && chown -R $NB_UID /opt/rucio \
-    && /usr/local/bin/setup.sh \
-    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
-    && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
+    && chown -R $NB_UID /opt/rucio 
+    # && /usr/local/bin/setup.sh \
+    # && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
+    # && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
 
-RUN fix-permissions $HOME/.jupyter
-RUN sudo chown -R jovyan:jovyan /home/jovyan
-RUN sudo chmod -R 755 /home/jovyan
+# RUN fix-permissions $HOME/.jupyter
+# RUN sudo chown -R jovyan:jovyan /home/jovyan
+# RUN sudo chmod -R 755 /home/jovyan
 
-ENV IPYTHONDIR=/etc/ipython
-ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
-RUN chown -R $NB_UID /etc/ipython
+# ENV IPYTHONDIR=/etc/ipython
+# ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
+# RUN chown -R $NB_UID /etc/ipython
 ENV JUPYTER_ENABLE_LAB=yes
 
 WORKDIR $HOME
 USER $NB_UID
 
-CMD ["setup.py", "start-notebook.py"]
+CMD ["start-singleuser.py"]
