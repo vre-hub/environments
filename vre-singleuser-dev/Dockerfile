@@ -6,6 +6,8 @@ ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
 RUN python -m pip install --upgrade pip
+RUN python -m pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat
+
 
 USER $NB_UID
 
