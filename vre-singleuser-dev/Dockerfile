@@ -17,8 +17,8 @@ RUN conda install -y -n base mamba \
     && mamba install -y -c conda-forge python-gfal2 \
         python=3.11.9 \
         nodejs \
-        jupyterlab">4, <5" \
-        notebook"<7" \
+        "jupyterlab>4,<5" \
+        "notebook<7" \
         jupyterhub \
         jsonschema \
         jupyterlab_server \
