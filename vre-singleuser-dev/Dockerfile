@@ -1,23 +1,23 @@
-FROM jupyter/scipy-notebook:python-3.9.13
+FROM quay.io/jupyter/scipy-notebook:python-3.11.8
 LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
-LABEL maintainer="VRE Team @ CERN 22/23 - E. Garcia, E. Gazzarrini, D. Gosein"
+LABEL maintainer="VRE Team @ CERN 2024 - E. Garcia"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
 ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
-RUN pip install --upgrade pip
+RUN python -m pip install --upgrade pip
 
 USER $NB_UID
 
 RUN conda install -y -c conda-forge python-gfal2 \
     && conda clean --all -f -y
 
-RUN pip install rucio-jupyterlab==0.9.8 \
-    && pip install swanoauthrenew==1.0.1 PyJWT \ 
-    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
-    && jupyter serverextension enable --py swanoauthrenew --sys-prefix \
-    && pip install reana-client>=0.9.0 \
-    && pip install ipykernel
+# RUN pip install rucio-jupyterlab==0.9.8 \
+#     && pip install swanoauthrenew==1.0.1 PyJWT \ 
+#     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
+#     && jupyter serverextension enable --py swanoauthrenew --sys-prefix \
+#     && pip install reana-client>=0.9.0 \
+#     && pip install ipykernel
 
 USER root
 
@@ -78,4 +78,4 @@ ENV JUPYTER_ENABLE_LAB=yes
 WORKDIR $HOME
 USER $NB_UID
 
-CMD ["setup.sh", "start-notebook.sh"]
+CMD ["setup.py", "start-notebook.py"]
