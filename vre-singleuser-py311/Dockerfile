@@ -5,7 +5,7 @@ LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
 ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
-RUN pip install --upgrade pip
+RUN python -m pip install --upgrade pip
 
 USER $NB_UID
 
@@ -35,6 +35,9 @@ RUN pip install swanoauthrenew==1.0.1 \
 # Not even working with RUN pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
 RUN pip install ipykernel ipywidgets PyJWT 
 #dogpile.cache
+
+RUN pip install reana-jupyterlab \
+    && jupyter server extension enable --py reana_jupyterlab --sys-prefix 
 
 # RUN pip install --upgrade jupyterlab-git
 # RUN pip install --upgrade jupyterlab_pygments 
@@ -86,7 +89,6 @@ RUN mkdir -p /opt/rucio/etc \
     && /usr/local/bin/vre_notebook_configuration.sh \
     && chown -R $NB_UID $HOME/.jupyter/jupyter_server_config.json
     #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
-
 
 # ADD ipython_kernel_config.json $HOME/.ipython/profile_default/ipython_kernel_config.json    
 RUN fix-permissions $HOME/.jupyter    
