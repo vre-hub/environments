@@ -1,4 +1,4 @@
-FROM quay.io/jupyter/scipy-notebook:python-3.11.8
+FROM quay.io/jupyter/scipy-notebook:python-3.11.9
 LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
 LABEL maintainer="VRE Team @ CERN 2024 - E. Garcia"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
@@ -7,6 +7,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE
 
 RUN python -m pip install --upgrade pip
 RUN python -m pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat
+RUN python -m pip install "jsonschema<4.20.0"
 
 
 USER $NB_UID
