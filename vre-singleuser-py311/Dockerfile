@@ -15,7 +15,7 @@ RUN conda install -y -n base mamba \
         jupyterlab">4,<5" \
         notebook"<7" \
         #jupyterhub \
-        jsonschema \
+        jsonschema>4 \
         jupyterlab_server \
         jupyter_server \
         traitlets \
@@ -31,13 +31,15 @@ RUN pip install rucio-jupyterlab==1.0.0 \
 RUN pip install swanoauthrenew==1.0.1 \ 
     && jupyter server extension enable --py swanoauthrenew --sys-prefix 
 
+RUN pip install reana-jupyterlab \
+    && jupyter server extension enable --py reana_jupyterlab --sys-prefix     
+
 # RUN pip install reana-client>=0.9.0  #jsonschema version compatibility issue. 
 # Not even working with RUN pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
 RUN pip install ipykernel ipywidgets PyJWT 
 #dogpile.cache
 
-RUN pip install reana-jupyterlab \
-    && jupyter server extension enable --py reana_jupyterlab --sys-prefix 
+RUN pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
 
 # RUN pip install --upgrade jupyterlab-git
 # RUN pip install --upgrade jupyterlab_pygments 
