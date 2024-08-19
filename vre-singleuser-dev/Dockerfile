@@ -15,7 +15,7 @@ USER $NB_UID
 
 RUN conda install -y -n base mamba \
     && mamba install -y -c conda-forge python-gfal2 \
-        python=3.11.9 \
+#        python=3.11.9 \
         nodejs \
         "jupyterlab>4,<5" \
         "notebook<7" \
