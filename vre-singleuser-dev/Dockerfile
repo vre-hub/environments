@@ -1,5 +1,5 @@
-#FROM quay.io/jupyter/scipy-notebook:python-3.11.9
-FROM jupyter/scipy-notebook:python-3.10.11
+FROM quay.io/jupyter/scipy-notebook:python-3.11.9
+#FROM jupyter/scipy-notebook:python-3.10.11
 LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
 LABEL maintainer="VRE Team @ CERN 2024 - E. Garcia"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
@@ -97,4 +97,4 @@ ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 WORKDIR $HOME
 USER $NB_UID
 
-CMD ["start-singleuser.py"]
+CMD ["start-notebook.py"]
