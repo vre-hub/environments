@@ -86,7 +86,7 @@ RUN mkdir /certs \
 # Setup extension Rucio instance config
 COPY configure-vre.py /usr/local/bin/
 RUN chmod +x /usr/local/bin/configure-vre.py
-COPY setup-vre.sh /usr/local/bin/before-notebook.d/
+COPY configure-vre.sh /usr/local/bin/before-notebook.d/
 
 RUN mkdir -p /opt/rucio/etc \
     && chown -R $NB_UID /opt/rucio/etc 
