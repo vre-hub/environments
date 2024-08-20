@@ -92,8 +92,8 @@ RUN mkdir -p /opt/rucio/etc \
     && chown -R $NB_UID /opt/rucio/etc 
 
 #COPY ipython_kernel_config.json $HOME/.ipython/profile_default/
-RUN fix-permissions $HOME/.jupyter    
-RUN fix-permissions $HOME/.ipython/profile_default
+#RUN fix-permissions $HOME/.jupyter    
+#RUN fix-permissions $HOME/.ipython/profile_default
 #RUN chmod -R $NB_UID $HOME/.ipython/profile_default 
 #    && fix-permissions $HOME/.ipython/profile_default
 
