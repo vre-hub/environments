@@ -1,6 +1,8 @@
 {
     "IPKernelApp": {
-      "extensions": ["rucio_jupyterlab.kernels.ipython"]
+      "extensions": [
+        "rucio_jupyterlab.kernels.ipython"
+      ]
     }
   }
   

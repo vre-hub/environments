@@ -14,37 +14,41 @@ RUN conda install -y -n base mamba \
         nodejs \
         jupyterlab">4,<5" \
         notebook"<7" \
-        #jupyterhub \
+        jupyterhub \
         jsonschema>4 \
         jupyterlab_server \
         jupyter_server \
         traitlets \
         nbformat \
+        ipykernel \
+        PyJWT \
+        ipywidgets \
     && conda clean --all -f -y
 
-# Install rucio-jupyterlab version with jlab v=4
-RUN pip install rucio-jupyterlab==1.0.0 \
+# Install jupyterlab extensions
+RUN python -m pip install rucio-jupyterlab==1.0.0 \
     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
-#    && jupyter labextension link . --dev-build=False 
-#    && jupyter lab clean -y
 
-RUN pip install swanoauthrenew==1.0.1 \ 
+RUN python -m pip install swanoauthrenew==1.0.1 \ 
     && jupyter server extension enable --py swanoauthrenew --sys-prefix 
 
-RUN pip install reana-jupyterlab \
-    && jupyter server extension enable --py reana_jupyterlab --sys-prefix     
+RUN python -m pip install reana-jupyterlab \
+    && jupyter server extension enable --py reana_jupyterlab --sys-prefix
+
+RUN git clone https://github.com/vre-hub/zenodo-jupyterlab-extension.git \
+    && cd zenodo-jupyterlab-extension \
+    && python -m pip install . \
+    && jupyter server extension enable --py zenodo_jupyterlab.server --sys-prefix \
+    && cd .. \
+    && rm -rf zenodo-jupyterlab-extension
+    
+# Custom version of reana-client due to the jsonschema problem
+#RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
 
 # RUN pip install reana-client>=0.9.0  #jsonschema version compatibility issue. 
 # Not even working with RUN pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
-RUN pip install ipykernel ipywidgets PyJWT 
 #dogpile.cache
 
-RUN pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
-
-# RUN pip install --upgrade jupyterlab-git
-# RUN pip install --upgrade jupyterlab_pygments 
-# RUN pip install --upgrade jupyterlab_widgets
-# RUN pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat 
 
 USER root
 
@@ -80,21 +84,16 @@ RUN mkdir /certs \
     && update-ca-certificates
 
 # Setup extension Rucio instance config
-ADD vre_notebook_configuration.py /usr/local/bin/vre_notebook_configuration.py
-ADD vre_notebook_configuration.sh /usr/local/bin/vre_notebook_configuration.sh
-RUN fix-permissions /usr/local/bin/vre_notebook_configuration.sh \
-    && sed -i -e 's/\r$/\n/' /usr/local/bin/vre_notebook_configuration.sh \
-    && chmod +x /usr/local/bin/vre_notebook_configuration.sh
+COPY configure-vre.py /usr/local/bin/
+RUN chmod +x /usr/local/bin/configure-vre.py
+COPY setup-vre.sh /usr/local/bin/before-notebook.d/
 
 RUN mkdir -p /opt/rucio/etc \
-    && chown -R $NB_UID /opt/rucio/etc \
-    && /usr/local/bin/vre_notebook_configuration.sh \
-    && chown -R $NB_UID $HOME/.jupyter/jupyter_server_config.json
-    #&& chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
+    && chown -R $NB_UID /opt/rucio/etc 
 
-# ADD ipython_kernel_config.json $HOME/.ipython/profile_default/ipython_kernel_config.json    
+COPY ipython_kernel_config.json $HOME/.ipython/profile_default/
 RUN fix-permissions $HOME/.jupyter    
-#RUN fix-permissions $HOME/.ipython/profile_default
+RUN fix-permissions $HOME/.ipython/profile_default
 #RUN chmod -R $NB_UID $HOME/.ipython/profile_default 
 #    && fix-permissions $HOME/.ipython/profile_default
 
@@ -105,4 +104,4 @@ ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 WORKDIR $HOME
 USER $NB_UID
 
-CMD ["vre_notebook_configuration.sh", "start-notebook.sh"]
+CMD ["start-notebook.py"]
