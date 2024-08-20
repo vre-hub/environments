@@ -55,6 +55,7 @@ jobs:
           
   build-and-push-image:
     needs: build-matrix-from-changed-files
+    if: ${{ needs.build-matrix-from-changed-files.outputs.environment_list != '[]' }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
