@@ -45,11 +45,6 @@ RUN git clone https://github.com/vre-hub/zenodo-jupyterlab-extension.git \
 # Custom version of reana-client due to the jsonschema problem
 RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
 
-# RUN pip install reana-client>=0.9.0  #jsonschema version compatibility issue. 
-# Not even working with RUN pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
-#dogpile.cache
-
-
 USER root
 
 RUN apt update -y \
@@ -91,14 +86,7 @@ COPY configure-vre.sh /usr/local/bin/before-notebook.d/
 RUN mkdir -p /opt/rucio/etc \
     && chown -R $NB_UID /opt/rucio/etc 
 
-#COPY ipython_kernel_config.json $HOME/.ipython/profile_default/
-#RUN fix-permissions $HOME/.jupyter    
-#RUN fix-permissions $HOME/.ipython/profile_default
-#RUN chmod -R $NB_UID $HOME/.ipython/profile_default 
-#    && fix-permissions $HOME/.ipython/profile_default
-
 ENV JUPYTER_ENABLE_LAB=yes
-#ENV IPYTHONDIR=/etc/ipython
 ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 WORKDIR $HOME
