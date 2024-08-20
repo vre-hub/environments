@@ -43,7 +43,7 @@ RUN git clone https://github.com/vre-hub/zenodo-jupyterlab-extension.git \
     && rm -rf zenodo-jupyterlab-extension
     
 # Custom version of reana-client due to the jsonschema problem
-#RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
+RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
 
 # RUN pip install reana-client>=0.9.0  #jsonschema version compatibility issue. 
 # Not even working with RUN pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
