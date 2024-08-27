@@ -20,7 +20,7 @@ RUN pip install rucio-jupyterlab==0.10.0 \
 USER root
 
 RUN apt update -y \
-    && apt install -y build-essential curl voms-clients-java software-properties-common \
+    && apt install -y build-essential curl sed bash voms-clients-java software-properties-common \
     && apt clean -y \
     && rm /opt/conda/bin/voms-proxy-init \
     && ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
@@ -28,7 +28,7 @@ RUN apt update -y \
 # Install itwinai manually
 # https://github.com/interTwin-eu/itwinai/blob/main/env-files/itwinai-installer.sh
 
-#RUN git clone git clone https://github.com/interTwin-eu/itwinai.git 
+#RUN git clone https://github.com/interTwin-eu/itwinai.git 
 RUN curl -fsSL https://github.com/interTwin-eu/itwinai/raw/main/env-files/torch/generic_torch.sh | sed '$d' | bash 
 RUN pip install itwinai[torch]
 
