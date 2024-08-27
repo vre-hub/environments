@@ -28,7 +28,7 @@ RUN apt update -y \
 # Install itwinai manually
 # https://github.com/interTwin-eu/itwinai/blob/main/env-files/itwinai-installer.sh
 
-RUN git clone git clone git+https://github.com/interTwin-eu/itwinai.git 
+#RUN git clone git clone https://github.com/interTwin-eu/itwinai.git 
 RUN curl -fsSL https://github.com/interTwin-eu/itwinai/raw/main/env-files/torch/generic_torch.sh | sed '$d' | bash 
 RUN pip install itwinai[torch]
 
