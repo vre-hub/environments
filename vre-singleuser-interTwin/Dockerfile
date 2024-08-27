@@ -25,6 +25,13 @@ RUN apt update -y \
     && rm /opt/conda/bin/voms-proxy-init \
     && ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
 
+# Install itwinai manually
+# https://github.com/interTwin-eu/itwinai/blob/main/env-files/itwinai-installer.sh
+
+RUN git clone git clone git+https://github.com/interTwin-eu/itwinai.git \
+    && curl -fsSL https://github.com/interTwin-eu/itwinai/raw/main/env-files/torch/generic_torch.sh | sed '$d' | bash \
+    && pip install itwinai[torch]
+
 # ESCAPE grid-security and VOMS setup
 RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
 
