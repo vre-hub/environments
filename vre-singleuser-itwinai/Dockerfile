@@ -5,8 +5,14 @@ LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri"
 USER root
 
 RUN apt-get update -y
+RUN apt install python3-venv -y
 RUN apt-get install -y libglib2.0-dev libgfal2-dev python3-dev libboost-all-dev
 
+# Installation of itwinai
+COPY install_itwinai.sh $HOME/install_itwinai.sh
+RUN source $HOME/install_itwinai.sh
+
+# installation of the Rucio extension
 RUN python -m pip install --upgrade pip
 RUN python -m pip install 'jupyterhub==1.5.0'
 RUN npm install -g configurable-http-proxy
