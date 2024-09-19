@@ -1,24 +1,26 @@
 # CERN VRE and itwinai Docker integration
 
 This repository summarizes all the necesary steps to build an 
-[inteTwin/itwinai](https://github.com/interTwin-eu/itwinai) image containing 
+[interTwin/itwinai](https://github.com/interTwin-eu/itwinai) image that also contains 
 the [Rucio JupyterLab extension](https://github.com/rucio/jupyterlab-extension),
-that can be spawned by a JupyterHub.
+and that can be spawned by a JupyterHub.
 
-The `itwinai` library needs the `Torch` Machine Learning library and `CUDA`
-drivers and the Rucio extensio all the [Jupyter docker-stacks](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html). To keep things
-as simple as possible, we will be using all the upstream 3rd party base images
-as base layers for all the images.
+In terms of requirements, the `itwinai` library needs the `Torch` Machine 
+Learning library and `CUDA` drivers, and the Rucio extension all the 
+[Jupyter docker-stacks](https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html).
+To keep things as simple as possible, we will be using all the upstream 3rd
+party base images as base layers for the following intermediate images.
 
-Starting from t base layer, we will install all the Jupyter machinery
+Starting from a base layer provided by `itwinai`, we will install all the Jupyter machinery
 following the same building stages as the Jupyter project.
 
 - The [itwinai-docker-stacks-foundation](./itwinai-docker-stacks-foundation/)
-  folder builds the same image as the `docker-stacks-foundation` image (with 
-  Python 3.10) changing the base layer to the 
-  `ghcr.io/intertwin-eu/itwinai:0.2.2-torch2.1-dev` image ([link](https://github.com/interTwin-eu/itwinai/pkgs/container/itwinai/275623563?tag=0.2.2-torch2.1-root)).
+  folder builds the same image as the `docker-stacks-foundation` image ( 
+  Python versionn set to 3.10), only by changing the base layer to the 
+  `ghcr.io/intertwin-eu/itwinai:0.2.2-torch2.1-root` image 
+  ([link](https://github.com/interTwin-eu/itwinai/pkgs/container/itwinai/275623563?tag=0.2.2-torch2.1-root)).
     - Because of the size of the `itwinai` image, this was build locally and later
-      pushed to the `ghcr.io` registry.
+      pushed to the `ghcr.io/vre-hub` [image registry](https://github.com/orgs/vre-hub/packages).
 - The [itwinai-base-notebook](./itwinai-base-notebook/) folder builds the
   equivalent `base-notebook` image, starting from the `itwinai-docker-stacks-foundation`
   base image.
