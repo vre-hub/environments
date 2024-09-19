@@ -1,16 +1,53 @@
-FROM nvcr.io/nvidia/pytorch:23.09-py3 
+FROM ghcr.io/vre-hub/vre-singleuser-itwinai-minimal-notebook:v0.0.1
+
 LABEL author="E. Garcia, M. Bunino"
 LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri"
+
+# Lines based on https://github.com/jupyter/docker-stacks/blob/9e230b3b7d2418bd79c94d03bf5f45d2a601865f/images/scipy-notebook/Dockerfile
+USER ${NB_UID}
+
+# Install Python 3 packages
+RUN mamba install --yes \
+    'altair' \
+    'beautifulsoup4' \
+    'bokeh' \
+    'bottleneck' \
+    'cloudpickle' \
+    'conda-forge::blas=*=openblas' \
+    'cython' \
+    'dask' \
+    'dill' \
+    'h5py' \
+    'ipympl' \
+    'ipywidgets' \
+    'jupyterlab-git' \
+    'matplotlib-base' \
+    'numba' \
+    'numexpr' \
+    'openpyxl' \
+    'pandas' \
+    'patsy' \
+    'protobuf' \
+    'pytables' \
+    'scikit-image' \
+    'scikit-learn' \
+    'scipy' \
+    'seaborn' \
+    'sqlalchemy' \
+    'statsmodels' \
+    'sympy' \
+    'widgetsnbextension' \
+    'xlrd' && \
+    mamba clean --all -f -y && \
+    fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
+# Up to here
 
 USER root
 
 RUN apt-get update -y
-RUN apt install python3-venv -y
 RUN apt-get install -y libglib2.0-dev libgfal2-dev python3-dev libboost-all-dev
-
-# Installation of itwinai
-COPY install_itwinai.sh $HOME/install_itwinai.sh
-RUN source $HOME/install_itwinai.sh
+RUN apt-get update -y && apt-get -y install python3-venv
 
 # installation of the Rucio extension
 RUN python -m pip install --upgrade pip

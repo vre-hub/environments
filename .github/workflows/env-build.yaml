@@ -3,7 +3,7 @@ name: Docker automatic build and publish
 on:
   push:
     branches: 
-      - itwinai_integration
+      - main
 
 env:
   REGISTRY: ghcr.io
