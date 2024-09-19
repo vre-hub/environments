@@ -1,4 +1,4 @@
-FROM ghcr.io/vre-hub/vre-singleuser-itwinai-minimal-notebook:v0.0.1
+FROM ghcr.io/vre-hub/itwinai-minimal-notebook:0.2.2-torch2.1-py3.10
 
 LABEL author="E. Garcia, M. Bunino"
 LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri"
@@ -8,35 +8,35 @@ USER ${NB_UID}
 
 # Install Python 3 packages
 RUN mamba install --yes \
-    'altair' \
-    'beautifulsoup4' \
-    'bokeh' \
-    'bottleneck' \
-    'cloudpickle' \
-    'conda-forge::blas=*=openblas' \
+#    'altair' \
+#    'beautifulsoup4' \
+#    'bokeh' \
+#    'bottleneck' \
+#    'cloudpickle' \
+#    'conda-forge::blas=*=openblas' \
     'cython' \
-    'dask' \
-    'dill' \
+#    'dask' \
+#    'dill' \
     'h5py' \
     'ipympl' \
     'ipywidgets' \
     'jupyterlab-git' \
     'matplotlib-base' \
-    'numba' \
-    'numexpr' \
-    'openpyxl' \
+#    'numba' \
+#    'numexpr' \
+#    'openpyxl' \
     'pandas' \
-    'patsy' \
+#    'patsy' \
     'protobuf' \
     'pytables' \
     'scikit-image' \
     'scikit-learn' \
     'scipy' \
     'seaborn' \
-    'sqlalchemy' \
-    'statsmodels' \
-    'sympy' \
-    'widgetsnbextension' \
+#    'sqlalchemy' \
+#    'statsmodels' \
+#    'sympy' \
+#    'widgetsnbextension' \
     'xlrd' && \
     mamba clean --all -f -y && \
     fix-permissions "${CONDA_DIR}" && \
@@ -57,7 +57,7 @@ RUN python -m pip install \
     'jupyterlab' \
     'notebook<7' \
     'nbclassic' \
-    jupyter server --generate-config \
+#    jupyter server --generate-config \
     asyncssh
 
 RUN python -m pip install rucio-jupyterlab==0.10.0 \
@@ -65,9 +65,9 @@ RUN python -m pip install rucio-jupyterlab==0.10.0 \
 
 RUN apt update -y \
     && apt install -y build-essential curl voms-clients-java software-properties-common \
-    && apt clean -y \
-    && rm /opt/conda/bin/voms-proxy-init \
-    && ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
+    && apt clean -y 
+#    && rm /opt/conda/bin/voms-proxy-init \
+#    && ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
 
 RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
 
