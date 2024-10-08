@@ -1,40 +1,49 @@
-FROM quay.io/jupyter/scipy-notebook:python-3.11.9
-#FROM jupyter/scipy-notebook:python-3.10.11
+FROM quay.io/jupyter/scipy-notebook:python-3.11.8
 LABEL author="Image based on the work by Muhammad Aditya Hilmy - ESCAPE WP2 2020"
-LABEL maintainer="VRE Team @ CERN 2024 - E. Garcia"
+LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
 ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
-# RUN python -m pip install --upgrade pip
-# RUN python -m pip install --upgrade jupyterlab jupyterlab_server jupyter_server traitlets nbformat
-# RUN python -m pip install "jsonschema<4.20.0"
-
+RUN python -m pip install --upgrade pip
 
 USER $NB_UID
 
 RUN conda install -y -n base mamba \
     && mamba install -y -c conda-forge python-gfal2 \
-#        python=3.11.9 \
         nodejs \
-        "jupyterlab>4,<5" \
-        "notebook<7" \
+        jupyterlab">4,<5" \
+        notebook"<7" \
         jupyterhub \
-        jsonschema \
+        jsonschema>4 \
         jupyterlab_server \
         jupyter_server \
         traitlets \
         nbformat \
         ipykernel \
         PyJWT \
-    && mamba clean --all -f -y
+        ipywidgets \
+    && conda clean --all -f -y
 
-# RUN pip install rucio-jupyterlab==0.9.8 \
-#     && pip install swanoauthrenew==1.0.1 PyJWT \ 
-#     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
-#     && jupyter serverextension enable --py swanoauthrenew --sys-prefix \
-#     && pip install reana-client>=0.9.0 \
-#     && pip install ipykernel
+# Install jupyterlab extensions
+RUN python -m pip install rucio-jupyterlab==1.0.0 \
+    && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
+
+RUN python -m pip install swanoauthrenew==1.0.1 \ 
+    && jupyter server extension enable --py swanoauthrenew --sys-prefix 
+
+RUN python -m pip install reana-jupyterlab \
+    && jupyter server extension enable --py reana_jupyterlab --sys-prefix
+
+RUN git clone https://github.com/vre-hub/zenodo-jupyterlab-extension.git \
+    && cd zenodo-jupyterlab-extension \
+    && python -m pip install . \
+    && jupyter server extension enable --py zenodo_jupyterlab.server --sys-prefix \
+    && cd .. \
+    && rm -rf zenodo-jupyterlab-extension
+    
+# Custom version of reana-client due to the jsonschema problem
+RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
 
 USER root
 
@@ -71,26 +80,12 @@ RUN mkdir /certs \
 
 # Setup extension Rucio instance config
 COPY configure-vre.py /usr/local/bin/
-COPY setup-vre.sh /usr/local/bin/before-notebook.d/
+RUN chmod +x /usr/local/bin/configure-vre.py
+COPY configure-vre.sh /usr/local/bin/before-notebook.d/
 
-# RUN fix-permissions /opt/setup-rucio-jupyterlab \
-#     && fix-permissions /usr/local/bin/setup.sh \
-#     && sed -i -e 's/\r$/\n/' /usr/local/bin/setup.sh \
-#     && chmod +x /usr/local/bin/setup.sh
+RUN mkdir -p /opt/rucio/etc \
+    && chown -R $NB_UID /opt/rucio/etc 
 
-RUN mkdir -p /opt/rucio \
-    && chown -R $NB_UID /opt/rucio 
-    # && /usr/local/bin/setup.sh \
-    # && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.json \
-    # && chown -R $NB_UID /etc/jupyter/jupyter_notebook_config.py
-
-# RUN fix-permissions $HOME/.jupyter
-# RUN sudo chown -R jovyan:jovyan /home/jovyan
-# RUN sudo chmod -R 755 /home/jovyan
-
-# ENV IPYTHONDIR=/etc/ipython
-# ADD ipython_kernel_config.json /etc/ipython/profile_default/ipython_kernel_config.json
-# RUN chown -R $NB_UID /etc/ipython
 ENV JUPYTER_ENABLE_LAB=yes
 ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
