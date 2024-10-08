@@ -49,28 +49,21 @@ def write_jupyterlab_config():
     # }
 
     atlas_config = {
-        "name": os.getenv('ATLAS_RUCIO_NAME', 'https://voatlasrucio-server-prod.cern.ch'),
-        "display_name": os.getenv('ATLAS_RUCIO_DISPLAY_NAME', 'ATLAS RUCIO'),
-        "rucio_base_url": os.getenv('ATLAS_RUCIO_BASE_URL', 'https://voatlasrucio-server-prod.cern.ch:443'),
-        "rucio_auth_url": os.getenv('ATLAS_RUCIO_AUTH_URL', 'https://atlas-rucio-auth.cern.ch:443'),
-        "rucio_webui_url": os.getenv('ATLAS_RUCIO_WEBUI_URL', 'https://rucio-ui.cern.ch'),
-        "rucio_ca_cert": os.getenv('RUCIO_CA_CERT'),
-        "site_name": os.getenv('ATLAS_RUCIO_SITE_NAME', 'CERN'),
-        "vo": os.getenv('ATLAS_RUCIO_VO', 'atlas'),
-        "voms_enabled": os.getenv('ATLAS_RUCIO_VOMS_ENABLED', '0') == '1',
-        "voms_vomses_path": os.getenv('ATLAS_RUCIO_VOMS_VOMSES_PATH'),
-        "voms_certdir_path": os.getenv('ATLAS_RUCIO_VOMS_CERTDIR_PATH'),
-        "voms_vomsdir_path": os.getenv('ATLAS_RUCIO_VOMS_VOMSDIR_PATH'),
-        "destination_rse": os.getenv('ATLAS_RUCIO_DESTINATION_RSE', 'ATLAS-RUCIO'),
-        "rse_mount_path": os.getenv('ATLAS_RUCIO_RSE_MOUNT_PATH', '/eos/atlas/atlasscratchdisk/rucio'),
-        "replication_rule_lifetime_days": int(os.getenv('RUCIO_REPLICATION_RULE_LIFETIME_DAYS')) if os.getenv('RUCIO_REPLICATION_RULE_LIFETIME_DAYS') else None,
-        "path_begins_at": int(os.getenv('ATLAS_RUCIO_PATH_BEGINS_AT', '4')),
-        "mode": os.getenv('ATLAS_RUCIO_MODE', 'replica'),
-        "wildcard_enabled": os.getenv('RUCIO_WILDCARD_ENABLED', '0') == '1',
-        "oidc_auth": os.getenv('ATLAS_RUCIO_OIDC_AUTH'),
-        "oidc_env_name": os.getenv('ATLAS_RUCIO_OIDC_ENV_NAME'),
-        "oidc_file_name": os.getenv('ATLAS_RUCIO_OIDC_FILE_NAME'),
-    }
+        "name": "https://voatlasrucio-server-prod.cern.ch",
+        "display_name": "ATLAS RUCIO",
+        "rucio_base_url": "https://voatlasrucio-server-prod.cern.ch:443",
+        "rucio_auth_url": "https://atlas-rucio-auth.cern.ch:443",
+        "rucio_ca_cert": "/certs/rucio_ca.pem",
+        "site_name": "CERN",
+        "vo": "atlas",
+        "voms_enabled": os.getenv('RUCIO_VOMS_ENABLED', '0') == '1',
+        "destination_rse": "CERN-PROD_PHYS-TOP",
+        "rse_mount_path": "/eos/atlas/atlasscratchdisk/rucio",
+        "path_begins_at": 4,
+        "mode": "replica", 
+        "wildcard_enabled": os.getenv('RUCIO_WILDCARD_ENABLED', '0') == '0'
+        
+      }
 
     # escape_config = {k: v for k,
     #                 v in escape_config.items() if v is not None}
