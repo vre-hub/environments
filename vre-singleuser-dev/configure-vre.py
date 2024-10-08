@@ -55,7 +55,7 @@ def write_jupyterlab_config():
         "rucio_auth_url": os.getenv('ATLAS_RUCIO_AUTH_URL', 'https://atlas-rucio-auth.cern.ch:443'),
         "rucio_webui_url": os.getenv('ATLAS_RUCIO_WEBUI_URL', 'https://rucio-ui.cern.ch'),
         "rucio_ca_cert": os.getenv('RUCIO_CA_CERT'),
-        "site_name": os.getenv('ATLAS_RUCIO_SITE_NAME'),
+        "site_name": os.getenv('ATLAS_RUCIO_SITE_NAME', ''),
         "vo": os.getenv('ATLAS_RUCIO_VO', 'atlas'),
         "voms_enabled": os.getenv('ATLAS_RUCIO_VOMS_ENABLED', '0') == '1',
         "voms_vomses_path": os.getenv('ATLAS_RUCIO_VOMS_VOMSES_PATH'),
@@ -74,6 +74,9 @@ def write_jupyterlab_config():
 
     escape_config = {k: v for k,
                     v in escape_config.items() if v is not None}
+
+    atlas_config = {k: v for k,
+                    v in atlas_config.items() if v is not None}
 
 
     config_json['RucioConfig'] = {
