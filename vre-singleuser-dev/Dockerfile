@@ -81,6 +81,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE
 USER root
 
 RUN echo '"atlas" "voms-atlas-auth.app.cern.ch" "443" "/DC=ch/DC=cern/OU=computers/CN=atlas-auth.web.cern.ch" "atlas" "24"' > /etc/vomses/atlas-voms-atlas-auth.app.cern.ch \
+    && mkdir -p /etc/grid-security/vomsdir/atlas \
     && echo '/DC=ch/DC=cern/OU=computers/CN=atlas-auth.web.cern.ch \n/DC=ch/DC=cern/CN=CERN Grid Certification Authority' > /etc/grid-security/vomsdir/atlas/voms-atlas-auth.app.cern.ch.lsc \
     && echo '/DC=ch/DC=cern/OU=computers/CN=atlas-auth.cern.ch \n/DC=ch/DC=cern/CN=CERN Grid Certification Authority' > /etc/grid-security/vomsdir/atlas/voms-atlas-auth.cern.ch.lsc 
 
