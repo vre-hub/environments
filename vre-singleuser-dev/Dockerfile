@@ -78,6 +78,8 @@ LABEL org.label-schema.build-date=$BUILD_DATE
 #     && rm /tmp/*.crt \
 #     && update-ca-certificates
 
+USER root
+
 # Setup extension Rucio instance config
 COPY configure-vre.py /usr/local/bin/
 RUN chmod +x /usr/local/bin/configure-vre.py
