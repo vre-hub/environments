@@ -63,7 +63,7 @@ def write_jupyterlab_config():
         "voms_vomsdir_path": os.getenv('RUCIO_VOMS_VOMSDIR_PATH'),
         "destination_rse": 'ATLAS-RUCIO',
         "rse_mount_path": '/eos/atlas/atlasscratchdisk/rucio',
-        "path_begins_at": '4',
+        "path_begins_at": int(4),
         "mode": 'replica',
         "wildcard_enabled": os.getenv('RUCIO_WILDCARD_ENABLED', '0') == '1',
         "oidc_auth": os.getenv('RUCIO_OIDC_AUTH', ''),
