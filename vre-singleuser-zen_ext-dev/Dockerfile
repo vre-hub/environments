@@ -37,6 +37,7 @@ RUN conda install -y -n base mamba \
 
 RUN git clone https://github.com/vre-hub/zenodo-jupyterlab-extension.git \
     && cd zenodo-jupyterlab-extension \
+    && git checkout dev \
     && python -m pip install . \
     && jupyter server extension enable --py zenodo_jupyterlab.server --sys-prefix \
     && cd .. \
