@@ -1,4 +1,4 @@
-FROM quay.io/jupyter/scipy-notebook:python-3.11.10
+FROM quay.io/jupyter/scipy-notebook:python-3.10.10
 LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
 ARG BUILD_DATE
