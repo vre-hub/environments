@@ -25,6 +25,7 @@ RUN conda install -y -n base mamba \
         PyJWT \
         ipywidgets \
         asyncssh \
+        peewee \
     && conda clean --all -f -y
 
 # Install rucio-jupyterlab with jlab v=3
