@@ -32,9 +32,8 @@ RUN conda install -y -n base mamba \
 RUN pip install rucio-jupyterlab==0.10.0 \
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix 
 
-RUN git clone https://github.com/interTwin-eu/itwinai.git \
-    && cd itwinai \
-    && pip install itwinai
+RUN pip install --no-cache-dir deepspeed git+https://github.com/horovod/horovod.git "prov4ml[linux]@git+https://github.com/matbun/ProvML" && \
+    pip install git+https://github.com/interTwin-eu/itwinai.git
     
 USER root
 
