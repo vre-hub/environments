@@ -67,7 +67,7 @@ def write_jupyterlab_config():
     #   }
 
     instance_config = {k: v for k,
-                    v in escape_config.items() if v is not None}
+                    v in instance_config.items() if v is not None}
 
     # atlas_config = {k: v for k,
     #                 v in atlas_config.items() if v is not None}
