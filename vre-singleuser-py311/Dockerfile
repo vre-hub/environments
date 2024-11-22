@@ -65,7 +65,6 @@ RUN apt update \
 # wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.lsc -O /etc/grid-security/vomsdir/escape/voms-escape.cloud.cnaf.infn.it.lsc
 RUN mkdir -p /etc/vomses \
     && mkdir -p /etc/grid-security/vomsdir 
-    
 COPY voms/vomsdir/* /etc/grid-security/vomsdir 
 COPY voms/vomses/* /etc/vomses
 
