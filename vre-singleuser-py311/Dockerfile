@@ -64,8 +64,12 @@ RUN apt update \
 # wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses 
 # wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.lsc -O /etc/grid-security/vomsdir/escape/voms-escape.cloud.cnaf.infn.it.lsc
 RUN mkdir -p /etc/vomses \
-    && mkdir -p /etc/grid-security/vomsdir 
-COPY voms/vomsdir/* /etc/grid-security/vomsdir 
+    && mkdir -p /etc/grid-security/vomsdir/escape \ 
+    && mkdir -p /etc/grid-security/vomsdir/atlas \ 
+    && mkdir -p /etc/grid-security/vomsdir/cms
+COPY voms/vomsdir/escape/* /etc/grid-security/vomsdir/escape
+COPY voms/vomsdir/atlas/* /etc/grid-security/vomsdir/atlas
+COPY voms/vomsdir/cms/* /etc/grid-security/vomsdir/cms
 COPY voms/vomses/* /etc/vomses
 
 # Setup merged CERN CA file on Ubuntu based images.
