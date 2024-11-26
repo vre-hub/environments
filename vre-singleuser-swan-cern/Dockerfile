@@ -33,6 +33,10 @@ RUN fix-permissions /srv/singleuser/configure_rucio_jupyterlab.py \
     && chown -R ${NB_UID} /srv/singleuser/configure_rucio_jupyterlab.py \
     && chmod +x /srv/singleuser/configure_rucio_jupyterlab.py
 
+RUN mkdir -p $HOME/.jupyter \
+    && fix-permissions $HOME/.jupyter \
+    && chown -R ${NB_UID} $HOME/.jupyter
+
 RUN mkdir /certs \
     && touch /certs/rucio_ca.pem \
     && curl -fsSL 'https://cafiles.cern.ch/cafiles/certificates/CERN%20Root%20Certification%20Authority%202.crt' | openssl x509 -inform DER -out /tmp/cernrootca2.crt \
