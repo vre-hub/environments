@@ -18,9 +18,9 @@ COPY scripts/others/* /srv/singleuser
 
 USER root
 
-RUN dnf install voms-clients-java -y \
-    && dnf clean all && \
-    rm -rf /var/cache/dnf
+# RUN dnf install voms-clients-java -y \
+#     && dnf clean all && \
+#     rm -rf /var/cache/dnf
 
 RUN mkdir -p /opt/rucio/etc \
 #    && touch /opt/rucio/etc/rucio.cfg \
