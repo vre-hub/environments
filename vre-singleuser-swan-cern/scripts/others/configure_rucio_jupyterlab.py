@@ -5,8 +5,8 @@ import os
 import json
 
 def fill_in_jupyterlab_config():
-    # _home = os.getenv('HOME','/home/jovyan')
-    # file_path = _home + '/.jupyter/jupyter_server_config.json'
+    _home = os.getenv('HOME','/home/jovyan')
+    file_path = _home + '/.jupyter/jupyter_server_config.json'
 
     # if not os.path.isfile(file_path):
     #     os.makedirs( _home + '/.jupyter/', exist_ok=True)
