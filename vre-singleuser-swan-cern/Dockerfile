@@ -9,7 +9,7 @@ USER ${NB_UID}
 RUN conda install -y -c conda-forge python-gfal2 \
     && conda clean --all -f -y
 
-RUN pip install rucio-jupyterlab==1.0.0 \
+RUN pythom -m pip install rucio-jupyterlab==1.0.0 \
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
 
 # Add pre-hooks to be run before the jupyter server starts
