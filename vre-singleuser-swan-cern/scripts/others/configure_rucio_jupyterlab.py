@@ -4,9 +4,13 @@
 import os
 import json
 
-def fill_in_jupyterlab_config():
-    _home = os.getenv('HOME','/home/jovyan')
-    file_path = _home + '/.jupyter/jupyter_server_config.json'
+config_jupyterlab = os.environ['JUPYTER_CONFIG_DIR']
+
+def write_jupyterlab_config():
+    # _home = os.getenv('HOME','/home/jovyan')
+    # file_path = _home + '/.jupyter/jupyter_server_config.json'
+
+    file_path = config_jupyterlab + '/jupyter_server_config.json'
 
     # if not os.path.isfile(file_path):
     #     os.makedirs( _home + '/.jupyter/', exist_ok=True)
@@ -53,9 +57,9 @@ def fill_in_jupyterlab_config():
         "default_auth_type": os.getenv('RUCIO_DEFAULT_AUTH_TYPE'),
     }
 
-    config_file = open(file_path, 'a')
+    config_file = open(file_path, 'w')
     config_file.write(json.dumps(config_json, indent=2))
     config_file.close()
     
 if __name__ == '__main__':
-    fill_in_jupyterlab_config()
+    write_jupyterlab_config()
