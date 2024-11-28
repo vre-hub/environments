@@ -9,7 +9,7 @@ def write_jupyterlab_config():
     file_path = config_jupyterlab + '/jupyter_server_config.json'
 
     if not os.path.isfile(file_path):
-        os.makedirs( _home + '/.jupyter/', exist_ok=True)
+        os.makedirs( config_jupyterlab + '/.jupyter/', exist_ok=True)
     else:
         config_file = open(file_path, 'r')
         config_payload = config_file.read()
