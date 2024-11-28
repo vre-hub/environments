@@ -4,27 +4,22 @@
 import os
 import json
 
-config_jupyterlab = os.environ['JUPYTER_CONFIG_DIR']
-
 def write_jupyterlab_config():
-    # _home = os.getenv('HOME','/home/jovyan')
-    # file_path = _home + '/.jupyter/jupyter_server_config.json'
-
+    config_jupyterlab = os.environ['JUPYTER_CONFIG_DIR']
     file_path = config_jupyterlab + '/jupyter_server_config.json'
 
-    # if not os.path.isfile(file_path):
-    #     os.makedirs( _home + '/.jupyter/', exist_ok=True)
-    # else:
-    #     config_file = open(file_path, 'r')
-    #     config_payload = config_file.read()
-    #     config_file.close()
+    if not os.path.isfile(file_path):
+        os.makedirs( _home + '/.jupyter/', exist_ok=True)
+    else:
+        config_file = open(file_path, 'r')
+        config_payload = config_file.read()
+        config_file.close()
 
-    # try:
-    #     config_json = json.loads(config_payload)
-    # except:
-    #     config_json = {}
+    try:
+        config_json = json.loads(config_payload)
+    except:
+        config_json = {}
 
-    config_json = {}
     instance_config = {
         "name": os.getenv('RUCIO_NAME', 'default'),
         "display_name": os.getenv('RUCIO_DISPLAY_NAME', 'Default Instance'),
