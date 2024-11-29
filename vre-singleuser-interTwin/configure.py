@@ -41,7 +41,7 @@ def write_jupyterlab_config():
         "destination_rse": os.getenv('RUCIO_DESTINATION_RSE', 'VEGA-DCACHE'),
         "rse_mount_path": os.getenv('RUCIO_RSE_MOUNT_PATH'),
         "path_begins_at": int(os.getenv('RUCIO_PATH_BEGINS_AT', '0')),
-        "mode": os.getenv('RUCIO_MODE', 'replica'),
+        "mode": "replica",  # "mode": os.getenv('RUCIO_MODE', 'replica'),
         "wildcard_enabled": os.getenv('RUCIO_WILDCARD_ENABLED', '0') == '1',
         "oidc_auth": os.getenv('RUCIO_OIDC_AUTH', 'env'),
         "oidc_env_name": os.getenv('RUCIO_OIDC_ENV_NAME', 'RUCIO_ACCESS_TOKEN'),
