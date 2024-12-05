@@ -49,4 +49,4 @@ RUN mkdir HiggsTutorial && \
     wget https://launchpad.net/mg5amcnlo/3.0/3.6.x/+download/MG5_aMC_v3.6.1.beta.tar.gz && \
     tar -xvzf MG5_aMC_v3.6.1.beta.tar.gz && rm MG5_aMC_v3.6.1.beta.tar.gz
 
-CMD ["setup.sh", "start-notebook.sh"]
+CMD ["start-notebook.sh"]
