@@ -1,6 +1,6 @@
 # FROM rootproject/root:6.26.02-ubuntu20.04 as root-base
 
-FROM jupyter/scipy-notebook:python-3.9.5
+FROM jupyter/scipy-notebook:python-3.11
 
 USER root
 
