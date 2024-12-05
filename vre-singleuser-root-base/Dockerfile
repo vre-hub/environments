@@ -8,6 +8,8 @@ USER root
 RUN apt-get update -y && apt-get install -y rsync wget build-essential curl && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+RUN pip install --upgrade pip jupyter_server notebook traitlets
+
 # Copy ROOT installation
 # COPY --from=root-base /opt/root /opt/root
 
