@@ -13,7 +13,7 @@ RUN apt-get update -y && apt-get install -y rsync wget build-essential curl && \
 
 # Install ROOT
 ENV LANG=C.UTF-8
-ARG ROOT_BIN=root_v6.26.10.Linux-ubuntu20-x86_64-gcc9.4.tar.gz	
+ARG ROOT_BIN=root_v6.26.14.Linux-ubuntu20-x86_64-gcc9.4.tar.gz
 
 WORKDIR /opt
 
