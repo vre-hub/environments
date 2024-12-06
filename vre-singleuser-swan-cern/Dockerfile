@@ -6,7 +6,11 @@ LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri. escape-cern@c
 
 USER roo 
 
-RUN dnf install gfal2
+RUN dnf update -y \
+    && dnf install -y epel-release \
+    && dnf install gfal2 \
+    && dnf clean all \
+    && rm -rf /var/cache/dnf
 
 USER ${NB_UID}
 
