@@ -10,12 +10,13 @@ RUN apt-get update -y && apt-get install -y rsync wget build-essential curl && \
 
 RUN pip install --upgrade pip jupyter_server notebook traitlets
 
-# Copy ROOT installation
-# COPY --from=root-base /opt/root /opt/root
+# RUN conda install python=3.8 \
+#     && conda install -y -c conda-forge python-gfal2 \
+#     && conda clean --all -f -y
 
 # Install ROOT
 ENV LANG=C.UTF-8
-ARG ROOT_BIN=root_v6.26.14.Linux-ubuntu20-x86_64-gcc9.4.tar.gz
+ARG ROOT_BIN=root_v6.30.06.Linux-ubuntu20.04-x86_64-gcc9.4.tar.gz
 
 WORKDIR /opt
 
