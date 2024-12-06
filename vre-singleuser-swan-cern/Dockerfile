@@ -4,9 +4,12 @@ FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan-cern:${VERSION_PARE
 LABEL author="E. Garcia - 2024"
 LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri. escape-cern@cern.ch"
 
-USER ${NB_UID}
+USER roo 
 
 RUN dnf install gfal2
+
+USER ${NB_UID}
+
 RUN python -m pip install rucio-clients
 
 # RUN conda install -y -c conda-forge python-gfal2 \
