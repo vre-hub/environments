@@ -1,5 +1,3 @@
-# FROM rootproject/root:6.26.02-ubuntu20.04 as root-base
-
 FROM quay.io/jupyter/scipy-notebook:python-3.12
 
 USER root
@@ -22,8 +20,7 @@ RUN apt-get update -qq \
  && echo /opt/root/lib >> /etc/ld.so.conf \
  && ldconfig
 
-#RUN yes | unminimize
-
+ENV SKIP_POSTSTART_HOOK true
 ENV ROOTSYS /opt/root
 ENV PATH $ROOTSYS/bin:$PATH
 ENV PYTHONPATH $ROOTSYS/lib:$PYTHONPATH
