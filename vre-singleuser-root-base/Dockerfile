@@ -31,6 +31,7 @@ WORKDIR $HOME
 USER $NB_UID
 
 RUN mkdir HiggsTutorial && \
+    cd HiggsTutorial && \
     wget https://launchpad.net/mg5amcnlo/3.0/3.6.x/+download/MG5_aMC_v3.6.1.beta.tar.gz && \
     tar -xvzf MG5_aMC_v3.6.1.beta.tar.gz && rm MG5_aMC_v3.6.1.beta.tar.gz
 
