@@ -1,4 +1,4 @@
-FROM quay.io/jupyter/scipy-notebook:python-3.12
+FROM quay.io/jupyter/scipy-notebook:python-3.11
 
 USER root
 
