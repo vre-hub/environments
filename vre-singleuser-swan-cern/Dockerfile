@@ -7,6 +7,7 @@ LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri. escape-cern@c
 USER roo 
 
 RUN dnf update -y \
+    && dnf config-manager --set-enabled crb \
     && dnf install -y epel-release \
     && dnf install gfal2 \
     && dnf clean all \
