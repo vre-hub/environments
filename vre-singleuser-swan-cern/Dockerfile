@@ -7,8 +7,6 @@ LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri. escape-cern@c
 USER root 
 
 RUN dnf update -y \
-    # && dnf install -y 'dnf-command(config-manager)' \
-    # && dnf config-manager --set-enabled crb \
     && dnf install -y epel-release \
     && dnf install -y gfal2* \
     && dnf clean all \
@@ -20,6 +18,8 @@ RUN python -m pip install rucio-clients
 
 # RUN conda install -y -c conda-forge python-gfal2 \
     # && conda clean --all -f -y
+
+RUN python -m pip install --upgrade typing_extensions
 
 RUN python -m pip install rucio-jupyterlab==1.0.0 \
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
