@@ -21,7 +21,8 @@ RUN apt-get update -qq \
  && rm -f ${ROOT_BIN} \
  && echo /opt/root/lib >> /etc/ld.so.conf \
  && ldconfig
-RUN yes | unminimize
+
+#RUN yes | unminimize
 
 ENV ROOTSYS /opt/root
 ENV PATH $ROOTSYS/bin:$PATH
