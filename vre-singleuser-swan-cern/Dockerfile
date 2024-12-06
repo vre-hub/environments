@@ -6,8 +6,11 @@ LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri. escape-cern@c
 
 USER ${NB_UID}
 
-RUN conda install -y -c conda-forge python-gfal2 \
-    && conda clean --all -f -y
+RUN dnf install gfal2
+RUN python -m pip install rucio-clients
+
+# RUN conda install -y -c conda-forge python-gfal2 \
+    # && conda clean --all -f -y
 
 RUN python -m pip install rucio-jupyterlab==1.0.0 \
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
