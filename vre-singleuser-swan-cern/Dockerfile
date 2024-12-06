@@ -4,13 +4,13 @@ FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan-cern:${VERSION_PARE
 LABEL author="E. Garcia - 2024"
 LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri. escape-cern@cern.ch"
 
-USER roo 
+USER root 
 
 RUN dnf update -y \
-    && dnf install -y 'dnf-command(config-manager)' \
+    # && dnf install -y 'dnf-command(config-manager)' \
     # && dnf config-manager --set-enabled crb \
-    && dnf install -y epel release \
-    && dnf install gfal2 \
+    && dnf install -y epel-release \
+    && dnf install -y gfal2* \
     && dnf clean all \
     && rm -rf /var/cache/dnf
 
