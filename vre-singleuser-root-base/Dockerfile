@@ -25,7 +25,7 @@ RUN apt-get update -qq \
  && echo /opt/root/lib >> /etc/ld.so.conf \
  && ldconfig
 
- # Skip the post-start hook in the base image (https://github.com/vre-hub/vre/pull/299)
+# Skip the post-start hook in the base image (https://github.com/vre-hub/vre/pull/299)
 ENV SKIP_POSTSTART_HOOK true 
 
 # Install ROOT
@@ -37,10 +37,5 @@ ENV CLING_STANDARD_PCH none
 
 WORKDIR $HOME
 USER $NB_UID
-
-RUN mkdir HiggsTutorial && \
-    cd HiggsTutorial && \
-    wget https://launchpad.net/mg5amcnlo/3.0/3.6.x/+download/MG5_aMC_v3.6.1.beta.tar.gz && \
-    tar -xvzf MG5_aMC_v3.6.1.beta.tar.gz && rm MG5_aMC_v3.6.1.beta.tar.gz
 
 CMD ["start-notebook.sh"]
