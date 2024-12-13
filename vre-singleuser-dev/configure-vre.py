@@ -20,6 +20,7 @@ def write_jupyterlab_config():
     except:
         config_json = {}
 
+
 # Looking to the rucio-jupyterlab configuration; https://github.com/rucio/jupyterlab-extension/blob/master/rucio_jupyterlab/config/schema.py#L101
 #  either ("destination_rse", "rse_mount_path") either ("rucio_ca_cert") are required env vars, even if they are defined in the jhub manifest.
 # Adding 'rucio_base_url' too - from debugging experience
@@ -62,7 +63,6 @@ def write_jupyterlab_config():
         "path_begins_at": 4,
         "mode": "replica", 
         "wildcard_enabled": os.getenv('RUCIO_WILDCARD_ENABLED', '0') == '0'
-        
       }
 
     escape_config = {k: v for k,

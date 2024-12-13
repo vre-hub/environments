@@ -93,4 +93,4 @@ ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 WORKDIR $HOME
 USER $NB_UID
 
-CMD ["start-notebook.py"]
+#CMD ["start-notebook.py"]
