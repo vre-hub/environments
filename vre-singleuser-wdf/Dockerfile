@@ -13,24 +13,27 @@ USER root
 # Install gnupg so that the following gpg commands work
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg
 
-RUN gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 871920D1991BC93C
-RUN gpg --export 871920D1991BC93C | tee /etc/apt/trusted.gpg.d/ubuntu.lafibre.info.gpg
-
-RUN apt-get update && apt-get install --no-install-recommends -y \
-    tzdata wget git vim build-essential \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# runtime dependencies to install wdf
 RUN set -eux; \
-	    apt-get update; \
-	    apt-get install -y --no-install-recommends \
-	    cmake \
+    # Import the GPG key to verify package integrity
+    gpg --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 871920D1991BC93C && \
+    gpg --export 871920D1991BC93C | tee /etc/apt/trusted.gpg.d/ubuntu.lafibre.info.gpg && \
+    
+    # Update package list and install essential dependencies
+    apt-get update && \
+    apt-get install --no-install-recommends -y \
+        tzdata wget git vim build-essential && \
+    
+    # Install runtime dependencies for WDF
+    apt-get install --no-install-recommends -y \
+        cmake \
         pkg-config \
-    libboost-all-dev \
-    pybind11-dev python3-pybind11 \
-    libfftw3-3 libfftw3-dev libfftw3-bin \
-    libgsl-dev; \
-    	rm -rf /var/lib/apt/lists/*
+        libboost-all-dev \
+        pybind11-dev python3-pybind11 \
+        libfftw3-3 libfftw3-dev libfftw3-bin \
+        libgsl-dev && \
+    
+    # Clean up to reduce image size
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
 ###########################
 ## not using venv, instead we use the base conda env and fixing env vars
@@ -56,9 +59,7 @@ RUN set -ex \
     && wget https://mirror.ibcp.fr/pub/gnu/gsl/gsl-2.7.1.tar.gz\
     && tar -xzf gsl-2.7.1.tar.gz \
     && cd gsl-2.7.1\
-#    && ./configure \
     && ./configure --disable-dependency-tracking --build=aarch64-linux-gnu --host=aarch64-linux-gnu --prefix=/home/jovyan/gsl CFLAGS="-O1"\
-#    && ./configure --disable-dependency-tracking --build=x86_64-linux-gnu --host=x86_64-linux-gnu --prefix=/home/jovyan/gsl CFLAGS="-O0" \
     && make -j "$(nproc)" \
     && make install \
     && cd .. \
