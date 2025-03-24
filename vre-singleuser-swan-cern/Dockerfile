@@ -7,22 +7,22 @@ LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri. escape-cern@c
 USER root 
 
 RUN dnf update -y \
-    && dnf install -y epel-release \
-    && dnf install -y gfal2* \
+    && dnf install -y epel-release gfal2* ca-policy-lcg\
     && dnf clean all \
     && rm -rf /var/cache/dnf
 
 USER ${NB_UID}
 
 RUN python -m pip install rucio-clients
-
-# RUN conda install -y -c conda-forge python-gfal2 \
-    # && conda clean --all -f -y
-
 RUN python -m pip install --upgrade typing_extensions
 
-RUN python -m pip install rucio-jupyterlab==1.0.0 \
-    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
+#RUN python -m pip install rucio-jupyterlab==1.0.0 \
+RUN git clone https://github.com/rucio/jupyterlab-extension.git \
+    && cd jupyterlab-extension \
+    && python -m pip install . \
+    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
+    && cd .. \
+    && rm -rf jupyterlab-extension
 
 # Add pre-hooks to be run before the jupyter server starts
 COPY scripts/before-notebook.d/* /usr/local/bin/before-notebook.d/
@@ -30,13 +30,9 @@ COPY scripts/others/* /srv/singleuser
 
 USER root
 
-# RUN dnf install voms-clients-java -y \
-#     && dnf clean all && \
-#     rm -rf /var/cache/dnf
-
 RUN mkdir -p /opt/rucio/etc \
-#    && touch /opt/rucio/etc/rucio.cfg \
-    && fix-permissions /opt/rucio/etc \
+    && touch /opt/rucio/etc/rucio.cfg \
+    && fix-permissions /opt/rucio/etc/rucio.cfg \
     && chown -R ${NB_UID}:${NB_GID} /opt/rucio/etc     
 
 # Grant script execution permissions
