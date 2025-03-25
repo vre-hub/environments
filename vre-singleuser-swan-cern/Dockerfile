@@ -14,11 +14,16 @@ RUN curl -Lo /etc/yum.repos.d/lcg-trustanchors.repo https://lcg-ca.web.cern.ch/d
 
 USER ${NB_UID}
 
-#RUN python -m pip install rucio-clients
-#RUN python -m pip install --upgrade typing_extensions
+RUN python -m pip install rucio-clients
+RUN python -m pip install --upgrade typing_extensions
 
-RUN python -m pip install rucio-jupyterlab==1.2.0 \
-    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix 
+#RUN python -m pip install rucio-jupyterlab==1.2.0 \
+RUN git clone https://github.com/rucio/jupyterlab-extension.git \
+    && cd jupyterlab-extension \
+    && python -m pip install . \
+    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
+    && cd .. \
+    && rm -rf jupyterlab-extension
 
 # Add pre-hooks to be run before the jupyter server starts
 COPY scripts/before-notebook.d/* /usr/local/bin/before-notebook.d/
