@@ -1,4 +1,4 @@
-ARG VERSION_PARENT=v0.0.27
+ARG VERSION_PARENT=v0.0.34
 
 FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan-cern:${VERSION_PARENT}
 LABEL author="E. Garcia - 2024"
@@ -14,16 +14,12 @@ RUN curl -Lo /etc/yum.repos.d/lcg-trustanchors.repo https://lcg-ca.web.cern.ch/d
 
 USER ${NB_UID}
 
-RUN python -m pip install rucio-clients
-RUN python -m pip install --upgrade typing_extensions
+#RUN python -m pip install rucio-clients
+#RUN python -m pip install --upgrade typing_extensions
 
-#RUN python -m pip install rucio-jupyterlab==1.0.0 \
+#RUN python -m pip install rucio-jupyterlab==1.2.0 \
 RUN git clone https://github.com/rucio/jupyterlab-extension.git \
-    && cd jupyterlab-extension \
-    && python -m pip install . \
-    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix \
-    && cd .. \
-    && rm -rf jupyterlab-extension
+    && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix 
 
 # Add pre-hooks to be run before the jupyter server starts
 COPY scripts/before-notebook.d/* /usr/local/bin/before-notebook.d/
