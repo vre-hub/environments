@@ -14,8 +14,8 @@ RUN curl -Lo /etc/yum.repos.d/lcg-trustanchors.repo https://lcg-ca.web.cern.ch/d
 
 USER ${NB_UID}
 
-RUN python -m pip install rucio-clients
-RUN python -m pip install --upgrade typing_extensions
+# RUN python -m pip install rucio-clients
+# RUN python -m pip install --upgrade typing_extensions
 
 #RUN python -m pip install rucio-jupyterlab==1.2.0 \
 RUN git clone https://github.com/rucio/jupyterlab-extension.git \
