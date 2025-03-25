@@ -6,7 +6,8 @@ LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri. escape-cern@c
 
 USER root 
 
-RUN dnf update -y \
+RUN curl -Lo /etc/yum.repos.d/lcg-trustanchors.repo https://lcg-ca.web.cern.ch/distribution/current/repo-files/lcg-trustanchors.repo \
+    && dnf update -y \
     && dnf install -y epel-release gfal2* ca-policy-lcg\
     && dnf clean all \
     && rm -rf /var/cache/dnf
