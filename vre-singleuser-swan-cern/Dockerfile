@@ -19,7 +19,9 @@ USER ${NB_UID}
 
 RUN python -m pip install rucio-jupyterlab==1.2.0 \
     && jupyter serverextension enable --py rucio_jupyterlab --sys-prefix 
-    
+
+RUN python -m pip install rucio-clients==34.6.0
+
 # Add pre-hooks to be run before the jupyter server starts
 COPY scripts/before-notebook.d/* /usr/local/bin/before-notebook.d/
 COPY scripts/others/* /srv/singleuser
@@ -31,11 +33,11 @@ RUN mkdir -p /opt/rucio/etc \
     && fix-permissions /opt/rucio/etc/rucio.cfg \
     && chown -R ${NB_UID}:${NB_GID} /opt/rucio/etc     
 
-# Grant script execution permissions
-RUN chmod +x /usr/local/bin/before-notebook.d/*
-RUN fix-permissions /srv/singleuser/configure_rucio_jupyterlab.py \
-    && chown -R ${NB_UID} /srv/singleuser/configure_rucio_jupyterlab.py \
-    && chmod +x /srv/singleuser/configure_rucio_jupyterlab.py
+# # Grant script execution permissions
+# RUN chmod +x /usr/local/bin/before-notebook.d/*
+# RUN fix-permissions /srv/singleuser/configure_rucio_jupyterlab.py \
+#     && chown -R ${NB_UID} /srv/singleuser/configure_rucio_jupyterlab.py \
+#     && chmod +x /srv/singleuser/configure_rucio_jupyterlab.py
 
 # This should not be used as we are gonna be writing on $JUPYTER_CONFIG_DIR = '/home/$USER/.jupyter'
 # RUN mkdir -p $HOME/.jupyter \
