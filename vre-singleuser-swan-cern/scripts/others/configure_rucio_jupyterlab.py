@@ -89,7 +89,7 @@ def write_jupyterlab_config():
                        v in atlas_config.items() if v is not None}                       
 
     config_json['RucioConfig'] = {
-        'instances': [escape_config, atlas_config], # cms, 
+        'instances': [escape_config], # atlas, cms, 
         "default_instance": os.getenv('RUCIO_DEFAULT_INSTANCE', escape_config['name']),
         "default_auth_type": os.getenv('RUCIO_DEFAULT_AUTH_TYPE', 'x509_proxy'),
     }
