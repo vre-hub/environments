@@ -56,4 +56,3 @@ RUN mkdir /certs \
     && update-ca-trust
 
 USER ${NB_UID}
-
