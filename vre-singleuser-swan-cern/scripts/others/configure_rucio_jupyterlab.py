@@ -5,15 +5,16 @@ import os
 import json
 
 def write_jupyterlab_config():
-    config_jupyterlab = os.environ['JUPYTER_CONFIG_DIR']
-    file_path = config_jupyterlab + '/jupyter_server_config.json'
+    dir_config_jupyterlab = os.getenv('JUPYTER_CONFIG_DIR', 
+                                      os.path.join(os.getenv('HOME'), '.jupyter')
+                                      )
+    file_server_config = os.path.join(dir_config_jupyterlab, 'jupyter_server_config.json')
 
-    if not os.path.isfile(file_path):
-        os.makedirs( config_jupyterlab + '/.jupyter/', exist_ok=True)
-    else:
-        config_file = open(file_path, 'r')
-        config_payload = config_file.read()
-        config_file.close()
+    if not os.path.exists(dir_config_jupyterlab):
+        os.makedirs( dir_config_jupyterlab, exist_ok=True)
+    elif os.path.isfile(file_server_config) :
+        with open(file_server_config, "r") as config_file:
+            config_payload = config_file.read()
 
     try:
         config_json = json.loads(config_payload)
@@ -93,7 +94,7 @@ def write_jupyterlab_config():
         "default_auth_type": os.getenv('RUCIO_DEFAULT_AUTH_TYPE', 'x509_proxy'),
     }
 
-    config_file = open(file_path, 'w')
+    config_file = open(file_server_config, 'w')
     config_file.write(json.dumps(config_json, indent=2))
     config_file.close()
     
