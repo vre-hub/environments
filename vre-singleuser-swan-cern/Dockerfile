@@ -35,9 +35,9 @@ RUN mkdir -p /opt/rucio/etc \
 
 # # Grant script execution permissions
 # RUN chmod +x /usr/local/bin/before-notebook.d/*
-RUN fix-permissions /srv/singleuser/configure_rucio_jupyterlab.py \
-    && chown -R ${NB_UID} /srv/singleuser/configure_rucio_jupyterlab.py \
-    && chmod +x /srv/singleuser/configure_rucio_jupyterlab.py
+# RUN fix-permissions /srv/singleuser/configure_rucio_jupyterlab.py \
+#     && chown -R ${NB_UID} /srv/singleuser/configure_rucio_jupyterlab.py \
+#     && chmod +x /srv/singleuser/configure_rucio_jupyterlab.py
 
 # This should not be used as we are gonna be writing on $JUPYTER_CONFIG_DIR = '/home/$USER/.jupyter'
 # RUN mkdir -p $HOME/.jupyter \
