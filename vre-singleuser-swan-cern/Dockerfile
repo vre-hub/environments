@@ -25,7 +25,7 @@ RUN python -m pip install rucio-clients==34.6.0
 # Add pre-hooks to be run before the jupyter server starts
 COPY scripts/before-notebook.d/* /usr/local/bin/before-notebook.d/
 #COPY scripts/others/* /srv/singleuser
-COPY scripts/others/jupyter_server_config.py ~/.jupyter/jupyter_server_config.py
+ADD scripts/others/jupyter_server_config.py /home/${NB_USER}/.jupyter/jupyter_server_config.py
 
 USER root
 
