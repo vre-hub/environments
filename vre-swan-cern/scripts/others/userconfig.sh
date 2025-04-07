@@ -103,3 +103,5 @@ python -I /srv/singleuser/configure_kernels_and_terminal.py
 # leaving the user env cleaned. It should be the last one called to allow the kernel to load our extensions correctly.
 export KERNEL_PROFILEPATH=$PROFILEPATH/ipython_kernel_config.py
 echo "c.InteractiveShellApp.extensions.append('swankernelenv')" >>  $KERNEL_PROFILEPATH
+
+python -m pip install --no-cache-dir rucio-clients==34.6.0

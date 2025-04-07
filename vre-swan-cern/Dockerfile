@@ -92,7 +92,9 @@ RUN pip install --no-deps --no-cache-dir \
     swankernelenv==1.0.0 \
     swanoauthrenew==1.0.2  \
     swanshare==2.0.3
-    
+
+# VRE-SWAN
+RUN pip install rucio-jupyterlab==1.2.0 
 
 RUN pip install \ 
     # Required dependency for swanoauthrenew
@@ -140,6 +142,8 @@ RUN jupyter nbclassic-extension install --py --system swanshare && \
     jupyter nbclassic-extension enable --py --system swanshare
 RUN jupyter nbclassic-extension install --py --system jupyter_nbextensions_configurator && \
     jupyter nbclassic-extension enable --py --system jupyter_nbextensions_configurator
+# VRE-SWAN
+RUN jupyter serverextension enable --py rucio_jupyterlab --sys-prefix 
 
 # User session configuration scripts
 # Add scripts
