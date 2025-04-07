@@ -11,7 +11,7 @@ env:
 jobs:
   build-matrix-from-changed-files:
     runs-on: ubuntu-latest  # windows-latest || macos-latest
-    name: Build matrix from directorues with changed files
+    name: Build matrix from directories with changed files
 
     steps:
       - uses: actions/checkout@v3
@@ -33,20 +33,28 @@ jobs:
       - name: List all changed dirs and create list with unique directories
         id: set-matrix
         run: |
+          declare -A seen_dirs
           environments=()
+
           for dir in ${{ steps.changed-files.outputs.all_changed_files }}; do
             echo "$dir was changed"
-            if [[ $(echo ${environments[@]} | fgrep -w ${dir}) ]]; then
-              echo " - ${dir} is in the list of changed dirs"
-            else
-              echo " - ${dir} is NOT in the list of changed dirs. Adding it!"
-              environments+=("\"${dir}\"")
-              echo " ** The update list is ${environments[@]}"
-            fi        
+
+            # Extract top-level dir (e.g., from "foo/bar/file.txt" -> "foo")
+            top_level_dir=$(echo "$dir" | cut -d'/' -f1)
+
+            # Skip if it's already seen
+            if [[ -n "${seen_dirs[$top_level_dir]}" ]]; then
+              echo " - $top_level_dir already added, skipping"
+              continue
+            fi
+
+            echo " - $top_level_dir is a new dir, adding it"
+            seen_dirs[$top_level_dir]=1
+            environments+=("\"${top_level_dir}\"")
           done
 
           ENVS_LIST=`echo "[${environments[@]}]" |  sed 's/ /,/g'`
-          echo ::set-output name=environment_list::$ENVS_LIST
+          echo "environment_list=$ENVS_LIST" >> $GITHUB_OUTPUT
 
           echo "The final list is: ${ENVS_LIST}"
 
