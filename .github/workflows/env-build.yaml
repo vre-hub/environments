@@ -3,7 +3,7 @@ name: Docker automatic build and publish
 on:
   push:
     branches: 
-      - main
+      - dev-vre-swan
 
 env:
   REGISTRY: ghcr.io
