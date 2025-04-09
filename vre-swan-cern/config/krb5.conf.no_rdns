@@ -1,0 +1,22 @@
+[libdefaults]
+ default_realm = CERN.CH
+ ticket_lifetime = 25h
+ renew_lifetime = 120h
+ forwardable = true
+ proxiable = true
+ rdns = false
+ dns_lookup_realm = false
+ pkinit_anchors = FILE:/etc/pki/tls/certs/ca-bundle.crt
+ spake_preauth_groups = edwards25519
+ dns_canonicalize_hostname = fallback
+ default_ccache_name = KEYRING:persistent:%{uid}
+
+[realms]
+ CERN.CH = {
+  default_domain = cern.ch
+  kdc = cerndc.cern.ch:88
+  dns_lookup_kdc = false
+ }
+
+[domain_realm]
+ .cern.ch = CERN.CH
