@@ -48,15 +48,10 @@ export PYTHONPATH=$PYTHONPATH:$SWAN_LIB_DIR/nb_term_lib/
 
 # Prepend the user site packages directory to PYTHONPATH, if they request it.
 # This allows to use Python packages installed on CERNBox
-USER_SITE=$(python -m site --user-site)
 if [ "$SWAN_USE_LOCAL_PACKAGES" == "true" ]; then
+  USER_SITE=$(python -m site --user-site)
   export PYTHONPATH=$USER_SITE:$PYTHONPATH
 fi
-
-# This variable is defined to automatically install user
-# python packages in their CERNBox, without them having
-# to add the "--user" flag to the pip installation command
-export PIP_TARGET=$USER_SITE
 
 # Run user startup script
 TMP_SCRIPT=`mktemp`
@@ -76,6 +71,7 @@ then
   _log "user: $USER, host: ${SERVER_HOSTNAME%%.*}, metric: configure_user_env_script.duration_sec, value: $SETUP_SCRIPT_TIME_SEC"
 else
  _log "Cannot find user script: $USER_ENV_SCRIPT";
+ exit 127
 fi
 
 # In k8s, $KRB5CCNAME_NB_TERM points to the location of the EOS kerberos ticket that notebook and terminal
@@ -103,5 +99,3 @@ python -I /srv/singleuser/configure_kernels_and_terminal.py
 # leaving the user env cleaned. It should be the last one called to allow the kernel to load our extensions correctly.
 export KERNEL_PROFILEPATH=$PROFILEPATH/ipython_kernel_config.py
 echo "c.InteractiveShellApp.extensions.append('swankernelenv')" >>  $KERNEL_PROFILEPATH
-
-python -m pip install --no-cache-dir rucio-clients==34.6.0

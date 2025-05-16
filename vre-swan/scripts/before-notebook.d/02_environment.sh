@@ -6,34 +6,42 @@
 # launched as regular user as it's this entity which is able to access 
 # eos and not the super user.
 
-if [ -n "${ROOT_LCG_VIEW_PATH}" ] && [ -n "${ROOT_LCG_VIEW_NAME}" ] && [ -n "${ROOT_LCG_VIEW_PLATFORM}" ];
-then
-  _log "Setting up CVMFS";
-  # Set environment for the Jupyter process
-  LOCAL_HOME=/home/$NB_USER
-  export IPYTHONDIR=$LOCAL_HOME/.ipython
-  export JPY_DIR=$LOCAL_HOME/.jupyter
+# Set environment for the Jupyter process
+LOCAL_HOME=/home/$NB_USER
+export IPYTHONDIR=$LOCAL_HOME/.ipython
+export JPY_DIR=$LOCAL_HOME/.jupyter
 
-  # The Jupyter environment variables below are set to point to the local user
-  # home (/home/$USER), instead of the EOS path
-  export JUPYTER_CONFIG_DIR=$JPY_DIR
-  export JUPYTER_PATH=$LOCAL_HOME/.local/share/jupyter
-  export JUPYTER_RUNTIME_DIR=$JUPYTER_PATH/runtime
-  export JUPYTER_DATA_DIR=$JUPYTER_PATH
+# The Jupyter environment variables below are set to point to the local user
+# home (/home/$USER), instead of the EOS path
+export JUPYTER_CONFIG_DIR=$JPY_DIR
+export JUPYTER_PATH=$LOCAL_HOME/.local/share/jupyter
+export JUPYTER_RUNTIME_DIR=$JUPYTER_PATH/runtime
+export JUPYTER_DATA_DIR=$JUPYTER_PATH
 
-  # Set npm cache on the local user home, instead of the EOS path
-  export NPM_CONFIG_CACHE=$LOCAL_HOME/.npm
+# Set npm cache on the local user home, instead of the EOS path
+export NPM_CONFIG_CACHE=$LOCAL_HOME/.npm
 
-  # Set jupyterlab config directory
-  export JUPYTERLAB_SETTINGS_DIR=$HOME/.local/lab/user-settings/
+# Set jupyterlab config directory
+export JUPYTERLAB_SETTINGS_DIR=$HOME/.local/lab/user-settings/
 
-  # Set other environment variables
-  export KERNEL_DIR=$JUPYTER_PATH/kernels
-  export SWAN_ENV_FILE=$LOCAL_HOME/.bash_profile
-  export PROFILEPATH=$IPYTHONDIR/profile_default
+# Set other environment variables
+export KERNEL_DIR=$JUPYTER_PATH/kernels
+export SWAN_ENV_FILE=$LOCAL_HOME/.bash_profile
+export PROFILEPATH=$IPYTHONDIR/profile_default
 
-  # Create missing directories
-  mkdir -p $IPYTHONDIR $PROFILEPATH
+# Create missing directories
+mkdir -p $IPYTHONDIR $PROFILEPATH
+
+# Create a gitignore file for ignoring all .sys. files and set it as global
+# This will hide the checkpoint files created by EOS.
+GLOBAL_GITIGNORE="$LOCAL_HOME/.gitignore_global"
+echo ".sys.*" > "$GLOBAL_GITIGNORE"
+run_as_user git config --global core.excludesfile "$GLOBAL_GITIGNORE"
+
+# Make the user the owner of the local home and subdirectories
+chown -R $NB_USER:$NB_GID $LOCAL_HOME
+
+if [ "$SOFTWARE_SOURCE" == "lcg" ]; then
 
   # Setup the LCG View on CVMFS
   _log "Setting up environment from CVMFS"
@@ -89,9 +97,8 @@ then
     cp -rL $JULIA_KERNEL_PATH $KERNEL_DIR
   fi
 
-  # Grant privileges to all files inside the created directories and subdirectories
-  # to the user
-  chown -R $NB_USER:$NB_GID $LOCAL_HOME
+  # Make the user the owner of kernel files
+  chown -R $NB_USER:$NB_GID $KERNEL_DIR
 
   _log "Running user configuration script for user $NB_USER."
 
@@ -103,10 +110,12 @@ then
   # notebook/terminal environment unless overwritten by what appears in
   # the kernel.json or .bash_profile.
 
-  if [ $? -ne 0 ]
+  USERCONFIG_EXIT=$?
+
+  if [ $USERCONFIG_EXIT -ne 0 ]
   then
-    _log "Error configuring user environment"
-    exit 1
+    _log "Error configuring user environment. Exit code: $USERCONFIG_EXIT"
+    exit $USERCONFIG_EXIT  
   fi
   set -e
 
@@ -128,11 +137,11 @@ then
     _log "user: $NB_USER, host: ${SERVER_HOSTNAME%%.*}, metric: configure_kernel_env.${ROOT_LCG_VIEW_NAME:-none}.${SPARK_CLUSTER_NAME:-none}.duration_sec, value: $CONFIGURE_KERNEL_ENV_TIME_SEC"
   fi
 
-  # Set the terminal environment
-  #in jupyter 6.0.0 login shell (jupyter/notebook#4112) is set by default and /etc/profile.d is respected
-  echo "source $LOCAL_HOME/.bash_profile" > /etc/profile.d/swan.sh
-
   _log "Finished setting up CVMFS and user environment"
 else
-  _log "CVMFS variables not provided. Skiping."
+  export KRB5CCNAME=$KRB5CCNAME_NB_TERM
 fi
+
+# Set the terminal environment
+#in jupyter 6.0.0 login shell (jupyter/notebook#4112) is set by default and /etc/profile.d is respected
+echo "source $LOCAL_HOME/.bash_profile" > /etc/profile.d/swan.sh
