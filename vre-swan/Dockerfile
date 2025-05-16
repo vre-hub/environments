@@ -77,24 +77,19 @@ RUN mamba install --yes \
     'ipyparallel==8.6.1' \
     'jupyter-server-proxy==4.1.0' \
     'jupyter-resource-usage==1.1.0' \
-    'jupyterlab-git==0.50.0' \
+    'jupyterlab-git==0.51.1' \
     # Extensions required by jupyter server
-    'webio-jupyter-extension==0.1.0' \
-    # This version of pexpect is needed for
-    # jupyterlab-git (0.50.0) module to work properly
-    'pexpect==4.9.0'
+    'webio-jupyter-extension==0.1.0'
 
 # Install all of our extensions
 # Ignore (almost all) dependencies because they have already been installed or come from CVMFS
 RUN pip install --no-deps --no-cache-dir \
-    swancontents==2.1.12 \
+    swancontents==2.1.13 \
     swanhelp==3.0.3 \
     swankernelenv==1.0.0 \
     swanoauthrenew==1.0.2  \
-    swanshare==2.0.3
-
-# VRE-SWAN
-RUN pip install rucio-jupyterlab==1.2.0 
+    swanshare==2.0.3 \
+    swancustomenvironments==0.0.27
 
 RUN pip install \ 
     # Required dependency for swanoauthrenew
@@ -110,6 +105,9 @@ RUN cp /opt/conda/share/jupyter/kernels/python3/logo* /home/${NB_USER}/.local/sh
 ADD python/jupyter_server_config.py /home/${NB_USER}/.jupyter/jupyter_server_config.py
 
 USER root
+
+# Configure path to SwanCustomenvironments template
+RUN echo -e '\nc.ServerApp.extra_template_paths = ["/opt/conda/lib/python3.11/site-packages/swancustomenvironments/templates/"]' >> /home/${NB_USER}/.jupyter/jupyter_server_config.py
 
 # Create directories where we will store:
 # - SWAN extensions and their dependencies (this path gets removed from
@@ -142,8 +140,6 @@ RUN jupyter nbclassic-extension install --py --system swanshare && \
     jupyter nbclassic-extension enable --py --system swanshare
 RUN jupyter nbclassic-extension install --py --system jupyter_nbextensions_configurator && \
     jupyter nbclassic-extension enable --py --system jupyter_nbextensions_configurator
-# VRE-SWAN
-RUN jupyter serverextension enable --py rucio_jupyterlab --sys-prefix 
 
 # User session configuration scripts
 # Add scripts
