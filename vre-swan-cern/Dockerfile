@@ -2,7 +2,7 @@
 
 #FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
 
-ARG VERSION_PARENT=sha-05643fb
+ARG VERSION_PARENT=sha-29a65f6 
 
 FROM ghcr.io/vre-hub/vre-swan:${VERSION_PARENT}
 
@@ -25,7 +25,7 @@ RUN pip install --no-deps --no-cache-dir dask-labextension==7.0.0
 # Ignore dependencies because they have already been installed or come from CVMFS
 RUN pip install --no-deps --no-cache-dir \
     sparkconnector==3.0.8 \
-    sparkmonitor==3.0.2 \
+    sparkmonitor==3.0.3 \
     swanportallocator==2.0.0 \
     swandask==0.0.5
 

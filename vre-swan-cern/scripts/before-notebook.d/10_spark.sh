@@ -26,21 +26,26 @@ then
         '{load_extensions: $ARGS.named}' > $NBCONFIG/spark.json
 
   IPYTHON_KERNEL_CONFIG=$IPYTHONDIR/profile_default/ipython_kernel_config.py
-  sed -i "1s/^/c.InteractiveShellApp.extensions.append('sparkconnector.connector')\n/" \
-      $IPYTHON_KERNEL_CONFIG
-  sed -i "2s/^/c.InteractiveShellApp.extensions.append('sparkmonitor.kernelextension')\n/" \
-      $IPYTHON_KERNEL_CONFIG
 
-  # Source configuration for selected cluster
-  SPARKVERSION=spark3  # Spark major version
-  HADOOPVERSION='3.3'   # Classpath compatibility for YARN
-  source $SPARK_CONFIG_SCRIPT $SPARK_CLUSTER_NAME $HADOOPVERSION $SPARKVERSION
+  echo -e "c.InteractiveShellApp.extensions.append('sparkmonitor.kernelextension')\n$( [ -f ${IPYTHON_KERNEL_CONFIG} ] && cat ${IPYTHON_KERNEL_CONFIG})" > ${IPYTHON_KERNEL_CONFIG}
+  echo -e "c.InteractiveShellApp.extensions.append('sparkconnector.connector')\n$( [ -f ${IPYTHON_KERNEL_CONFIG} ] && cat ${IPYTHON_KERNEL_CONFIG})" > ${IPYTHON_KERNEL_CONFIG}
 
-  if [[ $CONNECTOR_BUNDLED_CONFIGS ]]
-  then
-    ln -s $CONNECTOR_BUNDLED_CONFIGS/bundles.json $JUPYTER_CONFIG_DIR/nbconfig/sparkconnector_bundles.json
-    ln -s $CONNECTOR_BUNDLED_CONFIGS/spark_options.json $JUPYTER_CONFIG_DIR/nbconfig/sparkconnector_spark_options.json
+  # Configure the Hadoop and Spark related environment
+  CVMFS_BUNDLES_PATH="$(dirname $SPARK_CONFIG_SCRIPT)/bundles"
+  if [ "$SOFTWARE_SOURCE" == "lcg" ]; then
+    # Source configuration for selected cluster
+    SPARKVERSION=spark3  # Spark major version
+    HADOOPVERSION='3.3'   # Classpath compatibility for YARN
+    source $SPARK_CONFIG_SCRIPT $SPARK_CLUSTER_NAME $HADOOPVERSION $SPARKVERSION
+    # Make the extraJavaOptions option in the NXCALS TESTBED bundle available to SparkConnector
+    ln -s $CVMFS_BUNDLES_PATH/bundles.json $JUPYTER_CONFIG_DIR/nbconfig/sparkconnector_bundles.json
+  else
+    mkdir -p $JUPYTER_CONFIG_DIR/nbconfig
+    # Make the NXCALS TESTBED bundle available to SparkConnector
+    jq '{ bundled_options: { NXCALS_TESTBED: { options: [.bundled_options.NXCALS_TESTBED.options[] | select(.name == "spark.driver.extraJavaOptions")] } } }' ${CVMFS_BUNDLES_PATH}/bundles.json > $JUPYTER_CONFIG_DIR/nbconfig/sparkconnector_bundles.json
   fi
+  # Make the Spark options available to SparkConnector
+  ln -s $CVMFS_BUNDLES_PATH/spark_options.json $JUPYTER_CONFIG_DIR/nbconfig/sparkconnector_spark_options.json
 else
   # Disable spark jupyterlab extensions enabled by default if no cluster is selected
   mkdir -p /etc/jupyter/labconfig
