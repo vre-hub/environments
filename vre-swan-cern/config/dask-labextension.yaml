@@ -1,0 +1,6 @@
+labextension:
+  factory:
+    module: 'swandaskcluster'
+    class: 'SwanHTCondorCluster'
+    args: []
+    kwargs: {}
