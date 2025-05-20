@@ -45,4 +45,4 @@ RUN python3.11 -m venv venv && . venv/bin/activate && \
 ENV VIRTUAL_ENV=/home/linuxbrew/venv
 ENV PATH=$VIRTUAL_ENV/bin:$PATH
 
-CMD ["panel", "serve", "edps-gui.py", "--plugins", "pdf_handler", "--address", "0.0.0.0", "--port", "7860",  "--allow-websocket-origin", "*"]
+#CMD ["panel", "serve", "edps-gui.py", "--plugins", "pdf_handler", "--address", "0.0.0.0", "--port", "7860",  "--allow-websocket-origin", "*"]
