@@ -2,7 +2,7 @@
 
 #FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
 
-ARG VERSION_PARENT=sha-8e4b3b7
+ARG VERSION_PARENT=sha-8222d4e
 
 FROM ghcr.io/vre-hub/vre-swan:${VERSION_PARENT}
 
@@ -27,9 +27,10 @@ RUN pip install --no-deps --no-cache-dir \
     sparkconnector==3.0.8 \
     sparkmonitor==3.0.3 \
     swanportallocator==2.0.0 \
-    swandask==0.0.5
+    swandask==0.0.5 \ 
+    rucio-jupyterlab==1.2.0
     
-RUN pip install rucio-jupyterlab==1.2.0 --no-cache-dir
+#RUN pip install rucio-jupyterlab==1.2.0 --no-cache-dir
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
 # terminals, which need it to do automatic TLS configuration for Dask clients
@@ -48,9 +49,6 @@ USER root
 # Install Spark extensions for classic UI
 RUN jupyter nbclassic-extension install --py --system sparkconnector && \
     jupyter nbclassic-extension install --py --system sparkmonitor
-
-#CERN-VRE
-RUN jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
 
 # HTCondor requirements
 RUN dnf install -y \
@@ -78,6 +76,10 @@ RUN ln -s $(pip show sparkconnector | grep -oP 'Location: \K.*')/sparkconnector 
     ln -s $(pip show jupyter-server-proxy | grep -oP 'Location: \K.*')/jupyter_server_proxy ${SWAN_LIB_DIR}/extensions/ && \
     # dependency of jupyter-server-proxy
     ln -s $(pip show simpervisor | grep -oP 'Location: \K.*')/simpervisor ${SWAN_LIB_DIR}/extensions/
+
+# CERN-VRE
+RUN ln -s $(pip show rucio-jupyterlab | grep -oP 'Location: \K.*')/rucio-jupyterlab ${SWAN_LIB_DIR}/nb_term_lib
+RUN jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
 
 # Grant scripts execution permissions
 RUN chmod +x /usr/local/bin/before-notebook.d/*
