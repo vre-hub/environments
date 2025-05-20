@@ -2,7 +2,7 @@
 
 #FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
 
-ARG VERSION_PARENT=sha-29a65f6 
+ARG VERSION_PARENT=sha-8e4b3b7
 
 FROM ghcr.io/vre-hub/vre-swan:${VERSION_PARENT}
 
