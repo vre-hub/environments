@@ -102,23 +102,7 @@ if use_rucio_extension:
             "mode": os.getenv('ATLAS_RUCIO_MODE', 'replica'),
             "wildcard_enabled": os.getenv('ATLAS_RUCIO_WILDCARD_ENABLED', '0') == '1',
         }
-        
-        # Working atlas config
-        # atlas_config = {
-        #     "name": "https://voatlasrucio-server-prod.cern.ch",
-        #     "display_name": "ATLAS RUCIO",
-        #     "rucio_base_url": "https://voatlasrucio-server-prod.cern.ch:443",
-        #     "rucio_auth_url": "https://atlas-rucio-auth.cern.ch:443",
-        #     "rucio_ca_cert": "/certs/rucio_ca.pem",
-        #     "site_name": "CERN",
-        #     "vo": "atlas",
-        #     "voms_enabled": os.getenv('RUCIO_VOMS_ENABLED', '0') == '1',
-        #     "destination_rse": "CERN-PROD_PHYS-TOP",
-        #     "rse_mount_path": "/eos/atlas/atlasscratchdisk/rucio",
-        #     "path_begins_at": 4,
-        #     "mode": "replica", 
-        #     "wildcard_enabled": os.getenv('RUCIO_WILDCARD_ENABLED', '0') == '0'
-        # }
+    
 
         escape_config = {k: v for k,
                         v in escape_config.items() if v is not None}
