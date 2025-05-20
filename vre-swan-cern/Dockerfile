@@ -27,7 +27,8 @@ RUN pip install --no-deps --no-cache-dir \
     sparkconnector==3.0.8 \
     sparkmonitor==3.0.3 \
     swanportallocator==2.0.0 \
-    swandask==0.0.5
+    swandask==0.0.5 \
+    rucio-jupyterlab==1.2.0
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
 # terminals, which need it to do automatic TLS configuration for Dask clients
@@ -46,6 +47,9 @@ USER root
 # Install Spark extensions for classic UI
 RUN jupyter nbclassic-extension install --py --system sparkconnector && \
     jupyter nbclassic-extension install --py --system sparkmonitor
+
+#CERN-VRE
+RUN jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
 
 # HTCondor requirements
 RUN dnf install -y \
