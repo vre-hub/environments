@@ -1,20 +1,28 @@
 FROM ghcr.io/vre-hub/vre-singleuser-py311:sha-281055c
+USER root
 
-RUN apt-get update && \
-    apt-get install -y build-essential procps curl file git && \
-    apt-get clean
+RUN apt-get update \
+    && apt-get install -y build-essential \
+    procps \
+    curl \
+    file \
+    git \
+    ruby \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
 
 ENV XDG_RUNTIME_DIR=/var/run/adari
 RUN mkdir $XDG_RUNTIME_DIR && chmod 777 $XDG_RUNTIME_DIR
 
 # Create user
-RUN useradd -m -d /home/linuxbrew -s /bin/bash linuxbrew
+#RUN useradd -m -d /home/linuxbrew -s /bin/bash linuxbrew
+RUN useradd -m -s /bin/bash linuxbrew
 USER linuxbrew
-ENV PATH="/home/linuxbrew/.local/bin:$PATH"
+ENV HOME=/home/linuxbrew
 
 # Install Homebrew
 RUN curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh | bash
-ENV PATH="/home/linuxbrew/.linuxbrew/bin:/home/linuxbrew/.linuxbrew/sbin:${PATH}"
+ENV PATH="${HOME}/.linuxbrew/bin:${HOME}/.linuxbrew/sbin:${PATH}"
 
 WORKDIR /home/linuxbrew
 RUN mkdir .edps EDPS_data
