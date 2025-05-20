@@ -34,6 +34,8 @@ export JUPYTER_DATA_DIR=$LCG_VIEW/share/jupyter
 
 # Setup LCG
 source $LCG_VIEW/setup.sh
+
+# Setup Rucio clients
 ls /cvmfs/sw.escape.eu
 source /cvmfs/sw.escape.eu/rucio/34.6.0/setup-minimal.sh 
 
