@@ -27,8 +27,9 @@ RUN pip install --no-deps --no-cache-dir \
     sparkconnector==3.0.8 \
     sparkmonitor==3.0.3 \
     swanportallocator==2.0.0 \
-    swandask==0.0.5 \
-    rucio-jupyterlab==1.2.0
+    swandask==0.0.5
+    
+RUN pip install rucio-jupyterlab==1.2.0 --no-cache-dir
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
 # terminals, which need it to do automatic TLS configuration for Dask clients
