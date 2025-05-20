@@ -1,4 +1,5 @@
-FROM ghcr.io/vre-hub/vre-singleuser-py311:sha-281055c
+#FROM ghcr.io/vre-hub/vre-singleuser-py311:sha-281055c
+FROM quay.io/jupyter/scipy-notebook:python-3.11.8
 USER root
 
 RUN apt-get update \
