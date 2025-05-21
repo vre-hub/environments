@@ -2,7 +2,7 @@
 
 #FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
 
-ARG VERSION_PARENT=sha-8222d4e
+ARG VERSION_PARENT=sha-da0c624
 
 FROM ghcr.io/vre-hub/vre-swan:${VERSION_PARENT}
 
@@ -27,8 +27,10 @@ RUN pip install --no-deps --no-cache-dir \
     sparkconnector==3.0.8 \
     sparkmonitor==3.0.3 \
     swanportallocator==2.0.0 \
-    swandask==0.0.5 \ 
-    rucio-jupyterlab==1.2.0
+    swandask==0.0.5 
+
+# CERN-VRE
+RUN pip install --no-chache-dir rucio-jupyterlab==1.2.0
     
 #RUN pip install rucio-jupyterlab==1.2.0 --no-cache-dir
 
