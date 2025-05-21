@@ -65,9 +65,9 @@ RUN apt update -y \
 # ESCAPE grid-security and VOMS setup
 RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
 
-RUN apt update \
-    && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
-    && apt -y install ca-policy-egi-core
+# RUN apt update \
+#     && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
+#     && apt -y install ca-policy-egi-core
 
 RUN mkdir -p /etc/vomses \
     && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses \
