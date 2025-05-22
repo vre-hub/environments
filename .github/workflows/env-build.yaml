@@ -3,7 +3,7 @@ name: Docker automatic build and publish
 on:
   push:
     branches: 
-      - main
+      - rucio-jlab-dev
 
 env:
   REGISTRY: ghcr.io
