@@ -70,7 +70,7 @@ RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-E
 #     && apt -y install ca-policy-egi-core
 
 RUN apt update \
-    && add-apt-repository 'https://lcg-ca.web.cern.ch/distribution/current/repo-files/lcg-trustanchors.repo' \
+    && add-apt-repository 'https://cern.ch/lcg-ca/distribution/current' \
     && apt -y install ca-policy-lcg 
 
 RUN mkdir -p /etc/vomses \
