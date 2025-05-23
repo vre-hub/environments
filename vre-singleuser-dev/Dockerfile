@@ -68,9 +68,10 @@ RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-E
 # RUN apt update \
 #     && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
 #     && apt -y install ca-policy-egi-core
-RUN curl -Lo /etc/yum.repos.d/lcg-trustanchors.repo https://lcg-ca.web.cern.ch/distribution/current/repo-files/lcg-trustanchors.repo \
-    && dnf -y update \
-    && dnf -y install ca-policy-lcg 
+
+RUN apt update \
+    && add-apt-repository 'https://lcg-ca.web.cern.ch/distribution/current/repo-files/lcg-trustanchors.repo' \
+    && apt -y install ca-policy-lcg 
 
 RUN mkdir -p /etc/vomses \
     && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses \
