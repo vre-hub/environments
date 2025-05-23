@@ -71,7 +71,7 @@ RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-E
 
 RUN apt update \
     && apt install -y software-properties-common \
-    && add-apt-repository 'deb https://lcg-ca.web.cern.ch/lcg-ca/distribution/current focal main' \
+    && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current focal main' \
     && apt update \
     && apt -y install ca-policy-lcg
 
