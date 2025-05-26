@@ -27,11 +27,18 @@ RUN pip install --no-deps --no-cache-dir \
     sparkconnector==3.0.8 \
     sparkmonitor==3.0.3 \
     swanportallocator==2.0.0 \
-    swandask==0.0.5 \
-    rucio-jupyterlab==1.2.0
+    swandask==0.0.5 
+    # rucio-jupyterlab==1.2.0
 
 # CERN-VRE
-# RUN pip install rucio-jupyterlab==1.2.0 --no-cache-dir
+#RUN pip install rucio-jupyterlab==1.2.0 --no-cache-dir
+RUN git clone https://github.com/Soap2G/jupyterlab-extension.git \
+    && cd jupyterlab-extension \
+    && git checkout gguerrie-auth-validation \
+    && pip install . \
+    && cd .. \
+    rm -rf jupyterlab-extension
+RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
 # terminals, which need it to do automatic TLS configuration for Dask clients
@@ -80,8 +87,8 @@ RUN ln -s $(pip show sparkconnector | grep -oP 'Location: \K.*')/sparkconnector 
 
 # CERN-VRE
 # The fact that the rucio_jupyterlab does not correspond with rucio-jupyterlab is how the package was dev
-RUN ln -s $(pip show rucio-jupyterlab | grep -oP 'Location: \K.*')/rucio_jupyterlab ${SWAN_LIB_DIR}/extensions/
-RUN jupyter serverextension enable --py --system rucio_jupyterlab 
+# RUN ln -s $(pip show rucio-jupyterlab | grep -oP 'Location: \K.*')/rucio_jupyterlab ${SWAN_LIB_DIR}/extensions/
+# RUN jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
 
 # Grant scripts execution permissions
 RUN chmod +x /usr/local/bin/before-notebook.d/*
