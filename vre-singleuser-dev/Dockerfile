@@ -65,9 +65,9 @@ RUN apt update -y \
 # ESCAPE grid-security and VOMS setup
 RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
 
-RUN apt update \
-    && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
-    && apt -y install ca-policy-egi-core
+# RUN apt update \
+#     && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
+#     && apt -y install ca-policy-egi-core
 
 # RUN apt update \
 #     && apt install -y software-properties-common \
@@ -103,6 +103,7 @@ RUN mkdir -p /opt/rucio/etc \
     && chown -R $NB_UID /opt/rucio/etc 
 
 ENV JUPYTER_ENABLE_LAB=yes
+ENV RUCIO_JUPYTERLAB_LOGLEVEL=DEBUG
 ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 WORKDIR $HOME
