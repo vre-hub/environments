@@ -36,7 +36,8 @@ mkdir -p $IPYTHONDIR $PROFILEPATH
 # This will hide the checkpoint files created by EOS.
 GLOBAL_GITIGNORE="$LOCAL_HOME/.gitignore_global"
 echo ".sys.*" > "$GLOBAL_GITIGNORE"
-run_as_user git config --global core.excludesfile "$GLOBAL_GITIGNORE"
+# Set HOME to LOCAL_HOME to prevent git from internally touching EOS
+run_as_user HOME=$LOCAL_HOME git config --global core.excludesfile "$GLOBAL_GITIGNORE"
 
 # Make the user the owner of the local home and subdirectories
 chown -R $NB_USER:$NB_GID $LOCAL_HOME
