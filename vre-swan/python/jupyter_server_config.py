@@ -1,5 +1,6 @@
 import os
 import json
+from site import getsitepackages
 
 home = os.environ.get("HOME")
 jupyter_path = os.environ.get("JUPYTER_PATH", f"{home}/.local/share/jupyter")
@@ -38,6 +39,12 @@ user = os.environ.get('USER')
 # reduce the time it takes to convert a PDF (including preventing timeouts).
 c.PDFExporter.latex_command = ['env', f'HOME=/home/{user}' , 'xelatex', '-quiet', '{filename}']
 
+# Configure path to SwanCustomenvironments template
+for path in getsitepackages():
+    candidate = os.path.join(path, "swancustomenvironments", "templates")
+    if os.path.isdir(candidate):
+        c.ServerApp.extra_template_paths = [candidate]
+        break
 
 # CERN-VRE - Configure the JupyterLab server - TRIGGERED TO ALWAYS WORK
 use_rucio_extension = os.environ.get('USE_RUCIO_EXTENSION', 'true').lower() == 'true'
