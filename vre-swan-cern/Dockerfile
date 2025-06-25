@@ -1,9 +1,8 @@
-#ARG VERSION_PARENT=v0.0.22
-
+#ARG VERSION_PARENT=v0.0.32
 #FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
+# Same image as swan-cern/v0.0.48 - VRE-ied
 
-ARG VERSION_PARENT=sha-da0c624
-
+ARG VERSION_PARENT=sha-8b00ce5
 FROM ghcr.io/vre-hub/vre-swan:${VERSION_PARENT}
 
 LABEL maintainer="swan-admins@cern.ch"
@@ -24,10 +23,10 @@ RUN pip install --no-deps --no-cache-dir dask-labextension==7.0.0
 # Install all of our extensions required to access Spark, HDFS and Dask.
 # Ignore dependencies because they have already been installed or come from CVMFS
 RUN pip install --no-deps --no-cache-dir \
-    sparkconnector==3.0.8 \
-    sparkmonitor==3.0.3 \
+    sparkconnector==3.0.9 \
+    sparkmonitor==3.1.0 \
     swanportallocator==2.0.0 \
-    swandask==0.0.5 
+    swandask==0.0.5
 
 # CERN-VRE
 #RUN pip install rucio-jupyterlab==1.2.0 --no-cache-dir
@@ -93,4 +92,3 @@ RUN chmod +x /usr/local/bin/before-notebook.d/*
 
 # Switch back to jovyan to avoid accidental container runs as root
 USER ${NB_UID}
-
