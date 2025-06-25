@@ -35,6 +35,10 @@ export JUPYTER_DATA_DIR=$LCG_VIEW/share/jupyter
 # Setup LCG
 source $LCG_VIEW/setup.sh
 
+# Setup Rucio clients
+ls /cvmfs/sw.escape.eu
+source /cvmfs/sw.escape.eu/rucio/34.6.0/setup-minimal.sh 
+
 SETUP_LCG_TIME_SEC=$(echo $(date +%s.%N --date="$START_TIME_SETUP_LCG seconds ago") | bc)
 _log "user: $USER, host: ${SERVER_HOSTNAME%%.*}, metric: configure_user_env_cvmfs.${ROOT_LCG_VIEW_NAME:-none}.duration_sec, value: $SETUP_LCG_TIME_SEC"
 
