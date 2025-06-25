@@ -26,8 +26,15 @@ RUN conda install -y -n base mamba \
     && conda clean --all -f -y
 
 # Install jupyterlab extensions
-RUN python -m pip install rucio-jupyterlab==1.0.0 \
-    && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
+RUN git clone https://github.com/Soap2G/jupyterlab-extension.git \
+    && cd jupyterlab-extension \
+    && git checkout gguerrie-API-refactoring \
+    && pip install . \
+    && cd .. \
+    && rm -rf jupyterlab-extension
+RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
+# RUN python -m pip install rucio-jupyterlab==1.0.0 \
+#     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
 RUN python -m pip install swanoauthrenew==1.0.1 \ 
     && jupyter server extension enable --py swanoauthrenew --sys-prefix 
@@ -93,4 +100,4 @@ ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 WORKDIR $HOME
 USER $NB_UID
 
-#CMD ["start-notebook.py"]
+CMD ["start-notebook.py"]
