@@ -39,19 +39,19 @@ RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix
 RUN python -m pip install swanoauthrenew==1.0.1 \ 
     && jupyter server extension enable --py swanoauthrenew --sys-prefix 
 
-RUN python -m pip install reana-jupyterlab \
-    && jupyter server extension enable --py reana_jupyterlab --sys-prefix
+# RUN python -m pip install reana-jupyterlab \
+#     && jupyter server extension enable --py reana_jupyterlab --sys-prefix
 
-RUN git clone https://github.com/vre-hub/zenodo-jupyterlab-extension.git \
-    && cd zenodo-jupyterlab-extension \
-    && git checkout dev \
-    && python -m pip install . \
-    && jupyter server extension enable --py zenodo_jupyterlab.server --sys-prefix \
-    && cd .. \
-    && rm -rf zenodo-jupyterlab-extension
+# RUN git clone https://github.com/vre-hub/zenodo-jupyterlab-extension.git \
+#     && cd zenodo-jupyterlab-extension \
+#     && git checkout dev \
+#     && python -m pip install . \
+#     && jupyter server extension enable --py zenodo_jupyterlab.server --sys-prefix \
+#     && cd .. \
+#     && rm -rf zenodo-jupyterlab-extension
     
 # Custom version of reana-client due to the jsonschema problem
-RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
+# RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
 
 USER root
 
@@ -64,9 +64,16 @@ RUN apt update -y \
 # ESCAPE grid-security and VOMS setup
 RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
 
-RUN apt update \
-    && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
-    && apt -y install ca-policy-egi-core
+# RUN apt update \
+#     && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
+#     && apt -y install ca-policy-egi-core
+
+# RUN apt update \
+#     && apt install -y software-properties-common \
+#     && add-apt-repository 'deb https://lcg-ca.web.cern.ch/lcg-ca/distribution/current focal main' \
+#     && apt update \
+#     && apt -y install ca-policy-lcg
+
 
 RUN mkdir -p /etc/vomses \
     && wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses \
@@ -95,6 +102,7 @@ RUN mkdir -p /opt/rucio/etc \
     && chown -R $NB_UID /opt/rucio/etc 
 
 ENV JUPYTER_ENABLE_LAB=yes
+ENV RUCIO_JUPYTERLAB_LOGLEVEL=DEBUG
 ENV JUPYTERHUB_SINGLEUSER_APP=jupyter-server
 
 WORKDIR $HOME
