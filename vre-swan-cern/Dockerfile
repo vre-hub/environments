@@ -30,7 +30,13 @@ RUN pip install --no-deps --no-cache-dir \
     swandask==0.0.5 
 
 # CERN-VRE
-RUN pip install rucio-jupyterlab==1.2.0 --no-cache-dir
+#RUN pip install rucio-jupyterlab==1.2.0 --no-cache-dir
+RUN git clone https://github.com/Soap2G/jupyterlab-extension.git \
+    && cd jupyterlab-extension \
+    && git checkout gguerrie-API-refactoring \
+    && pip install . \
+    && cd .. \
+    && rm -rf jupyterlab-extension
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
 # terminals, which need it to do automatic TLS configuration for Dask clients
