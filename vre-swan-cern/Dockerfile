@@ -36,7 +36,7 @@ RUN git clone https://github.com/Soap2G/jupyterlab-extension.git \
     && git checkout gguerrie-API-refactoring \
     && pip install . \
     && cd .. \
-    rm -rf jupyterlab-extension
+    && rm -rf jupyterlab-extension
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
 # terminals, which need it to do automatic TLS configuration for Dask clients
