@@ -85,7 +85,7 @@ if use_rucio_extension:
             "replication_rule_lifetime_days": int(os.getenv('RUCIO_REPLICATION_RULE_LIFETIME_DAYS')) if os.getenv('RUCIO_REPLICATION_RULE_LIFETIME_DAYS') else None,
             "path_begins_at": int(os.getenv('RUCIO_PATH_BEGINS_AT', '5')),
             "mode": os.getenv('RUCIO_MODE', 'replica'),
-            "wildcard_enabled": os.getenv('RUCIO_WILDCARD_ENABLED', '0') == '1',
+            "wildcard_enabled": os.getenv('RUCIO_WILDCARD_ENABLED', '1') == '1',
             #"oidc_auth": os.getenv('RUCIO_OIDC_AUTH'),
             #"oidc_env_name": os.getenv('RUCIO_OIDC_ENV_NAME'),
             #"oidc_file_name": os.getenv('RUCIO_OIDC_FILE_NAME'),
@@ -108,7 +108,7 @@ if use_rucio_extension:
             "replication_rule_lifetime_days": int(os.getenv('ATLAS_RUCIO_REPLICATION_RULE_LIFETIME_DAYS')) if os.getenv('ATLAS_RUCIO_REPLICATION_RULE_LIFETIME_DAYS') else None,
             "path_begins_at": int(os.getenv('ATLAS_RUCIO_PATH_BEGINS_AT', '4')),
             "mode": os.getenv('ATLAS_RUCIO_MODE', 'replica'),
-            "wildcard_enabled": os.getenv('ATLAS_RUCIO_WILDCARD_ENABLED', '0') == '1',
+            "wildcard_enabled": os.getenv('ATLAS_RUCIO_WILDCARD_ENABLED', '1') == '1',
         }
     
 
@@ -122,6 +122,7 @@ if use_rucio_extension:
             'instances': [escape_config, atlas_config], # cms, 
             "default_instance": os.getenv('RUCIO_DEFAULT_INSTANCE', escape_config['name']),
             "default_auth_type": os.getenv('RUCIO_DEFAULT_AUTH_TYPE', 'x509_proxy'),
+            "log_level": os.getenv('RUCIO_LOG_LEVEL', 'debug'),
         }
 
         config_file = open(file_server_config, 'w')
