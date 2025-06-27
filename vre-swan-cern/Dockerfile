@@ -34,12 +34,16 @@ RUN pip install --no-deps --no-cache-dir \
 # Install Rucio jupytelab extension v1.3.0 from wheels
 
 # v1.3.0
-#COPY rucio_jupyterlab-1.3.0-py3-none-any.whl .
-#RUN pip install rucio_jupyterlab-1.3.0-py3-none-any.whl
+# COPY rucio_jupyterlab-1.3.0-py3-none-any.whl .
+# RUN pip install rucio_jupyterlab-1.3.0-py3-none-any.whl
 
-#v1.3.1
-COPY rucio_jupyterlab-1.3.1-py3-none-any.whl .
-RUN pip install rucio_jupyterlab-1.3.1-py3-none-any.whl
+# v1.3.1
+# COPY rucio_jupyterlab-1.3.1-py3-none-any.whl .
+# RUN pip install rucio_jupyterlab-1.3.1-py3-none-any.whl
+
+#v1.3.2
+COPY rucio_jupyterlab-1.3.2-py3-none-any.whl .
+RUN pip install rucio_jupyterlab-1.3.2-py3-none-any.whl
 
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
