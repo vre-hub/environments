@@ -32,14 +32,15 @@ RUN pip install --no-deps --no-cache-dir \
 #RUN pip install rucio-jupyterlab==1.2.0 --no-cache-dir
 
 # Install Rucio jupytelab extension v1.3.0 from wheels
-COPY rucio_jupyterlab-1.3.0-py3-none-any.whl .
-RUN pip install rucio_jupyterlab-1.3.0-py3-none-any.whl
-# RUN git clone https://github.com/Soap2G/jupyterlab-extension.git \
-#     && cd jupyterlab-extension \
-#     && git checkout gguerrie-API-refactoring \
-#     && pip install . \
-#     && cd .. \
-#     && rm -rf jupyterlab-extension
+
+# v1.3.0
+#COPY rucio_jupyterlab-1.3.0-py3-none-any.whl .
+#RUN pip install rucio_jupyterlab-1.3.0-py3-none-any.whl
+
+#v1.3.1
+COPY rucio_jupyterlab-1.3.1-debug-py3-none-any.whl .
+RUN pip install rucio_jupyterlab-1.3.1-debug-py3-none-any.whl
+
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
 # terminals, which need it to do automatic TLS configuration for Dask clients
