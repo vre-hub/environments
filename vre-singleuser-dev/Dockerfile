@@ -26,13 +26,11 @@ RUN conda install -y -n base mamba \
     && conda clean --all -f -y
 
 # Install jupyterlab extensions
-RUN git clone https://github.com/Soap2G/jupyterlab-extension.git \
-    && cd jupyterlab-extension \
-    && git checkout gguerrie-API-refactoring \
-    && pip install . \
-    && cd .. \
-    && rm -rf jupyterlab-extension
-RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
+# Branch gguerrie-API-refactoring from Soap2G
+COPY rucio_jupyterlab-1.3.0-py3-none-any.whl .
+RUN pip install rucio_jupyterlab-1.3.0-py3-none-any.whl
+
+#RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 # RUN python -m pip install rucio-jupyterlab==1.0.0 \
 #     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
