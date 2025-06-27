@@ -26,9 +26,13 @@ RUN conda install -y -n base mamba \
     && conda clean --all -f -y
 
 # Install jupyterlab extensions
-# Branch gguerrie-API-refactoring from Soap2G
-COPY rucio_jupyterlab-1.3.0-py3-none-any.whl .
-RUN pip install rucio_jupyterlab-1.3.0-py3-none-any.whl
+# Branch gguerrie-API-refactoring from Soap2G - v1.3.0
+# COPY rucio_jupyterlab-1.3.0-py3-none-any.whl .
+# RUN pip install rucio_jupyterlab-1.3.0-py3-none-any.whl
+
+# v1.3.2
+COPY rucio_jupyterlab-1.3.2-py3-none-any.whl .
+RUN pip install rucio_jupyterlab-1.3.2-py3-none-any.whl
 
 #RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 # RUN python -m pip install rucio-jupyterlab==1.0.0 \
