@@ -76,6 +76,7 @@ def write_jupyterlab_config():
         'instances': [escape_config, atlas_config],
         "default_instance": os.getenv('RUCIO_DEFAULT_INSTANCE', escape_config['name']),
         "default_auth_type": os.getenv('RUCIO_DEFAULT_AUTH_TYPE', 'oidc'),
+        "log_level": "debug",
     }
 
     config_file = open(file_path, 'w')
