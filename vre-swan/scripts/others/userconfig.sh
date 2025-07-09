@@ -35,10 +35,6 @@ export JUPYTER_DATA_DIR=$LCG_VIEW/share/jupyter
 # Setup LCG
 source $LCG_VIEW/setup.sh
 
-# Setup Rucio clients
-ls /cvmfs/sw.escape.eu
-source /cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1/setup-minimal.sh 
-
 SETUP_LCG_TIME_SEC=$(echo $(date +%s.%N --date="$START_TIME_SETUP_LCG seconds ago") | bc)
 _log "user: $USER, host: ${SERVER_HOSTNAME%%.*}, metric: configure_user_env_cvmfs.${ROOT_LCG_VIEW_NAME:-none}.duration_sec, value: $SETUP_LCG_TIME_SEC"
 
@@ -103,3 +99,7 @@ python -I /srv/singleuser/configure_kernels_and_terminal.py
 # leaving the user env cleaned. It should be the last one called to allow the kernel to load our extensions correctly.
 export KERNEL_PROFILEPATH=$PROFILEPATH/ipython_kernel_config.py
 echo "c.InteractiveShellApp.extensions.append('swankernelenv')" >>  $KERNEL_PROFILEPATH
+
+# Setup ESCAPE CVMFS
+ls /cvmfs/sw.escape.eu
+source /cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1/setup-minimal.sh 
