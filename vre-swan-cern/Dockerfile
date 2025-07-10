@@ -2,7 +2,7 @@
 #FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
 # Same image as swan-cern/v0.0.48 - VRE-ied
 
-ARG VERSION_PARENT=sha-99431ef
+ARG VERSION_PARENT=sha-90fa630
 FROM ghcr.io/vre-hub/vre-swan:${VERSION_PARENT}
 
 LABEL maintainer="swan-admins@cern.ch"
@@ -93,8 +93,8 @@ RUN ln -s $(pip show sparkconnector | grep -oP 'Location: \K.*')/sparkconnector 
     ln -s $(pip show simpervisor | grep -oP 'Location: \K.*')/simpervisor ${SWAN_LIB_DIR}/extensions/
 
 # CERN-VRE
-# The fact that the rucio_jupyterlab does not correspond with rucio-jupyterlab is how the package was dev
 RUN ln -s $(pip show rucio-jupyterlab | grep -oP 'Location: \K.*')/rucio_jupyterlab ${SWAN_LIB_DIR}/extensions/
+RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
 # Grant scripts execution permissions
 RUN chmod +x /usr/local/bin/before-notebook.d/*
