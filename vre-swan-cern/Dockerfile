@@ -2,7 +2,7 @@
 #FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
 # Same image as swan-cern/v0.0.48 - VRE-ied
 
-ARG VERSION_PARENT=sha-bc94b70
+ARG VERSION_PARENT=sha-99431ef
 FROM ghcr.io/vre-hub/vre-swan:${VERSION_PARENT}
 
 LABEL maintainer="swan-admins@cern.ch"
@@ -30,6 +30,7 @@ RUN pip install --no-deps --no-cache-dir \
 
 # CERN-VRE
 RUN pip install --no-cache-dir --no-deps rucio-jupyterlab==1.2.1 
+RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
 # Install Rucio jupytelab extension v1.3.0 from wheels
 
