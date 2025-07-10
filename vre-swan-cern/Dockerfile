@@ -94,7 +94,7 @@ RUN ln -s $(pip show sparkconnector | grep -oP 'Location: \K.*')/sparkconnector 
 
 # CERN-VRE
 RUN ln -s $(pip show rucio-jupyterlab | grep -oP 'Location: \K.*')/rucio_jupyterlab ${SWAN_LIB_DIR}/extensions/
-RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
+#RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
 # Grant scripts execution permissions
 RUN chmod +x /usr/local/bin/before-notebook.d/*
