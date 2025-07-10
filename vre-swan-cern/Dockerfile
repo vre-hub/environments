@@ -30,7 +30,7 @@ RUN pip install --no-deps --no-cache-dir \
 
 # CERN-VRE
 RUN pip install --no-cache-dir --no-deps rucio-jupyterlab==1.2.1 
-RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
+#RUN jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
 # Install Rucio jupytelab extension v1.3.0 from wheels
 
