@@ -101,5 +101,8 @@ export KERNEL_PROFILEPATH=$PROFILEPATH/ipython_kernel_config.py
 echo "c.InteractiveShellApp.extensions.append('swankernelenv')" >>  $KERNEL_PROFILEPATH
 
 # Setup ESCAPE CVMFS
-ls /cvmfs/sw.escape.eu
-source /cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1/setup-minimal.sh 
+#ls /cvmfs/sw.escape.eu
+#source /cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1/setup-minimal.sh 
+export RUCIO_HOME="/cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1"
+export PATH="$RUCIO_HOME/bin:$PATH"
+export PYTHONPATH="$PYTHONPATH:/cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1/lib/python3.11/site-packages"
