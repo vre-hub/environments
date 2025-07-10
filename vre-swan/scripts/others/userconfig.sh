@@ -103,6 +103,13 @@ echo "c.InteractiveShellApp.extensions.append('swankernelenv')" >>  $KERNEL_PROF
 # Setup ESCAPE CVMFS
 #ls /cvmfs/sw.escape.eu
 #source /cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1/setup-minimal.sh 
+
+echo $PYTHONPATH
+echo $PATH
+
 export RUCIO_HOME="/cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1"
 export PATH="$RUCIO_HOME/bin:$PATH"
 export PYTHONPATH="$PYTHONPATH:/cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1/lib/python3.11/site-packages"
+
+echo $PYTHONPATH
+echo $PATH
