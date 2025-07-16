@@ -15,7 +15,7 @@ RUN conda install -y -n base mamba \
         jupyterlab">4,<5" \
         notebook"<7" \
         jupyterhub \
-        jsonschema<4 \
+        jsonschema \
         jupyterlab_server \
         jupyter_server \
         traitlets \
