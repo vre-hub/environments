@@ -47,18 +47,24 @@ RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-
 
 USER root
 
-RUN apt update -y \
-    && apt install -y build-essential curl voms-clients-java software-properties-common \
-    && apt clean -y \
-    && rm /opt/conda/bin/voms-proxy-init \
-    && ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
+RUN apt-get update && \
+    apt-get install -y wget gnupg ca-certificates build-essential curl voms-clients-java software-properties-common && \
+    rm -rf /var/lib/apt/lists/* && \
+    apt-get clean && \
+    rm /opt/conda/bin/voms-proxy-init && \
+    ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
 
 # ESCAPE grid-security
-RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
+# Docs: https://docs.egi.eu/providers/operations-manuals/howto01_using_igtf_ca_distribution/#using-the-distribution-on-a-debian-or-debian-derived-platform
+# Not working
+# RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
 
-RUN apt update \
-    && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
-    && apt -y install ca-policy-egi-core
+# RUN echo "deb [signed-by=/usr/share/keyrings/egi-igtf-archive-keyring.gpg] https://repository.egi.eu/sw/production/cas/1/current egi-igtf core" \
+#     > /etc/apt/sources.list.d/egi-igtf.list
+
+# RUN apt-get update && \
+#     apt-get install -y ca-policy-egi-core && \
+#     rm -rf /var/lib/apt/lists/*
 
 # VOMS setup
 # wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses 
@@ -67,10 +73,10 @@ RUN mkdir -p /etc/vomses \
     && mkdir -p /etc/grid-security/vomsdir/escape \ 
     && mkdir -p /etc/grid-security/vomsdir/atlas \ 
     && mkdir -p /etc/grid-security/vomsdir/cms
-COPY voms/vomsdir/escape/* /etc/grid-security/vomsdir/escape
-COPY voms/vomsdir/atlas/* /etc/grid-security/vomsdir/atlas
-COPY voms/vomsdir/cms/* /etc/grid-security/vomsdir/cms
-COPY voms/vomses/* /etc/vomses
+COPY voms/vomsdir/escape/* /etc/grid-security/vomsdir/escape/
+COPY voms/vomsdir/atlas/* /etc/grid-security/vomsdir/atlas/
+COPY voms/vomsdir/cms/* /etc/grid-security/vomsdir/cms/
+COPY voms/vomses/* /etc/vomses/
 
 # Setup merged CERN CA file on Ubuntu based images.
 # This file is contained in the `CERN-bundle.pem` file downloaded using 
