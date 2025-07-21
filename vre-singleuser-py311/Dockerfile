@@ -12,18 +12,18 @@ USER $NB_UID
 RUN conda install -y -n base mamba \
     && mamba install -y -c conda-forge python-gfal2 \
         nodejs \
-        jupyterlab==4.1.6 \
-        notebook==6.5.7 \
-        jupyterhub==4.1.5 \
-        jupyterlab_server==2.26.0 \
-        jupyter_server==2.14.0 \
-        traitlets==5.14.2 \
-        nbformat==5.10.4 \
-        ipykernel==6.29.3 \
-        PyJWT==2.8.0 \
-        ipywidgets==8.1.2 \
-        rucio-clients==35.6.0 \
+        jupyterlab">4,<5" \
+        notebook"<7" \
+        jupyterhub \
         jsonschema \ 
+        jupyterlab_server \
+        jupyter_server \
+        traitlets \
+        nbformat \
+        ipykernel \
+        PyJWT \
+        ipywidgets \
+        rucio-clients==35.6.0 \
     && conda clean --all -f -y
 
 #RUN python -m pip install rucio-clients==34.6.0
