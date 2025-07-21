@@ -29,24 +29,24 @@ RUN conda install -y -n base mamba \
 #RUN python -m pip install rucio-clients==34.6.0
 
 # Install jupyterlab extensions
-RUN python -m pip install rucio-jupyterlab==1.3.0 
-#    && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
+# RUN python -m pip install rucio-jupyterlab==1.3.0 
+# #    && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
-RUN python -m pip install swanoauthrenew==1.0.1 
-#    && jupyter server extension enable --py swanoauthrenew --sys-prefix 
+# RUN python -m pip install swanoauthrenew==1.0.1 
+# #    && jupyter server extension enable --py swanoauthrenew --sys-prefix 
 
-RUN python -m pip install reana-jupyterlab 
-#    && jupyter server extension enable --py reana_jupyterlab --sys-prefix
+# RUN python -m pip install reana-jupyterlab 
+# #    && jupyter server extension enable --py reana_jupyterlab --sys-prefix
 
-RUN git clone https://github.com/vre-hub/zenodo-jupyterlab-extension.git \
-    && cd zenodo-jupyterlab-extension \
-    && python -m pip install . \
-#    && jupyter server extension enable --py zenodo_jupyterlab.server --sys-prefix \
-    && cd .. \
-    && rm -rf zenodo-jupyterlab-extension
+# RUN git clone https://github.com/vre-hub/zenodo-jupyterlab-extension.git \
+#     && cd zenodo-jupyterlab-extension \
+#     && python -m pip install . \
+# #    && jupyter server extension enable --py zenodo_jupyterlab.server --sys-prefix \
+#     && cd .. \
+#     && rm -rf zenodo-jupyterlab-extension
     
-# Custom version of reana-client due to the jsonschema problem
-RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
+# # Custom version of reana-client due to the jsonschema problem
+# RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
 
 USER root
 
