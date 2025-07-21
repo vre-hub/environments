@@ -6,6 +6,7 @@ ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
 RUN python -m pip install --upgrade pip
+RUN python -m pip install 'jsonschema==3.2.0'
 
 USER $NB_UID
 
@@ -22,10 +23,9 @@ RUN conda install -y -n base mamba \
         ipykernel==6.29.3 \
         PyJWT==2.8.0 \
         ipywidgets==8.1.2 \
-        rucio-clients==34.6.0 \
+        rucio-clients==35.6.0 \
     && conda clean --all -f -y
 
-RUN python -m pip install 'jsonschema==3.2.0'
 #RUN python -m pip install rucio-clients==34.6.0
 
 # Install jupyterlab extensions
