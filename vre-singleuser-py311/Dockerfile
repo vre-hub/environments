@@ -109,5 +109,3 @@ WORKDIR $HOME
 USER $NB_UID
 
 CMD ["start-notebook.py"]
-
-
