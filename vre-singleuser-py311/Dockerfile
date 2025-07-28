@@ -15,7 +15,7 @@ RUN conda install -y -n base mamba \
         jupyterlab">4,<5" \
         notebook"<7" \
         jupyterhub \
-        jsonschema>4 \
+        jsonschema \
         jupyterlab_server \
         jupyter_server \
         traitlets \
@@ -43,7 +43,11 @@ RUN git clone https://github.com/vre-hub/zenodo-jupyterlab-extension.git \
     && rm -rf zenodo-jupyterlab-extension
     
 # Custom version of reana-client due to the jsonschema problem
-RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
+# RUN python -m pip install git+https://github.com/mdonadoni/reana-client.git@vre-summer-24
+# vre-summer-24 was breaking compatibility with Yadage. 
+# vre-summer-25 might break OpenAPI spec. But there is no other way of building REANA due to
+#  lower jsonchema<4 pin
+RUN python -m pip install git+https://github.com/garciagenrique/reana-client.git@vre-summer-25
 
 USER root
 
@@ -55,16 +59,13 @@ RUN apt-get update && \
     ln -s /usr/bin/voms-proxy-init /opt/conda/bin/voms-proxy-init
 
 # ESCAPE grid-security
-# Docs: https://docs.egi.eu/providers/operations-manuals/howto01_using_igtf_ca_distribution/#using-the-distribution-on-a-debian-or-debian-derived-platform
-# Not working
-# RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
+# Docs (not updated): https://docs.egi.eu/providers/operations-manuals/howto01_using_igtf_ca_distribution/#using-the-distribution-on-a-debian-or-debian-derived-platform
+RUN wget -qO - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-4 | gpg --dearmor -o /etc/apt/trusted.gpg.d/EGI-Key.gpg
+RUN echo "deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core" > /etc/apt/sources.list.d/egi-igtf.list
 
-# RUN echo "deb [signed-by=/usr/share/keyrings/egi-igtf-archive-keyring.gpg] https://repository.egi.eu/sw/production/cas/1/current egi-igtf core" \
-#     > /etc/apt/sources.list.d/egi-igtf.list
-
-# RUN apt-get update && \
-#     apt-get install -y ca-policy-egi-core && \
-#     rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y ca-policy-egi-core && \
+    rm -rf /var/lib/apt/lists/*
 
 # VOMS setup
 # wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses 
