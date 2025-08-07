@@ -23,11 +23,11 @@ RUN conda install -y -n base mamba \
         ipykernel \
         PyJWT \
         ipywidgets \
-        rucio-clients==35.8.0 \
     && conda clean --all -f -y
 
 # Install jupyterlab extensions
-RUN python -m pip install rucio-jupyterlab==1.3.0 \
+RUN python -m pip install rucio-clients==35.8.0 \ 
+    && rucio-jupyterlab==1.3.0 \
     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
 RUN python -m pip install swanoauthrenew==1.0.1 \ 
