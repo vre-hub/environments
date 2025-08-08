@@ -91,6 +91,17 @@ then
 fi
 export KRB5CCNAME=$KRB5CCNAME_NB_TERM
 
+echo $PYTHONPATH
+echo $PATH
+
+export RUCIO_HOME="/cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1"
+export PATH="$RUCIO_HOME/bin:$PATH"
+export PYTHONPATH="$PYTHONPATH:/cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1/lib/python3.11/site-packages"
+export RUCIO_PYTHONBIN=python
+
+echo $PYTHONPATH
+echo $PATH
+
 # As the LCG setup might set PYTHONHOME, run python with -I (Isolated Mode) to prevent
 # the lookup for modules in a Python 3 path and user site
 python -I /srv/singleuser/configure_kernels_and_terminal.py
@@ -103,13 +114,3 @@ echo "c.InteractiveShellApp.extensions.append('swankernelenv')" >>  $KERNEL_PROF
 # Setup ESCAPE CVMFS
 #ls /cvmfs/sw.escape.eu
 #source /cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1/setup-minimal.sh 
-
-echo $PYTHONPATH
-echo $PATH
-
-export RUCIO_HOME="/cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1"
-export PATH="$RUCIO_HOME/bin:$PATH"
-export PYTHONPATH="$PYTHONPATH:/cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1/lib/python3.11/site-packages"
-
-echo $PYTHONPATH
-echo $PATH
