@@ -2,7 +2,7 @@
 #FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
 # Same image as swan-cern/v0.0.48 - VRE-ied
 
-ARG VERSION_PARENT=sha-d611be0
+ARG VERSION_PARENT=sha-46378e2
 FROM ghcr.io/vre-hub/vre-swan:${VERSION_PARENT}
 
 LABEL maintainer="swan-admins@cern.ch"
