@@ -94,9 +94,9 @@ export KRB5CCNAME=$KRB5CCNAME_NB_TERM
 echo $PYTHONPATH
 echo $PATH
 
-export RUCIO_HOME="/cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1"
+export RUCIO_HOME="/cvmfs/sw.escape.eu/rucio-jupyterlab/1.3.1"
 export PATH="$RUCIO_HOME/bin:$PATH"
-export PYTHONPATH="$PYTHONPATH:/cvmfs/sw.escape.eu/rucio-jupyterlab/1.2.1/lib/python3.11/site-packages"
+export PYTHONPATH="$PYTHONPATH:/cvmfs/sw.escape.eu/rucio-jupyterlab/1.3.1/lib/python3.11/site-packages"
 export RUCIO_PYTHONBIN=python
 
 echo $PYTHONPATH
