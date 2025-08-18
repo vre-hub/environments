@@ -79,7 +79,7 @@ RUN ln -s $(pip show sparkconnector | grep -oP 'Location: \K.*')/sparkconnector 
 # CERN-VRE
 # The fact that the rucio_jupyterlab does not correspond with rucio-jupyterlab is how the package was dev
 RUN ln -s $(pip show rucio-jupyterlab | grep -oP 'Location: \K.*')/rucio_jupyterlab ${SWAN_LIB_DIR}/extensions/
-RUN jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
+RUN /cvmfs/sw.escape.eu/rucio-jupyterlab/1.3.1/bin/jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
 
 # Grant scripts execution permissions
 RUN chmod +x /usr/local/bin/before-notebook.d/*
