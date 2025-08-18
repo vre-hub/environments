@@ -137,7 +137,8 @@ if [ "$SOFTWARE_SOURCE" == "lcg" ]; then
     CONFIGURE_KERNEL_ENV_TIME_SEC=$(echo $(date +%s.%N --date="$START_TIME_CONFIGURE_KERNEL_ENV seconds ago") | bc)
     _log "user: $NB_USER, host: ${SERVER_HOSTNAME%%.*}, metric: configure_kernel_env.${ROOT_LCG_VIEW_NAME:-none}.${SPARK_CLUSTER_NAME:-none}.duration_sec, value: $CONFIGURE_KERNEL_ENV_TIME_SEC"
   fi
-
+  export PYTHONPATH="$PYTHONPATH:/cvmfs/sw.escape.eu/rucio-jupyterlab/1.3.1/lib/python3.11/site-packages"
+  
   _log "Finished setting up CVMFS and user environment"
 else
   export KRB5CCNAME=$KRB5CCNAME_NB_TERM
