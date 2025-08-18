@@ -6,6 +6,11 @@
 # connect to spark clusters and use their computational resources
 # through SWAN.
 
+echo $PYTHONPATH
+echo "Enabling Rucio JupyterLab extension"
+/cvmfs/sw.escape.eu/rucio-jupyterlab/1.3.1/bin/jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
+echo "============================================================"
+
 if [[ -n $SPARK_CLUSTER_NAME ]]
 then
    _log "Configuring Spark";
