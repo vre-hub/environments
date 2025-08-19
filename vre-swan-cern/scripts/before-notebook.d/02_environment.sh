@@ -144,6 +144,7 @@ else
   export KRB5CCNAME=$KRB5CCNAME_NB_TERM
 fi
 
+mkdir -p /etc/jupyter/labconfig
 _log "Configuring Rucio";
 jq -n --argjson rucio-jupyterlab/extension true \ 
       '{load_extensions: $ARGS.named}' > /etc/jupyter/labconfig/page_config.json
