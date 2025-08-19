@@ -138,6 +138,8 @@ if [ "$SOFTWARE_SOURCE" == "lcg" ]; then
     _log "user: $NB_USER, host: ${SERVER_HOSTNAME%%.*}, metric: configure_kernel_env.${ROOT_LCG_VIEW_NAME:-none}.${SPARK_CLUSTER_NAME:-none}.duration_sec, value: $CONFIGURE_KERNEL_ENV_TIME_SEC"
   fi
   export PYTHONPATH="$PYTHONPATH:/cvmfs/sw.escape.eu/rucio-jupyterlab/1.3.1/lib/python3.11/site-packages"
+  export RUCIO_HOME="/cvmfs/sw.escape.eu/rucio-jupyterlab/1.3.1"
+  export RUCIO_CA_CERT=$RUCIO_HOME/etc/rucio_ca.pem
   
   _log "Finished setting up CVMFS and user environment"
 else
