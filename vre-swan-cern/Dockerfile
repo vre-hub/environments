@@ -2,7 +2,7 @@
 #FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
 # Same image as swan-cern/v0.0.48 - VRE-ied
 
-ARG VERSION_PARENT=sha-a09e0ad
+ARG VERSION_PARENT=sha-2151d26
 FROM ghcr.io/vre-hub/vre-swan:${VERSION_PARENT}
 
 LABEL maintainer="swan-admins@cern.ch"
@@ -14,11 +14,7 @@ RUN echo "Building swan-cern image with tag ${VERSION_DOCKER_IMAGE} from parent 
 
 # User session configuration scripts
 # Add scripts to be run before the jupyter server starts
-RUN cat /usr/local/bin/before-notebook.d/02_environment.sh
-
-COPY scripts/before-notebook.d/* /usr/local/bin/before-notebook.d/ 
-
-RUN ls -ltr /usr/local/bin/before-notebook.d/
+COPY scripts/before-notebook.d/* /usr/local/bin/before-notebook.d/
 
 # dask-labextension needs to be installed first so its lab extension
 # gets disabled automatically when installing swandask
