@@ -144,10 +144,11 @@ else
   export KRB5CCNAME=$KRB5CCNAME_NB_TERM
 fi
 
-mkdir -p /etc/jupyter/labconfig
-_log "Configuring Rucio";
-jq -n --argjson rucio-jupyterlab/extension true \ 
-      '{load_extensions: $ARGS.named}' > /etc/jupyter/labconfig/page_config.json
+# mkdir -p /etc/jupyter/labconfig
+# _log ls -ltr /etc/jupyter/labconfig;
+# _log "Configuring Rucio";
+# jq -n --argjson rucio-jupyterlab/extension true \ 
+#       '{load_extensions: $ARGS.named}' > /etc/jupyter/labconfig/page_config.json
 
 # Set the terminal environment
 #in jupyter 6.0.0 login shell (jupyter/notebook#4112) is set by default and /etc/profile.d is respected
