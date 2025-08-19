@@ -6,6 +6,9 @@
 # connect to spark clusters and use their computational resources
 # through SWAN.
 
+_log "Configuring Rucio";
+jq -n --argjson rucio-jupyterlab/extension true \ 
+      '{load_extensions: $ARGS.named}' > /etc/jupyter/labconfig/page_config.json
 
 if [[ -n $SPARK_CLUSTER_NAME ]]
 then
