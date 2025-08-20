@@ -2,13 +2,14 @@
 #FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
 # Same image as swan-cern/v0.0.48 - VRE-ied
 
-ARG VERSION_PARENT=sha-840b20d
+ARG VERSION_PARENT=sha-beea694
 FROM ghcr.io/vre-hub/vre-swan:${VERSION_PARENT}
 
 LABEL maintainer="swan-admins@cern.ch"
 ARG NB_UID="1000"
 ARG BUILD_TAG=daily
 ENV VERSION_DOCKER_IMAGE=$BUILD_TAG
+ENV RUCIO_JUPYTERLAB_VERSION="1.3.1"
 
 RUN echo "Building swan-cern image with tag ${VERSION_DOCKER_IMAGE} from parent tag ${VERSION_PARENT}."
 
@@ -29,7 +30,7 @@ RUN pip install --no-deps --no-cache-dir \
     swandask==0.0.5
 
 # CERN-VRE
-RUN pip install --no-deps --no-cache-dir rucio-jupyterlab==1.3.1 
+RUN pip install --no-deps --no-cache-dir rucio-jupyterlab==${RUCIO_JUPYTERLAB_VERSION} 
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
 # terminals, which need it to do automatic TLS configuration for Dask clients
