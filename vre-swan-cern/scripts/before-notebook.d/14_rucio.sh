@@ -24,7 +24,7 @@ RUCIO_CVMFS_PATH="/cvmfs/sw.escape.eu/rucio-jupyterlab/${RUCIO_JUPYTERLAB_VERSIO
 
 export RUCIO_HOME="${RUCIO_CVMFS_PATH}"
 export PATH="$RUCIO_HOME/bin:$PATH"
-export PYTHONPATH="$PYTHONPATH:${RUCIO_CVMFS_PATH}/lib/python3.11/site-packages"
+export PYTHONPATH="${RUCIO_CVMFS_PATH}/lib/python3.11/site-packages:$PYTHONPATH"
 export RUCIO_CA_CERT=$RUCIO_HOME/etc/rucio_ca.pem
 export RUCIO_PYTHONBIN=python
 
@@ -33,11 +33,11 @@ _log "PYTHONPATH: $PYTHONPATH"
 
 # Set PATH and PYTHONPATH as the user
 run_as_user "export PATH=\"$RUCIO_HOME/bin:\$PATH\""
-run_as_user "export PYTHONPATH=\"\$PYTHONPATH:${RUCIO_CVMFS_PATH}/lib/python3.11/site-packages\""
+run_as_user "export PYTHONPATH=\"${RUCIO_CVMFS_PATH}/lib/python3.11/site-packages:\$PYTHONPATH\""
 
 # Log the values (run as user to see the actual user environment)
-run_as_user "_log \"PATH: \$PATH\""
-run_as_user "_log \"PYTHONPATH: \$PYTHONPATH\""
+run_as_user "echo \"PATH: \$PATH\""
+run_as_user "echo \"PYTHONPATH: \$PYTHONPATH\""
 
 _log "Rucio JupyterLab environment set up successfully."
 
