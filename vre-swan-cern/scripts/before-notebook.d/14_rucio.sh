@@ -28,8 +28,8 @@ export PYTHONPATH="$PYTHONPATH:${RUCIO_CVMFS_PATH}/lib/python3.11/site-packages"
 export RUCIO_CA_CERT=$RUCIO_HOME/etc/rucio_ca.pem
 export RUCIO_PYTHONBIN=python
 
-echo $PYTHONPATH | grep -q "${RUCIO_CVMFS_PATH}/lib/python3.11/site-packages"
-echo $PATH | grep -q "${RUCIO_HOME}/bin"
+_log "PATH: $PATH"
+_log "PYTHONPATH: $PYTHONPATH"
 
 _log "Rucio JupyterLab environment set up successfully."
 
