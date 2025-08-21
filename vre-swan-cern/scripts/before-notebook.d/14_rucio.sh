@@ -31,5 +31,13 @@ export RUCIO_PYTHONBIN=python
 _log "PATH: $PATH"
 _log "PYTHONPATH: $PYTHONPATH"
 
+# Set PATH and PYTHONPATH as the user
+run_as_user "export PATH=\"$RUCIO_HOME/bin:\$PATH\""
+run_as_user "export PYTHONPATH=\"\$PYTHONPATH:${RUCIO_CVMFS_PATH}/lib/python3.11/site-packages\""
+
+# Log the values (run as user to see the actual user environment)
+run_as_user "_log \"PATH: \$PATH\""
+run_as_user "_log \"PYTHONPATH: \$PYTHONPATH\""
+
 _log "Rucio JupyterLab environment set up successfully."
 
