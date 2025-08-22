@@ -39,6 +39,6 @@ then
 fi
 
 # Make sure the user has the SWAN_projects folder
-run_as_user mkdir -p "$HOME/SWAN_projects"
+# run_as_user mkdir -p "$HOME/SWAN_projects"
 
 _log "Finished setting up user session storage"
