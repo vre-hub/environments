@@ -16,6 +16,7 @@ RUN echo "Building swan-cern image with tag ${VERSION_DOCKER_IMAGE} from parent 
 # User session configuration scripts
 # Add scripts to be run before the jupyter server starts
 COPY scripts/before-notebook.d/* /usr/local/bin/before-notebook.d/
+COPY scripts/others/userconfig.sh /srv/singleuser/scripts
 
 # dask-labextension needs to be installed first so its lab extension
 # gets disabled automatically when installing swandask

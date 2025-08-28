@@ -20,12 +20,15 @@ fi
 # Set up the environment for Rucio JupyterLab
 _log "Setting up Rucio JupyterLab environment for version ${RUCIO_JUPYTERLAB_VERSION}..."
 
-RUCIO_CVMFS_PATH="/cvmfs/sw.escape.eu/rucio-jupyterlab/${RUCIO_JUPYTERLAB_VERSION}"
+ESCAPE_CVMFS_PATH="/cvmfs/sw.escape.eu"
+RUCIO_CVMFS_PATH="${ESCAPE_CVMFS_PATH}/rucio-jupyterlab/${RUCIO_JUPYTERLAB_VERSION}"
 
 export RUCIO_HOME="${RUCIO_CVMFS_PATH}"
-export PATH="$RUCIO_HOME/bin:$PATH"
-export PYTHONPATH="${RUCIO_CVMFS_PATH}/lib/python3.11/site-packages:$PYTHONPATH"
-export RUCIO_CA_CERT=$RUCIO_HOME/etc/rucio_ca.pem
+export USER_PATH="${RUCIO_CVMFS_PATH}/bin"
+export PATH="${USER_PATH}:${PATH}"
+export USER_PYTHONPATH="${RUCIO_CVMFS_PATH}/lib/python3.11/site-packages"
+export PYTHONPATH="${USER_PYTHONPATH}:${PYTHONPATH}"
+export RUCIO_CA_CERT="${ESCAPE_CVMFS_PATH}/etc/ssl/certs/rucio_ca.pem"
 export RUCIO_PYTHONBIN=python
 
 _log "Rucio JupyterLab environment set up successfully."
