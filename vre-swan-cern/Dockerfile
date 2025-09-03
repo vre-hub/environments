@@ -1,17 +1,18 @@
 ARG VERSION_PARENT=v0.0.33
 FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
 
-
 LABEL maintainer="swan-admins@cern.ch"
 ARG NB_UID="1000"
 ARG BUILD_TAG=daily
 ENV VERSION_DOCKER_IMAGE=$BUILD_TAG
+ENV RUCIO_JUPYTERLAB_VERSION="1.3.1"
 
 RUN echo "Building swan-cern image with tag ${VERSION_DOCKER_IMAGE} from parent tag ${VERSION_PARENT}."
 
 # User session configuration scripts
 # Add scripts to be run before the jupyter server starts
 COPY scripts/before-notebook.d/* /usr/local/bin/before-notebook.d/
+COPY scripts/others/userconfig.sh /srv/singleuser/scripts
 
 # dask-labextension needs to be installed first so its lab extension
 # gets disabled automatically when installing swandask
@@ -26,7 +27,7 @@ RUN pip install --no-deps --no-cache-dir \
     swandask==0.0.5
 
 # CERN-VRE
-RUN pip install --no-deps --no-cache-dir rucio-jupyterlab==1.3.1 
+RUN pip install --no-deps --no-cache-dir rucio-jupyterlab==${RUCIO_JUPYTERLAB_VERSION} 
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
 # terminals, which need it to do automatic TLS configuration for Dask clients
@@ -80,7 +81,7 @@ RUN ln -s $(pip show sparkconnector | grep -oP 'Location: \K.*')/sparkconnector 
 # CERN-VRE
 # The fact that the rucio_jupyterlab does not correspond with rucio-jupyterlab is how the package was dev
 RUN ln -s $(pip show rucio-jupyterlab | grep -oP 'Location: \K.*')/rucio_jupyterlab ${SWAN_LIB_DIR}/extensions/
-#RUN jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
+# RUN jupyter serverextension enable --py rucio_jupyterlab --sys-prefix
 
 # Grant scripts execution permissions
 RUN chmod +x /usr/local/bin/before-notebook.d/*

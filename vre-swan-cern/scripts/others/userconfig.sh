@@ -46,11 +46,27 @@ export PYTHONPATH=$SWAN_LIB_DIR/extensions/:$PYTHONPATH
 # to be exposed to the user environment (notebooks, terminals)
 export PYTHONPATH=$PYTHONPATH:$SWAN_LIB_DIR/nb_term_lib/
 
+# Append to PYTHONPATH the directories set in the USER_PYTHONPATH variable
+# to add compatibility for certain extensions in the user terminal and notebook
+if [[ -n $USER_PYTHONPATH ]];
+then
+  _log "User set USER_PYTHONPATH";
+  export PYTHONPATH=$PYTHONPATH:$USER_PYTHONPATH
+fi
+
+# Do the same thing for the PATH variable
+if [[ -n $USER_PATH ]];
+then
+  _log "User set USER_PATH";
+  export PATH=$PATH:$USER_PATH
+fi
+
 # Prepend the user site packages directory to PYTHONPATH, if they request it.
 # This allows to use Python packages installed on CERNBox
 if [ "$SWAN_USE_LOCAL_PACKAGES" == "true" ]; then
   USER_SITE=$(python -m site --user-site)
   export PYTHONPATH=$USER_SITE:$PYTHONPATH
+  export PYTHONNOUSERSITE=0 # allow editable packages to be found by Python
 fi
 
 # Run user startup script
@@ -91,8 +107,8 @@ then
 fi
 export KRB5CCNAME=$KRB5CCNAME_NB_TERM
 
-echo $PYTHONPATH
-echo $PATH
+_log $PYTHONPATH
+_log $PATH
 
 
 # As the LCG setup might set PYTHONHOME, run python with -I (Isolated Mode) to prevent
@@ -103,4 +119,3 @@ python -I /srv/singleuser/configure_kernels_and_terminal.py
 # leaving the user env cleaned. It should be the last one called to allow the kernel to load our extensions correctly.
 export KERNEL_PROFILEPATH=$PROFILEPATH/ipython_kernel_config.py
 echo "c.InteractiveShellApp.extensions.append('swankernelenv')" >>  $KERNEL_PROFILEPATH
-
