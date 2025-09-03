@@ -1,9 +1,5 @@
-#ARG VERSION_PARENT=v0.0.32
-#FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
-# Same image as swan-cern/v0.0.48 - VRE-ied
-
-ARG VERSION_PARENT=sha-beea694
-FROM ghcr.io/vre-hub/vre-swan:${VERSION_PARENT}
+ARG VERSION_PARENT=v0.0.33
+FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
 
 LABEL maintainer="swan-admins@cern.ch"
 ARG NB_UID="1000"
@@ -37,6 +33,10 @@ RUN pip install --no-deps --no-cache-dir rucio-jupyterlab==${RUCIO_JUPYTERLAB_VE
 # terminals, which need it to do automatic TLS configuration for Dask clients
 RUN pip install --no-deps --no-cache-dir --target ${SWAN_LIB_DIR}/nb_term_lib \
     swandaskcluster==3.1.0
+
+# Overwrite Python configuration, including section for the VRE
+# Add jupyter notebook configuration
+ADD python/jupyter_server_config.py /home/${NB_USER}/.jupyter/jupyter_server_config.py
 
 # Add helper scripts
 COPY scripts/others/* /srv/singleuser/
