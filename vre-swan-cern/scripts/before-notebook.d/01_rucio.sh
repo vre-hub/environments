@@ -5,31 +5,62 @@
 # This script configures the environment for the usage 
 # of the Rucio JupyterLab extension.
 
-# RUCIO_JUPYTERLAB_VERSION is set in the Dockerfile
+# Check if the RUCIO_JUPYTERLAB_VERSION environment variable is set.
 if [[ -z "$RUCIO_JUPYTERLAB_VERSION" ]]; then
     _log "RUCIO_JUPYTERLAB_VERSION is not set. Please set it to the desired version."
     exit 1
 fi
 
-# Check if the Rucio JupyterLab version is available
+# Verify if the specified Rucio JupyterLab version exists in the CVMFS directory.
 if [[ ! -d "/cvmfs/sw.escape.eu/rucio-jupyterlab/${RUCIO_JUPYTERLAB_VERSION}" ]]; then
     _log "Rucio JupyterLab version ${RUCIO_JUPYTERLAB_VERSION} is not available."
     exit 1
 fi
 
-# Set up the environment for Rucio JupyterLab
 _log "Setting up Rucio JupyterLab environment for version ${RUCIO_JUPYTERLAB_VERSION}..."
 
+# Define the base path for the ESCAPE CVMFS repository.
 ESCAPE_CVMFS_PATH="/cvmfs/sw.escape.eu"
+
+# Define the path to the specific Rucio JupyterLab version within the CVMFS repository.
 RUCIO_CVMFS_PATH="${ESCAPE_CVMFS_PATH}/rucio-jupyterlab/${RUCIO_JUPYTERLAB_VERSION}"
 
+# Set the RUCIO_HOME environment variable to point to the Rucio JupyterLab installation directory.
 export RUCIO_HOME="${RUCIO_CVMFS_PATH}"
+
+# Add the Rucio JupyterLab binary directory to the PATH environment variable.
 export USER_PATH="${RUCIO_CVMFS_PATH}/bin"
 export PATH="${USER_PATH}:${PATH}"
+
+# Add the Rucio JupyterLab Python packages directory to the PYTHONPATH environment variable.
 export USER_PYTHONPATH="${RUCIO_CVMFS_PATH}/lib/python3.11/site-packages"
 export PYTHONPATH="${USER_PYTHONPATH}:${PYTHONPATH}"
+
+# Set the path to the Rucio CA certificate used for secure communication.
 export RUCIO_CA_CERT="${ESCAPE_CVMFS_PATH}/etc/ssl/certs/rucio_ca.pem"
+
+# Define the Python binary to be used by Rucio JupyterLab.
 export RUCIO_PYTHONBIN=python
 
 _log "Rucio JupyterLab environment set up successfully."
 
+_log "Setting up iPython kernel for Rucio JupyterLab..."
+
+# Create the default iPython profile directory for the Jupyter Notebook user.
+mkdir -p /home/${NB_USER}/.ipython/profile_default
+_log "Created directory /home/${NB_USER}/.ipython/profile_default"
+
+# Configure the iPython kernel to load the Rucio JupyterLab extension.
+# Given that this is the first script to run, we can safely overwrite any existing configuration.
+echo "c.IPKernelApp.extensions = ['rucio_jupyterlab.kernels.ipython']" > /home/${NB_USER}/.ipython/profile_default/ipython_kernel_config.py
+
+_log "iPython kernel for Rucio JupyterLab set up successfully."
+
+_log "Writing the extension configuration file..."
+
+# Add the Rucio JupyterLab server configuration to the Jupyter server configuration file.
+# The Rusio specific file is provided by CVMFS, and the original is copied from the Dockerfile.
+cat "${ESCAPE_CVMFS_PATH}/etc/jupyter/jupyter_server_config.py" >> /home/${NB_USER}/.jupyter/jupyter_server_config.py
+
+_log "Extension configuration file written successfully."
+_log "Rucio JupyterLab setup completed."
