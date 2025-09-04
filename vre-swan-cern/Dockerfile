@@ -5,7 +5,7 @@ LABEL maintainer="swan-admins@cern.ch"
 ARG NB_UID="1000"
 ARG BUILD_TAG=daily
 ENV VERSION_DOCKER_IMAGE=$BUILD_TAG
-ENV RUCIO_JUPYTERLAB_VERSION="1.3.1"
+ENV RUCIO_JUPYTERLAB_VERSION="1.4.0"
 
 RUN echo "Building swan-cern image with tag ${VERSION_DOCKER_IMAGE} from parent tag ${VERSION_PARENT}."
 
@@ -33,10 +33,6 @@ RUN pip install --no-deps --no-cache-dir rucio-jupyterlab==${RUCIO_JUPYTERLAB_VE
 # terminals, which need it to do automatic TLS configuration for Dask clients
 RUN pip install --no-deps --no-cache-dir --target ${SWAN_LIB_DIR}/nb_term_lib \
     swandaskcluster==3.1.0
-
-# Overwrite Python configuration, including section for the VRE
-# Add jupyter notebook configuration
-ADD python/jupyter_server_config.py /home/${NB_USER}/.jupyter/jupyter_server_config.py
 
 # Add helper scripts
 COPY scripts/others/* /srv/singleuser/
