@@ -1,4 +1,4 @@
-FROM ghcr.io/atlas-outreach-data-tools/notebooks-collection-opendata:sha-1eee300
+FROM ghcr.io/atlas-outreach-data-tools/notebooks-collection-opendata:sha-4468efa
 LABEL author="ESCAPE WP2 2020"
 LABEL maintainer="VRE Team @ CERN 23/24 - E. Garcia, G. Guerrieri"
 LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
@@ -8,6 +8,9 @@ LABEL org.label-schema.build-date=$BUILD_DATE
 RUN python -m pip install --upgrade pip
 
 USER $NB_UID
+
+# Install Delphes from source
+RUN conda install --channel conda-forge root delphes
 
 RUN mamba install -y -c conda-forge python-gfal2 \
         nodejs \
@@ -55,9 +58,9 @@ RUN apt update -y \
 # ESCAPE grid-security
 RUN wget -q -O - https://dist.eugridpma.info/distribution/igtf/current/GPG-KEY-EUGridPMA-RPM-3 | apt-key add -
 
-RUN apt update \
-    && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
-    && apt -y install ca-policy-egi-core
+# RUN apt update \
+#     && add-apt-repository 'deb http://repository.egi.eu/sw/production/cas/1/current egi-igtf core' \
+#     && apt -y install ca-policy-egi-core
 
 # VOMS setup
 # wget https://indigo-iam.github.io/escape-docs/voms-config/voms-escape.cloud.cnaf.infn.it.vomses -O /etc/vomses/voms-escape.cloud.cnaf.infn.it.vomses 
