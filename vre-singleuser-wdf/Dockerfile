@@ -1,6 +1,5 @@
 #FROM quay.io/jupyter/scipy-notebook:python-3.11.6
-FROM  ghcr.io/vre-hub/vre-singleuser-py311    
-#sha-281055c
+FROM  ghcr.io/vre-hub/vre-singleuser-py311:sha-210febf  
 LABEL author="Alberto Iess"
 LABEL maintainer="Alberto Iess, VRE Team @ CERN - E. Garcia, G. Guerrieri"
 ARG BUILD_DATE
