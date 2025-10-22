@@ -28,11 +28,6 @@ RUCIO_CVMFS_PATH="${ESCAPE_CVMFS_PATH}/rucio-jupyterlab/${RUCIO_JUPYTERLAB_VERSI
 # Set the RUCIO_HOME environment variable to point to the Rucio JupyterLab installation directory.
 export RUCIO_HOME="${RUCIO_CVMFS_PATH}"
 
-# --- Begin tests to setup paths ---
-
-# Add the Rucio JupyterLab binary directory to the PATH environment variable.
-# export USER_PATH="${RUCIO_CVMFS_PATH}/bin"
-
 # Symlink all the Rucio binaries to the SWAN nb_term_bin directory.
 ln -s ${RUCIO_CVMFS_PATH}/bin/* $SWAN_BIN_DIR/nb_term_bin
 export PATH="${RUCIO_CVMFS_PATH}/bin:${PATH}"
@@ -49,9 +44,6 @@ ln -s ${RUCIO_CVMFS_PATH}/lib/python${SERVER_PYTHON_VERSION}/site-packages/* $SW
 # Add the Rucio JupyterLab Python packages directory to the PYTHONPATH environment variable.
 # export USER_PYTHONPATH="${RUCIO_CVMFS_PATH}/lib/python${SERVER_PYTHON_VERSION}/site-packages"
 export PYTHONPATH="${RUCIO_CVMFS_PATH}/lib/python${SERVER_PYTHON_VERSION}/site-packages:${PYTHONPATH}"
-
-# --- End tests to setup paths ---
-
 
 # Set the path to the Rucio CA certificate used for secure communication.
 export RUCIO_CA_CERT="${ESCAPE_CVMFS_PATH}/etc/ssl/certs/rucio_ca.pem"
