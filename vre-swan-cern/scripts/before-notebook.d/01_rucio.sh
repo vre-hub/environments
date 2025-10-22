@@ -35,7 +35,7 @@ export RUCIO_HOME="${RUCIO_CVMFS_PATH}"
 
 # Symlink all the Rucio binaries to the SWAN nb_term_bin directory.
 ln -s ${RUCIO_CVMFS_PATH}/bin/* $SWAN_BIN_DIR/nb_term_bin
-export PATH="${RUCIO_CVMFS_PATH}/bin:${PATH}"
+# export PATH="${RUCIO_CVMFS_PATH}/bin:${PATH}"
 
 # Pick up the jupyter server side python version from /opt/conda/bin/jupyter
 # Only the major.minor version is needed to select the correct site-packages path
@@ -48,7 +48,7 @@ ln -s ${RUCIO_CVMFS_PATH}/lib/python${SERVER_PYTHON_VERSION}/site-packages/* $SW
 
 # Add the Rucio JupyterLab Python packages directory to the PYTHONPATH environment variable.
 # export USER_PYTHONPATH="${RUCIO_CVMFS_PATH}/lib/python${SERVER_PYTHON_VERSION}/site-packages"
-export PYTHONPATH="${RUCIO_CVMFS_PATH}/lib/python${SERVER_PYTHON_VERSION}/site-packages:${PYTHONPATH}"
+# export PYTHONPATH="${RUCIO_CVMFS_PATH}/lib/python${SERVER_PYTHON_VERSION}/site-packages:${PYTHONPATH}"
 
 # --- End tests to setup paths ---
 
