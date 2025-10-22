@@ -1,11 +1,12 @@
 ARG VERSION_PARENT=v0.0.33
-FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
+# FROM gitlab-registry.cern.ch/swan/docker-images/jupyter/swan:${VERSION_PARENT}
+FROM ghcr.io/vre-hub/vre-swan:latest
 
 LABEL maintainer="swan-admins@cern.ch"
 ARG NB_UID="1000"
 ARG BUILD_TAG=daily
 ENV VERSION_DOCKER_IMAGE=$BUILD_TAG
-ENV RUCIO_JUPYTERLAB_VERSION="1.3.1"
+ENV RUCIO_JUPYTERLAB_VERSION="1.4.0"
 
 RUN echo "Building swan-cern image with tag ${VERSION_DOCKER_IMAGE} from parent tag ${VERSION_PARENT}."
 
