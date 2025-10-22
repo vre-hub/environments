@@ -19,6 +19,9 @@ RUN echo "Building swan image with tag ${VERSION_DOCKER_IMAGE} from parent tag $
 # Directory to expose SWAN extensions and libraries
 ENV SWAN_LIB_DIR=/usr/local/lib/swan
 
+# Directory to expose SWAN binaries
+ENV SWAN_BIN_DIR=/usr/local/bin/swan
+
 # Switch to superuser to install packages
 USER root
 
@@ -89,7 +92,7 @@ RUN pip install --no-deps --no-cache-dir \
     swankernelenv==1.0.0 \
     swanoauthrenew==1.0.2  \
     swanshare==2.0.3 \
-    swancustomenvironments==0.0.28
+    swancustomenvironments==0.0.31
 
 RUN pip install \ 
     # Required dependency for swanoauthrenew
@@ -115,6 +118,12 @@ RUN mkdir -p $SWAN_LIB_DIR/extensions && \
     mkdir -p $SWAN_LIB_DIR/nb_term_lib && \
     fix-permissions $SWAN_LIB_DIR && \
     chown ${NB_USER}:${NB_GID} $SWAN_LIB_DIR/nb_term_lib
+
+# Create directories where we will store binaries to be exposed to
+# notebooks and terminals
+RUN mkdir -p $SWAN_BIN_DIR/nb_term_bin && \
+    fix-permissions $SWAN_BIN_DIR && \
+    chown ${NB_USER}:${NB_GID} $SWAN_BIN_DIR/nb_term_bin
 
 # Expose swankernelenv to the user environment in notebooks.
 # swankernelenv removes the $SWAN_LIB_DIR/extensions directory from the PYTHONPATH
