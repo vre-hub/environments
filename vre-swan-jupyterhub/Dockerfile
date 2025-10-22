@@ -17,6 +17,7 @@ RUN dnf install -y python3-pip \
                    # needed by kS4U
                    perl-Data-Dumper \
                    # needed by swanculler
+                   git \
                    sudo && \
     dnf clean all && rm -rf /var/cache/dnf
 
