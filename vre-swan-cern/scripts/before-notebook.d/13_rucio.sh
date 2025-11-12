@@ -62,8 +62,7 @@ then
     _log "Created directory /home/${NB_USER}/.ipython/profile_default"
 
     # Configure the iPython kernel to load the Rucio JupyterLab extension.
-    # Given that this is the first script to run, we can safely overwrite any existing configuration.
-    echo "c.IPKernelApp.extensions = ['rucio_jupyterlab.kernels.ipython']" > /home/${NB_USER}/.ipython/profile_default/ipython_kernel_config.py
+    echo "c.IPKernelApp.extensions = ['rucio_jupyterlab.kernels.ipython']" >> /home/${NB_USER}/.ipython/profile_default/ipython_kernel_config.py
 
     _log "iPython kernel for Rucio JupyterLab set up successfully."
 
@@ -73,14 +72,8 @@ then
     # The Rusio specific file is provided by CVMFS, and the original is copied from the Dockerfile.
     cat "${ESCAPE_CVMFS_PATH}/etc/jupyter/jupyter_server_config.py" >> /home/${NB_USER}/.jupyter/jupyter_server_config.py
 
-    # Export the env coming from the spawner to the jupyter server environment if SWAN_USE_RUCIO is true
-    export SWAN_RUCIO_INSTANCE
-    export SWAN_RUCIO_RSE
-    export SWAN_RUCIO_RSE_PATH
-    export SWAN_RUCIO_RSE_PATH_NUMBER
-
     _log "Extension configuration file written successfully."
     _log "Rucio JupyterLab setup completed."
 else
-    _log "Skipping Rucio JupyterLab configuration as HTCondor is not enabled.";
+    _log "Skipping Rucio JupyterLab configuration as it's not enabled.";
 fi
