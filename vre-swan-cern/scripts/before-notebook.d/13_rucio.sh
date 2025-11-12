@@ -63,7 +63,7 @@ then
 
     # Configure the iPython kernel to load the Rucio JupyterLab extension.
     IPYTHON_KERNEL_CONFIG=$IPYTHONDIR/profile_default/ipython_kernel_config.py
-    echo -e "c.InteractiveShellApp.extensions.append('rucio_jupyterlab.kernels.ipython')\n$( [ -f ${IPYTHON_KERNEL_CONFIG} ] && cat ${IPYTHON_KERNEL_CONFIG})" >> ${IPYTHON_KERNEL_CONFIG}
+    echo -e "c.InteractiveShellApp.extensions.append('rucio_jupyterlab.kernels.ipython')\n$( [ -f ${IPYTHON_KERNEL_CONFIG} ] && cat ${IPYTHON_KERNEL_CONFIG})" > ${IPYTHON_KERNEL_CONFIG}
 
     _log "iPython kernel for Rucio JupyterLab set up successfully."
 
