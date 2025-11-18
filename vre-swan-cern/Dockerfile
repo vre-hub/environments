@@ -33,7 +33,8 @@ RUN pip install --no-deps --no-cache-dir \
 
 # CERN-VRE
 # RUN pip install --no-deps --no-cache-dir rucio-jupyterlab==${RUCIO_JUPYTERLAB_VERSION} 
-RUN pip install --no-deps --no-cache-dir git+https://github.com/Soap2G/jupyterlab-extension@gguerrie-cache-fix
+COPY ./wheels/rucio_jupyterlab-*.whl /tmp/
+RUN pip install --no-deps --no-cache-dir /tmp/rucio_jupyterlab-*.whl 
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
 # terminals, which need it to do automatic TLS configuration for Dask clients
