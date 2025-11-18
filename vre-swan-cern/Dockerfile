@@ -6,7 +6,7 @@ LABEL maintainer="swan-admins@cern.ch"
 ARG NB_UID="1000"
 ARG BUILD_TAG=daily
 ENV VERSION_DOCKER_IMAGE=$BUILD_TAG
-ENV RUCIO_JUPYTERLAB_VERSION="1.4.0"
+ENV RUCIO_JUPYTERLAB_VERSION="1.4.1"
 
 RUN echo "Building swan-cern image with tag ${VERSION_DOCKER_IMAGE} from parent tag ${VERSION_PARENT}."
 
@@ -28,7 +28,8 @@ RUN pip install --no-deps --no-cache-dir \
     swandask==0.0.5
 
 # CERN-VRE
-RUN pip install --no-deps --no-cache-dir rucio-jupyterlab==${RUCIO_JUPYTERLAB_VERSION} 
+# RUN pip install --no-deps --no-cache-dir rucio-jupyterlab==${RUCIO_JUPYTERLAB_VERSION} 
+RUN pip install --no-deps --no-cache-dir git+https://github.com/Soap2G/jupyterlab-extension@gguerrie-cache-fix
 
 # Install swandaskcluster in the lib directory that is exposed to notebooks and
 # terminals, which need it to do automatic TLS configuration for Dask clients
