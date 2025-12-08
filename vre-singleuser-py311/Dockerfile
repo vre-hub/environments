@@ -17,7 +17,7 @@ RUN conda install -y -n base mamba \
         jupyterlab">4,<5" \
         notebook"<7" \
         jupyterhub \
-        jsonschema \
+        jsonschema"<4.18" \
         jupyterlab_server \
         jupyter_server \
         traitlets \
@@ -29,7 +29,7 @@ RUN conda install -y -n base mamba \
 
 # Install jupyterlab extensions
 RUN python -m pip install rucio-clients==35.8.0 \
-    rucio-jupyterlab==1.3.1 \
+    rucio-jupyterlab==1.4.0 \
     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
 RUN python -m pip install swanoauthrenew==1.0.1 \ 
