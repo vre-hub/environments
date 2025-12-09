@@ -135,7 +135,7 @@ def write_jupyterlab_config():
         'log_level': os.getenv('RUCIO_LOG_LEVEL', 'debug'),
     }
 
-    with open(file_server_config, 'w') as config_file:
+    with open(file_path, 'w') as config_file:
         config_file.write(json.dumps(config_json, indent=2))
 
 def write_ipython_config():
