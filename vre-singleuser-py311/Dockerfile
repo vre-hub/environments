@@ -28,7 +28,7 @@ RUN conda install -y -n base mamba \
     && conda clean --all -f -y
 
 # Install jupyterlab extensions
-RUN python -m pip install rucio-clients==35.8.0 \
+RUN python -m pip install rucio-clients==38.3.0 \
     rucio-jupyterlab==1.4.0 \
     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
