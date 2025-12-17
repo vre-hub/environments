@@ -1,0 +1,4 @@
+https://www.eso.org/~szampier/edps/adari_core-1.0.0.tar.gz
+https://www.eso.org/~szampier/edps/edps-latest.tar.gz
+https://www.eso.org/~szampier/edps/edpsgui-0.0.1.tar.gz
+https://www.eso.org/~szampier/edps/replots-0.0.1.tar.gz
