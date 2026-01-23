@@ -101,10 +101,10 @@ def write_jupyterlab_config():
         "voms_vomses_path": os.getenv('RUCIO_VOMS_VOMSES_PATH', '/etc/vomses'),
         "voms_certdir_path": os.getenv('RUCIO_VOMS_CERTDIR_PATH', '/etc/grid-security/vomsdir'),
         "voms_vomsdir_path": os.getenv('RUCIO_VOMS_VOMSDIR_PATH', '/etc/grid-security/vomsdir'),
-        "destination_rse": os.getenv('FCC_RUCIO_DESTINATION_RSE', 'FCC_PROD_PHYS_TOP'),
-        "rse_mount_path": os.getenv('FCC_RUCIO_RSE_MOUNT_PATH', '/eos/workspace/r/rucioit/FCC_PROD_PHYS_TOP'),
+        "destination_rse": os.getenv('FCC_RUCIO_DESTINATION_RSE', 'CERN_PROD_DISK'),
+        "rse_mount_path": os.getenv('FCC_RUCIO_RSE_MOUNT_PATH', '/eos/experiment/fcc/rucio'),
         "replication_rule_lifetime_days": int(os.getenv('FCC_RUCIO_REPLICATION_RULE_LIFETIME_DAYS')) if os.getenv('FCC_RUCIO_REPLICATION_RULE_LIFETIME_DAYS') else 1,
-        "path_begins_at": int(os.getenv('FCC_RUCIO_PATH_BEGINS_AT', '5')),
+        "path_begins_at": int(os.getenv('FCC_RUCIO_PATH_BEGINS_AT', '4')),
         "mode": os.getenv('FCC_RUCIO_MODE', 'replica'),
         "wildcard_enabled": os.getenv('FCC_RUCIO_WILDCARD_ENABLED', '1') == '1',
     }
