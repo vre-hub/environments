@@ -11,11 +11,13 @@ USER $NB_UID
 
 RUN conda install -y -n base mamba \
     && mamba install -y -c conda-forge python-gfal2 \
+        gfal2 \
+        gfal2-util \
         nodejs \
         jupyterlab">4,<5" \
         notebook"<7" \
         jupyterhub \
-        jsonschema>4 \
+        jsonschema"<4.18" \
         jupyterlab_server \
         jupyter_server \
         traitlets \
@@ -29,13 +31,13 @@ RUN conda install -y -n base mamba \
 # RUN python -m pip install rucio-jupyterlab==1.0.0 \
 #     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix 
 
-RUN git clone https://github.com/garciagenrique/jupyterlab-extension.git \
-    && cd jupyterlab-extension \
-    && git checkout errorHandling_listScopesPopover \
+RUN git clone https://github.com/ftorradeflot/rucio-jupyterlab.git \
+    && cd rucio-jupyterlab \
+    && git checkout ftorradeflot_offload_rucio_api_queries \
     && python -m pip install . \
     && jupyter server extension enable --py rucio_jupyterlab --sys-prefix \
     && cd .. \
-    && rm -rf jupyterlab-extension
+    && rm -rf rucio-jupyterlab
 
 # RUN python -m pip install swanoauthrenew==1.0.1 \ 
 #     && jupyter server extension enable --py swanoauthrenew --sys-prefix 
