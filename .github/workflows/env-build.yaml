@@ -2,8 +2,11 @@ name: Docker automatic build and publish
 
 on:
   push:
-    branches: 
+    branches:
       - main
+      # TEMPORARY: build a test image so proxy mode can be validated on the VRE
+      # before merging. Remove before merge.
+      - feat/inveniordm-proxy-mode
 
 env:
   REGISTRY: ghcr.io
