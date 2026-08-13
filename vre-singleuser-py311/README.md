@@ -8,6 +8,7 @@ This image based on the original [ESCAPE Data Lake-as-a-Service Singleuser Base 
     * The configuration for the Rucio JupyterLab extension is preset to connect with the ESCAPE Data Lake.
   * [reana-jupyterlab](https://github.com/vre-hub/reana-jupyterlab-extension) v1.0.0.
   * [inveniordm-jupyterlab](https://github.com/vre-hub/inveniordm-jupyterlab-extension).
+    * See [Configuring the InvenioRDM extension](#configuring-the-inveniordm-extension) below.
   * [swanoauthrenew](https://pypi.org/project/swanoauthrenew/) v1.0.1 to enable renewal of tokens.
 3. The image is compatible with [rucio-clients](https://pypi.org/project/rucio-clients)  `release-34.6.0` - please report any possible bug or error found.
 4. ESCAPE `ca-certificates` and [VOMSes](https://indigo-iam.github.io/escape-docs/) files are preinstalled.
@@ -39,3 +40,46 @@ USER $NB_UID
 ```
 
 Based on all the previous work done by the ESCAPE Data Lake-as-a-Service group since 2020. 
+
+## Configuring the InvenioRDM extension
+
+`configure_inveniordm_extension.py` writes the extension's settings into the
+Jupyter server config at spawn time. Everything below is optional; with none of
+it set the image keeps its previous behaviour.
+
+| Variable | Default | Purpose |
+| --- | --- | --- |
+| `INVENIORDM_REQUEST_MODE` | `local` | `local` or `proxy`. Anything else is treated as `local`. |
+| `ZENODO_OAUTH_CLIENT_ID` | bundled | OAuth client ID for Zenodo. |
+| `CDS_OAUTH_CLIENT_ID` | bundled | OAuth client ID for CDS. |
+| `ZENODO_SANDBOX_OAUTH_CLIENT_ID` | bundled | OAuth client ID for Zenodo Sandbox. |
+| `<PREFIX>_PROXY_URL` | unset | Public URL of the InvenioRDM API proxy for that server. |
+| `<PREFIX>_PROXY_SESSION_COOKIE_NAME` | `<server-id>_proxy_session` | Session cookie name for that proxy. Must be unique per proxy. |
+
+`<PREFIX>` is `ZENODO`, `CDS` or `ZENODO_SANDBOX`.
+
+### Why proxy mode exists
+
+In `local` mode the extension performs OAuth from the user's own Jupyter
+server, and builds its redirect URI from the server's `base_url`. Under
+JupyterHub that is `/user/<username>/`, so every user ends up with a different
+redirect URI. InvenioRDM matches redirect URIs as exact strings, so no single
+OAuth application can cover them and login cannot work for more than one
+registered user.
+
+Proxy mode sends the OAuth flow through a shared
+[API proxy](https://github.com/vre-hub/inveniordm-jupyterlab-extension/tree/main/deploy)
+instead, which has one fixed redirect URI for every user, and keeps the access
+token out of the singleuser pods.
+
+The bundled OAuth client IDs only work for a JupyterLab on `localhost`, so any
+real deployment must supply its own.
+
+### Behaviour worth knowing
+
+* In proxy mode a server with no `<PREFIX>_PROXY_URL` is left out of the
+  configuration. The extension requires `proxy_url` and
+  `proxy_session_cookie_name` on every configured server, and refuses to load
+  at all if one is missing.
+* Proxy mode with no proxy configured for any server falls back to `local`,
+  so browsing keeps working rather than the extension disappearing.
