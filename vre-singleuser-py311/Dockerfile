@@ -5,8 +5,6 @@ LABEL org.opencontainers.image.source https://github.com/vre-hub/environments
 ARG BUILD_DATE
 LABEL org.label-schema.build-date=$BUILD_DATE
 
-RUN python -m pip install --upgrade pip
-
 USER $NB_UID
 
 RUN conda install -y -n base mamba \
@@ -26,6 +24,15 @@ RUN conda install -y -n base mamba \
         PyJWT \
         ipywidgets \
     && conda clean --all -f -y
+
+# eMudhra/emSign CA incident (October 2026): the emSign root was removed from
+# the OS and Python trust stores. Refresh conda's copies (ca-certificates,
+# certifi) and conda itself. Separate solve: conda>=26.9.4 may move mamba.
+RUN mamba install -y -n base -c conda-forge \
+        "conda>=26.9.4" \
+        "certifi>=2026.10.19" \
+        "ca-certificates>=2026.10.19" \
+    && mamba clean -afy
 
 # Install jupyterlab extensions
 RUN python -m pip install rucio-clients==39.2.0 \
@@ -52,8 +59,15 @@ RUN git clone https://github.com/vre-hub/inveniordm-jupyterlab-extension.git \
 #  lower jsonchema<4 pin
 RUN python -m pip install git+https://github.com/garciagenrique/reana-client.git@vre-summer-25
 
+# Last Python step, so no later install can move these back: pip's vendored
+# certifi, and fail the build if the certifi in use still has the emSign root.
+RUN python -m pip install --upgrade "pip>=26.2.2" "certifi>=2026.10.19" \
+    && python -c "import certifi; assert tuple(map(int, certifi.__version__.split('.'))) >= (2026, 10, 19), certifi.__version__"
+
 USER root
 
+# ca-certificates (apt) is installed unpinned, so a rebuild gets the Ubuntu
+# bundle without the emSign root.
 RUN apt-get update && \
     apt-get install -y wget gnupg ca-certificates build-essential curl voms-clients-java software-properties-common && \
     rm -rf /var/lib/apt/lists/* && \
